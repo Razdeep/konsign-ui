@@ -9,7 +9,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import LayersIcon from '@mui/icons-material/Layers';
 import AssignmentIcon from '@mui/icons-material/Assignment';
-import { Collapse, List, ListItemButton } from '@mui/material';
+import { Collapse, Divider, List, ListItemButton } from '@mui/material';
 import { StarBorder } from '@mui/icons-material';
 
 export default function MainListItems() {
@@ -20,38 +20,39 @@ export default function MainListItems() {
   };
 
   return (<List>
-    <ListItem button>
+    <ListItem button onClick={handleClick}>
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
       <ListItemText primary="Input Entry" />
-      <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="Bill Entry" />
-          </ListItemButton>
-        </List>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="Collection Entry" />
-          </ListItemButton>
-        </List>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="Payment Entry" />
-          </ListItemButton>
-        </List>
-      </Collapse>
     </ListItem>
+    <Collapse in={open} timeout="auto" unmountOnExit>
+      <List component="div" disablePadding>
+        <ListItemButton sx={{ pl: 4 }}>
+          <ListItemIcon>
+            <StarBorder />
+          </ListItemIcon>
+          <ListItemText primary="Bill Entry" />
+        </ListItemButton>
+      </List>
+      <List component="div" disablePadding>
+        <ListItemButton sx={{ pl: 4 }}>
+          <ListItemIcon>
+            <StarBorder />
+          </ListItemIcon>
+          <ListItemText primary="Collection Entry" />
+        </ListItemButton>
+      </List>
+      <List component="div" disablePadding>
+        <ListItemButton sx={{ pl: 4 }}>
+          <ListItemIcon>
+            <StarBorder />
+          </ListItemIcon>
+          <ListItemText primary="Payment Entry" />
+        </ListItemButton>
+      </List>
+    </Collapse>
+
     <ListItem button>
       <ListItemIcon>
         <BarChartIcon />
