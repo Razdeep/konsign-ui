@@ -161,6 +161,7 @@ function DashboardContent() {
               <Route path="about" element={<>about</>} />
             </Routes>
           </Container>
+          <Copyright />
         </Box>
       </Box>
     </ThemeProvider>
