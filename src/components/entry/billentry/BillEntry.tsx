@@ -36,13 +36,13 @@ function BillEntry() {
                         <TextField label="Bill Number" size="small" fullWidth></TextField>
                     </Grid>
                     <Grid item lg={6}>
-                        <TextField type="date" label="Bill Date" size="small" fullWidth></TextField>
+                        <TextField type="date" defaultValue={(new Date()).toISOString().substring(0, 10)} label="Bill Date" size="small" fullWidth></TextField>
                     </Grid>
                     <Grid item lg={6}>
                         <TextField label="Transport" size="small" fullWidth></TextField>
                     </Grid>
                     <Grid item lg={6}>
-                        <TextField type="date" label="LR Date" size="small" fullWidth></TextField>
+                        <TextField type="date" defaultValue={(new Date()).toISOString().substring(0, 10)} label="LR Date" size="small" fullWidth></TextField>
                     </Grid>
                     <Grid item lg={12}>
                         {/* <TextField type="date" label="LR Date" size="small" fullWidth></TextField> */}
