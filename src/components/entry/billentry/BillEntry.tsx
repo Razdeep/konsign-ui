@@ -1,18 +1,20 @@
 import { Add, Delete, Done, Edit, Save } from '@mui/icons-material';
 import { Button, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material'
+import LrPm from '../../../model/LrPm';
 import React, { useState } from 'react'
 
 function BillEntry() {
 
     const [isInEditMode, setIsInEditMode] = useState(false);
-    const [rows, setRows] = useState<Number[]>([]);
+    const [rows, setRows] = useState<LrPm[]>([]);
 
     const toggleEditTable = () => {
         setIsInEditMode(!isInEditMode)
     }
 
     const addRow = () => {
-        setRows([...rows, 4]);
+        let lrpm = new LrPm()
+        setRows([...rows, lrpm]);
     }
 
     return (
@@ -57,8 +59,8 @@ function BillEntry() {
                                             // key={row.name}
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
-                                            <TableCell>{isInEditMode ? <TextField size="small"></TextField> : <Typography></Typography>}</TableCell>
-                                            <TableCell align="right">{isInEditMode ? <TextField size="small"></TextField> : <Typography></Typography>}</TableCell>
+                                            <TableCell>{isInEditMode ? <TextField size="small"></TextField> : row.lr}</TableCell>
+                                            <TableCell align="right">{isInEditMode ? <TextField size="small"></TextField> : row.pm}</TableCell>
                                             <TableCell align="right">
                                                 <Button onClick={toggleEditTable}>{isInEditMode ? <Done></Done> : <Edit></Edit>}</Button>
                                                 <Button><Delete></Delete></Button>
