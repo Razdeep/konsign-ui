@@ -5,14 +5,16 @@ import React, { useState } from 'react'
 function BillEntry() {
 
     const [isInEditMode, setIsInEditMode] = useState(false);
+    const [rows, setRows] = useState<Number[]>([]);
 
     const toggleEditTable = () => {
         setIsInEditMode(!isInEditMode)
     }
 
-    const rows = [
-        1, 2, 3
-    ];
+    const addRow = () => {
+        setRows([...rows, 4]);
+    }
+
     return (
         <div>
             <Typography variant="h3" align="center">Input Entry</Typography>
@@ -55,8 +57,8 @@ function BillEntry() {
                                             // key={row.name}
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
-                                            <TableCell>{isInEditMode ? <TextField size="small"></TextField> : <Typography>Sample LR</Typography>}</TableCell>
-                                            <TableCell align="right">{isInEditMode ? <TextField size="small"></TextField> : <Typography>Sample PM</Typography>}</TableCell>
+                                            <TableCell>{isInEditMode ? <TextField size="small"></TextField> : <Typography></Typography>}</TableCell>
+                                            <TableCell align="right">{isInEditMode ? <TextField size="small"></TextField> : <Typography></Typography>}</TableCell>
                                             <TableCell align="right">
                                                 <Button onClick={toggleEditTable}>{isInEditMode ? <Done></Done> : <Edit></Edit>}</Button>
                                                 <Button><Delete></Delete></Button>
@@ -71,7 +73,7 @@ function BillEntry() {
                         <TextField label="Amount" size="small"></TextField>
                     </Grid>
                     <Grid item lg={2}>
-                        <Button><Add></Add>Add row</Button>
+                        <Button onClick={addRow}><Add></Add>Add row</Button>
                     </Grid>
                     <Grid item lg={6}>
                         <Button variant="contained" type="submit" fullWidth>
