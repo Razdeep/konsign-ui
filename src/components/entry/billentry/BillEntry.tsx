@@ -1,8 +1,14 @@
-import { Delete, Edit, Save } from '@mui/icons-material';
+import { Add, Delete, Done, Edit, Save } from '@mui/icons-material';
 import { Button, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 
 function BillEntry() {
+
+    const [isInEditMode, setIsInEditMode] = useState(false);
+
+    const toggleEditTable = () => {
+        setIsInEditMode(!isInEditMode)
+    }
 
     const rows = [
         1, 2, 3
@@ -49,11 +55,11 @@ function BillEntry() {
                                             // key={row.name}
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
-                                            <TableCell>Sample LR</TableCell>
-                                            <TableCell align="right">Sample PM</TableCell>
+                                            <TableCell>{isInEditMode ? <TextField size="small"></TextField> : <Typography>Sample LR</Typography>}</TableCell>
+                                            <TableCell align="right">{isInEditMode ? <TextField size="small"></TextField> : <Typography>Sample PM</Typography>}</TableCell>
                                             <TableCell align="right">
-                                                <Edit></Edit>
-                                                <Delete></Delete>
+                                                <Button onClick={toggleEditTable}>{isInEditMode ? <Done></Done> : <Edit></Edit>}</Button>
+                                                <Button><Delete></Delete></Button>
                                             </TableCell>
                                         </TableRow>
                                     ))}
@@ -61,8 +67,11 @@ function BillEntry() {
                             </Table>
                         </TableContainer>
                     </Grid>
-                    <Grid item lg={6}>
+                    <Grid item lg={4}>
                         <TextField label="Amount" size="small"></TextField>
+                    </Grid>
+                    <Grid item lg={2}>
+                        <Button><Add></Add>Add row</Button>
                     </Grid>
                     <Grid item lg={6}>
                         <Button variant="contained" type="submit" fullWidth>
