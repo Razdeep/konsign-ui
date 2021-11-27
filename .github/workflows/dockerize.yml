@@ -37,5 +37,5 @@ jobs:
         username: razdeep
         # Password or personal access token used to log against the Docker registry
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    - run: docker build -t razdeep/konsign-ui .
-    - run: docker push razdeep/konsign-ui
+    - run: docker build -t razdeep/konsign-ui:${{ github.head_ref }}.${{ github.sha }} .
+    - run: docker push razdeep/konsign-ui:${{ github.head_ref }}.${{ github.sha }}
