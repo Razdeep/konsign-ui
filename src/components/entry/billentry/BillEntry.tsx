@@ -17,6 +17,10 @@ function BillEntry() {
         setRows([...rows, lrpm]);
     }
 
+    const deleteRow = (i: Number) => {
+        setRows(rows.filter((x, j) => j != i))
+    }
+
     return (
         <div>
             <Typography variant="h3" align="center">Input Entry</Typography>
@@ -54,16 +58,16 @@ function BillEntry() {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {rows.map((row) => (
+                                    {rows.map((row, i) => (
                                         <TableRow
-                                            // key={row.name}
+                                            key={i}
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
                                             <TableCell>{isInEditMode ? <TextField size="small"></TextField> : row.lr}</TableCell>
                                             <TableCell align="right">{isInEditMode ? <TextField size="small"></TextField> : row.pm}</TableCell>
                                             <TableCell align="right">
                                                 <Button onClick={toggleEditTable}>{isInEditMode ? <Done></Done> : <Edit></Edit>}</Button>
-                                                <Button><Delete></Delete></Button>
+                                                <Button><Delete onClick={() => deleteRow(i)}></Delete></Button>
                                             </TableCell>
                                         </TableRow>
                                     ))}
