@@ -5,12 +5,8 @@ import React, { useState } from 'react'
 
 function BillEntry() {
 
-    const [isInEditMode, setIsInEditMode] = useState(false);
     const [rows, setRows] = useState<LrPm[]>([]);
-
-    const toggleEditTable = () => {
-        setIsInEditMode(!isInEditMode)
-    }
+    const [idxAtEditMode, setIdxAtEditMode] = useState<Number>(-1);
 
     const addRow = () => {
         let lrpm = new LrPm()
@@ -63,10 +59,11 @@ function BillEntry() {
                                             key={i}
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
-                                            <TableCell>{isInEditMode ? <TextField size="small"></TextField> : row.lr}</TableCell>
-                                            <TableCell align="right">{isInEditMode ? <TextField size="small"></TextField> : row.pm}</TableCell>
+                                            <TableCell>{idxAtEditMode === i ? <TextField variant="standard" size="small"></TextField> : row.lr}</TableCell>
+                                            <TableCell align="right">{idxAtEditMode === i ? <TextField variant="standard" size="small"></TextField> : row.pm}</TableCell>
                                             <TableCell align="right">
-                                                <Button onClick={toggleEditTable}>{isInEditMode ? <Done></Done> : <Edit></Edit>}</Button>
+                                                {idxAtEditMode === i ? <Button onClick={() => setIdxAtEditMode(-1)}><Done></Done></Button> :
+                                                    <Button onClick={() => setIdxAtEditMode(i)}><Edit></Edit></Button>}
                                                 <Button><Delete onClick={() => deleteRow(i)}></Delete></Button>
                                             </TableCell>
                                         </TableRow>
