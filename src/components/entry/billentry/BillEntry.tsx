@@ -14,7 +14,7 @@ function BillEntry() {
     }
 
     const deleteRow = (i: Number) => {
-        setRows(rows.filter((x, j) => j != i))
+        setRows(rows.filter((x, j) => j !== i))
     }
 
     return (
