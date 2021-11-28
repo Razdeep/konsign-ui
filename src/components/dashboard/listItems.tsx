@@ -11,20 +11,24 @@ import { Collapse, Divider, List, ListItemButton } from '@mui/material';
 import { StarBorder } from '@mui/icons-material';
 
 export default function MainListItems() {
-  const [open, setOpen] = React.useState(true);
+  const [expandedIndex, setExpandedIndex] = React.useState<Number>(-1);
 
-  const handleClick = () => {
-    setOpen(!open);
-  };
+  const toggleExpandedIndex = (index: Number) => {
+    if (expandedIndex === index) {
+      setExpandedIndex(-1);
+    } else {
+      setExpandedIndex(index);
+    }
+  }
 
   return (<List>
-    <ListItem button onClick={handleClick}>
+    <ListItem button onClick={() => toggleExpandedIndex(1)}>
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
       <ListItemText primary="Input Entry" />
     </ListItem>
-    <Collapse in={open} timeout="auto" unmountOnExit>
+    <Collapse in={expandedIndex === 1} timeout="auto" unmountOnExit>
       <List component="div" disablePadding>
         <ListItemButton sx={{ pl: 4 }}>
           <ListItemIcon>
@@ -51,13 +55,13 @@ export default function MainListItems() {
       </List>
     </Collapse>
     <Divider />
-    <ListItem button>
+    <ListItem button onClick={() => toggleExpandedIndex(2)}>
       <ListItemIcon>
         <BarChartIcon />
       </ListItemIcon>
       <ListItemText primary="Report" />
     </ListItem>
-    <Collapse in={open} timeout="auto" unmountOnExit>
+    <Collapse in={expandedIndex === 2} timeout="auto" unmountOnExit>
       <List component="div" disablePadding>
         <ListItemButton sx={{ pl: 4 }}>
           <ListItemIcon>
@@ -85,13 +89,13 @@ export default function MainListItems() {
     </Collapse>
     <Divider />
 
-    <ListItem button>
+    <ListItem button onClick={() => toggleExpandedIndex(3)}>
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
       <ListItemText primary="Master" />
     </ListItem>
-    <Collapse in={open} timeout="auto" unmountOnExit>
+    <Collapse in={expandedIndex === 3} timeout="auto" unmountOnExit>
       <List component="div" disablePadding>
         <ListItemButton sx={{ pl: 4 }}>
           <ListItemIcon>
