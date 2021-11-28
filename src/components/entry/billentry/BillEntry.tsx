@@ -1,9 +1,21 @@
 import { Add, Delete, Done, Edit, Save } from '@mui/icons-material';
 import { Button, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material'
 import LrPm from '../../../model/LrPm';
-import React, { useState } from 'react'
+import React, { ChangeEvent, useState, useEffect } from 'react'
+import Bill from '../../../model/Bill';
 
 function BillEntry() {
+
+    const [bill, setBill] = useState<Bill>({
+        supplierName: '',
+        buyerName: '',
+        billNo: '',
+        billDate: '',
+        transport: '',
+        lrDate: '',
+        lrPm: [],
+        billAmount: ''
+    });
 
     const [rows, setRows] = useState<LrPm[]>([]);
     const [idxAtEditMode, setIdxAtEditMode] = useState<Number>(-1);
@@ -17,28 +29,37 @@ function BillEntry() {
         setRows(rows.filter((x, j) => j !== i))
     }
 
+    const handleBillChange = (e: ChangeEvent<HTMLInputElement| HTMLTextAreaElement>) => {
+        e.preventDefault();
+        setBill({...bill, [e.target.name]: e.target.value});
+    }
+
+    useEffect(() => {
+        console.log(bill);
+    }, [bill]);
+
     return (
         <div>
             <Typography variant="h3" align="center">Input Entry</Typography>
             <form>
                 <Grid container spacing={3}>
                     <Grid item md={6}>
-                        <TextField label="Supplier Name" size="small" fullWidth></TextField>
+                        <TextField name="supplierName" label="Supplier Name" size="small" onChange={handleBillChange} fullWidth></TextField>
                     </Grid>
                     <Grid item md={6}>
-                        <TextField label="Buyer Name" size="small" fullWidth></TextField>
+                        <TextField name="buyerName" label="Buyer Name" size="small" onChange={handleBillChange} fullWidth></TextField>
                     </Grid>
                     <Grid item md={6}>
-                        <TextField label="Bill Number" size="small" fullWidth></TextField>
+                        <TextField name="billNo" label="Bill Number" size="small" onChange={handleBillChange} fullWidth></TextField>
                     </Grid>
                     <Grid item lg={6}>
-                        <TextField type="date" defaultValue={(new Date()).toISOString().substring(0, 10)} label="Bill Date" size="small" fullWidth></TextField>
+                        <TextField name="billDate" type="date" defaultValue={(new Date()).toISOString().substring(0, 10)} label="Bill Date" size="small" onChange={handleBillChange} fullWidth></TextField>
                     </Grid>
                     <Grid item lg={6}>
-                        <TextField label="Transport" size="small" fullWidth></TextField>
+                        <TextField name="transport" label="Transport" size="small" onChange={handleBillChange} fullWidth></TextField>
                     </Grid>
                     <Grid item lg={6}>
-                        <TextField type="date" defaultValue={(new Date()).toISOString().substring(0, 10)} label="LR Date" size="small" fullWidth></TextField>
+                        <TextField name="lrDate" type="date" onChange={handleBillChange} defaultValue={(new Date()).toISOString().substring(0, 10)} label="LR Date" size="small" fullWidth></TextField>
                     </Grid>
                     <Grid item lg={12}>
                         {/* <TextField type="date" label="LR Date" size="small" fullWidth></TextField> */}
@@ -73,7 +94,7 @@ function BillEntry() {
                         </TableContainer>
                     </Grid>
                     <Grid item lg={4}>
-                        <TextField label="Amount" size="small"></TextField>
+                        <TextField name="amount" label="Amount" onChange={handleBillChange} size="small"></TextField>
                     </Grid>
                     <Grid item lg={2}>
                         <Button onClick={addRow}><Add></Add>Add row</Button>
