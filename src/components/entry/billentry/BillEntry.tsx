@@ -17,26 +17,48 @@ function BillEntry() {
         billAmount: ''
     });
 
-    const [rows, setRows] = useState<LrPm[]>([]);
+    const [lrPmList, setLrPmList] = useState<LrPm[]>([]);
     const [idxAtEditMode, setIdxAtEditMode] = useState<Number>(-1);
+    const [currentLrPm, setCurrentLrPm] = useState<LrPm>({
+        lr: '',
+        pm: ''
+    });
 
     const addRow = () => {
         let lrpm = new LrPm()
-        setRows([...rows, lrpm]);
+        setLrPmList([...lrPmList, lrpm]);
     }
 
     const deleteRow = (i: Number) => {
-        setRows(rows.filter((x, j) => j !== i))
+        setLrPmList(lrPmList.filter((x, j) => j !== i))
     }
 
-    const handleBillChange = (e: ChangeEvent<HTMLInputElement| HTMLTextAreaElement>) => {
+    const updateLrRow = (targetIndex: Number) => {
+        setIdxAtEditMode(-1)
+        const newRows: LrPm[] = [];
+        lrPmList.map((x, i) => {
+            if (i == targetIndex) {
+                x.lr = currentLrPm.lr;
+                x.pm = currentLrPm.pm;
+            }
+            newRows.push(x);
+        })
+        setLrPmList(newRows)
+    }
+
+    const handleBillChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         e.preventDefault();
-        setBill({...bill, [e.target.name]: e.target.value});
+        setBill({ ...bill, [e.target.name]: e.target.value });
+    }
+
+    const handleLrPmChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        e.preventDefault();
+        setCurrentLrPm({...currentLrPm, [e.target.name]: e.target.value});
     }
 
     useEffect(() => {
-        console.log(bill);
-    }, [bill]);
+        console.log(currentLrPm);
+    }, [currentLrPm]);
 
     return (
         <div>
@@ -75,15 +97,15 @@ function BillEntry() {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {rows.map((row, i) => (
+                                    {lrPmList.map((row, i) => (
                                         <TableRow
                                             key={i}
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
-                                            <TableCell>{idxAtEditMode === i ? <TextField variant="standard" size="small"></TextField> : row.lr}</TableCell>
-                                            <TableCell align="right">{idxAtEditMode === i ? <TextField variant="standard" size="small"></TextField> : row.pm}</TableCell>
+                                            <TableCell>{idxAtEditMode === i ? <TextField name="lr" onChange={handleLrPmChange} variant="standard" size="small"></TextField> : row.lr}</TableCell>
+                                            <TableCell align="right">{idxAtEditMode === i ? <TextField name="pm" variant="standard" onChange={handleLrPmChange} size="small"></TextField> : row.pm}</TableCell>
                                             <TableCell align="right">
-                                                {idxAtEditMode === i ? <Button onClick={() => setIdxAtEditMode(-1)}><Done></Done></Button> :
+                                                {idxAtEditMode === i ? <Button onClick={() => updateLrRow(i)}><Done></Done></Button> :
                                                     <Button onClick={() => setIdxAtEditMode(i)}><Edit></Edit></Button>}
                                                 <Button><Delete onClick={() => deleteRow(i)}></Delete></Button>
                                             </TableCell>
