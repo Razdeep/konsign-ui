@@ -35,15 +35,14 @@ function BillEntry() {
 
     const updateLrRow = (targetIndex: Number) => {
         setIdxAtEditMode(-1)
-        const newRows: LrPm[] = [];
         lrPmList.map((x, i) => {
             if (i === targetIndex) {
                 x.lr = currentLrPm.lr;
                 x.pm = currentLrPm.pm;
             }
-            newRows.push(x);
+            return x;
         })
-        setLrPmList(newRows)
+        setLrPmList(lrPmList)
     }
 
     const handleBillChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
