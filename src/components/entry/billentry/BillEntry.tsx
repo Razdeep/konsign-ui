@@ -37,7 +37,7 @@ function BillEntry() {
         setIdxAtEditMode(-1)
         const newRows: LrPm[] = [];
         lrPmList.map((x, i) => {
-            if (i == targetIndex) {
+            if (i === targetIndex) {
                 x.lr = currentLrPm.lr;
                 x.pm = currentLrPm.pm;
             }
