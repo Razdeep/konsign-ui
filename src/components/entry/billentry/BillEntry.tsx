@@ -45,6 +45,13 @@ function BillEntry() {
         setLrPmList(lrPmList)
     }
 
+    const startEditingLrPmRow = (targetIndex: number) => {
+        setIdxAtEditMode(targetIndex);
+        currentLrPm.lr = lrPmList[targetIndex].lr;
+        currentLrPm.pm = lrPmList[targetIndex].pm;
+        setCurrentLrPm(currentLrPm);
+    }
+
     const handleBillChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         e.preventDefault();
         setBill({ ...bill, [e.target.name]: e.target.value });
@@ -101,11 +108,11 @@ function BillEntry() {
                                             key={i}
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
-                                            <TableCell>{idxAtEditMode === i ? <TextField name="lr" onChange={handleLrPmChange} variant="standard" size="small"></TextField> : row.lr}</TableCell>
-                                            <TableCell align="right">{idxAtEditMode === i ? <TextField name="pm" variant="standard" onChange={handleLrPmChange} size="small"></TextField> : row.pm}</TableCell>
+                                            <TableCell>{idxAtEditMode === i ? <TextField name="lr" value={currentLrPm.lr} onChange={handleLrPmChange} variant="standard" size="small"></TextField> : row.lr}</TableCell>
+                                            <TableCell align="right">{idxAtEditMode === i ? <TextField name="pm" value={currentLrPm.pm} variant="standard" onChange={handleLrPmChange} size="small"></TextField> : row.pm}</TableCell>
                                             <TableCell align="right">
                                                 {idxAtEditMode === i ? <Button onClick={() => updateLrRow(i)}><Done></Done></Button> :
-                                                    <Button onClick={() => setIdxAtEditMode(i)}><Edit></Edit></Button>}
+                                                    <Button onClick={() => startEditingLrPmRow(i)}><Edit></Edit></Button>}
                                                 <Button><Delete onClick={() => deleteRow(i)}></Delete></Button>
                                             </TableCell>
                                         </TableRow>
