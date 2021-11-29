@@ -39,3 +39,12 @@ jobs:
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
     - run: docker build -t razdeep/konsign-ui:${{ github.ref_name }}.${{ github.sha }} .
     - run: docker push razdeep/konsign-ui:${{ github.ref_name }}.${{ github.sha }}
+    
+    - name: Build, Push and Release a Docker container to Heroku.
+      # uses: gonuit/heroku-docker-deploy@9ab97585f979857642d66612a2ae4062b3347d53
+      # This action rebuild the docker image again (though it is built earlier once) and pushes to heroku
+      uses: gonuit/heroku-docker-deploy@v1.3.3
+      with:
+        heroku_app_name: konsign
+        email: rrajdeeproychowdhury@gmail.com
+        heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
