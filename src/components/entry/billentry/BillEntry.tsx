@@ -3,6 +3,7 @@ import { Button, Grid, Paper, Table, TableBody, TableCell, TableContainer, Table
 import LrPm from '../../../model/LrPm';
 import React, { ChangeEvent, useState, useEffect } from 'react'
 import Bill from '../../../model/Bill';
+import Constants from '../../../util/constants';
 
 function BillEntry() {
 
@@ -60,6 +61,29 @@ function BillEntry() {
     const handleLrPmChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         e.preventDefault();
         setCurrentLrPm({...currentLrPm, [e.target.name]: e.target.value});
+    }
+
+    const submitBill = async () => {
+        const serializedData = JSON.stringify(bill);
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: serializedData
+        };
+        fetch(Constants.BACKEND_BASE_URL, requestOptions)
+            .then(() => {
+                console.log("Sucessfully sent request");
+            })
+            .catch(e => {
+                console.log("Error sending " + serializedData);
+            })
+        /*
+        if (response.status === 200) {
+            console.log("Sucessfully sent request");
+        } else {
+            console.log("Error sending " + serializedData);
+        }
+        */
     }
 
     useEffect(() => {
@@ -122,13 +146,13 @@ function BillEntry() {
                         </TableContainer>
                     </Grid>
                     <Grid item lg={4}>
-                        <TextField name="amount" label="Amount" onChange={handleBillChange} size="small"></TextField>
+                        <TextField name="billAmount" label="Amount" onChange={handleBillChange} size="small"></TextField>
                     </Grid>
                     <Grid item lg={2}>
                         <Button onClick={addRow}><Add></Add>Add row</Button>
                     </Grid>
                     <Grid item lg={6}>
-                        <Button variant="contained" type="submit" fullWidth>
+                        <Button onClick={submitBill} variant="contained" type="button" fullWidth>
                             <Save></Save>
                             Save
                         </Button>
