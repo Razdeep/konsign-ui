@@ -1,3 +1,6 @@
+// Configure this variable
+const active_profile = 'dev';
+
 class LocalConfig {
     static BACKEND_BASE_URL: string = 'http://localhost:8080/';
     static BILL_ENTRY_URL = this.BACKEND_BASE_URL + 'billentry';
@@ -8,6 +11,6 @@ class DevConfig {
     static BILL_ENTRY_URL = this.BACKEND_BASE_URL + 'billentry';
 };
 
-const Config = process.env.PROFILE === 'dev' ? DevConfig : LocalConfig;
+const Config = active_profile === 'dev' ? DevConfig : LocalConfig;
 
 export default Config;
