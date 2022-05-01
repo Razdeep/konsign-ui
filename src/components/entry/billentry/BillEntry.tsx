@@ -31,7 +31,11 @@ function BillEntry() {
     }
 
     const deleteRow = (i: Number) => {
-        setLrPmList(lrPmList.filter((x, j) => j !== i))
+        let newLrPmList = lrPmList.filter((x, j) => j !== i);
+        setLrPmList([]);
+        setLrPmList(newLrPmList);
+        bill.lrPm = lrPmList;
+        setBill(bill);
     }
 
     const updateLrRow = (targetIndex: Number) => {
@@ -43,7 +47,9 @@ function BillEntry() {
             }
             return x;
         })
-        setLrPmList(lrPmList)
+        setLrPmList(lrPmList);
+        bill.lrPm = lrPmList;
+        setBill(bill);
     }
 
     const startEditingLrPmRow = (targetIndex: number) => {
@@ -71,19 +77,11 @@ function BillEntry() {
             body: serializedData
         };
         fetch(Constants.BACKEND_BASE_URL, requestOptions)
-            .then(() => {
-                console.log("Sucessfully sent request");
-            })
-            .catch(e => {
+            .then((res) => {
+                console.log("Response code is " + res.status);
+            }).catch(e => {
                 console.log("Error sending " + serializedData);
             })
-        /*
-        if (response.status === 200) {
-            console.log("Sucessfully sent request");
-        } else {
-            console.log("Error sending " + serializedData);
-        }
-        */
     }
 
     useEffect(() => {
