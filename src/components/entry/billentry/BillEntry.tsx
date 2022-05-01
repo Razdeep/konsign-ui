@@ -11,9 +11,9 @@ function BillEntry() {
         supplierName: '',
         buyerName: '',
         billNo: '',
-        billDate: '',
+        billDate: (new Date()).toISOString().substring(0, 10),
         transport: '',
-        lrDate: '',
+        lrDate: (new Date()).toISOString().substring(0, 10),
         lrPm: [],
         billAmount: ''
     });
