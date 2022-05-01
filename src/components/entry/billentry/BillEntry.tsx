@@ -3,7 +3,7 @@ import { Button, Grid, Paper, Table, TableBody, TableCell, TableContainer, Table
 import LrPm from '../../../model/LrPm';
 import React, { ChangeEvent, useState, useEffect } from 'react'
 import Bill from '../../../model/Bill';
-import Constants from '../../../util/constants';
+import Config from '../../../util/config';
 
 function BillEntry() {
 
@@ -76,7 +76,7 @@ function BillEntry() {
             headers: { 'Content-Type': 'application/json' },
             body: serializedData
         };
-        fetch(Constants.BACKEND_BASE_URL, requestOptions)
+        fetch(Config.BACKEND_BASE_URL, requestOptions)
             .then((res) => {
                 console.log("Response code is " + res.status);
             }).catch(e => {
