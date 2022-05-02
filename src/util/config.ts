@@ -1,5 +1,5 @@
 // Configure this variable
-const active_profile = 'dev';
+const active_profile: string = 'dev';
 
 class LocalConfig {
     static BACKEND_BASE_URL: string = 'http://localhost:8080/';

@@ -76,7 +76,7 @@ function BillEntry() {
             headers: { 'Content-Type': 'application/json' },
             body: serializedData
         };
-        fetch(Config.BACKEND_BASE_URL, requestOptions)
+        fetch(Config.BILL_ENTRY_URL, requestOptions)
             .then((res) => {
                 console.log("Response code is " + res.status);
             }).catch(e => {
