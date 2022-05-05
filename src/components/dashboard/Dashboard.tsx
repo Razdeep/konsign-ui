@@ -17,6 +17,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MainListItems from './listItems';
 import { Routes, Route } from "react-router-dom";
 import BillEntry from '../entry/billentry/BillEntry';
+import Login from '../login/Login'
 
 function Copyright(props: any) {
   return (
@@ -158,8 +159,9 @@ function DashboardContent() {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Routes>
+              <Route path="/login" element={<Login/>} />
+              <Route path="/about" element={<>about</>} />
               <Route path="/" element={<BillEntry/>} />
-              <Route path="about" element={<>about</>} />
             </Routes>
           </Container>
           <Copyright />
