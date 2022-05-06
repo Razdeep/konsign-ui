@@ -1,5 +1,7 @@
-import React, { ChangeEvent, useState, useEffect } from 'react'
+import { useState } from 'react'
 import Config from '../../util/config';
+import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from '@mui/material/Dialog';
 
 function Login() {
     class ErrorMessage {
@@ -19,6 +21,10 @@ function Login() {
         );
     }
 
+    const handleClose = () => {
+        setIsSubmitted(false);
+    }
+
     const handleSubmit = (event: any) => {
         // Prevent page reload
         event.preventDefault();
@@ -29,9 +35,18 @@ function Login() {
         fetch(Config.BILL_ENTRY_URL, requestOptions)
             .then((res) => {
                 console.log("Response code is " + res.status);
+                setErrorMessages({
+                    name: '',
+                    message: ''
+                });
             }).catch(e => {
                 console.log("Error authenticating");
+                setErrorMessages({
+                    name: 'error',
+                    message: e.string
+                });
             })
+        setIsSubmitted(true);
     };
     
     const renderForm = (
@@ -51,6 +66,9 @@ function Login() {
                     <button type="button" onClick={handleSubmit}>Login</button>
                 </div>
             </form>
+            <Dialog onClose={handleClose} open={isSubmitted}>
+                <DialogTitle>{errorMessages.name === '' ? <>Logged in Successfully</> : <>Login not successful</>}</DialogTitle>
+            </Dialog>
         </div>
     );
     
