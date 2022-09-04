@@ -112,6 +112,7 @@ function DashboardContent() {
             >
               <MenuIcon />
             </IconButton>
+            <img src="konsign_icon.png" alt="logo"></img>
             <Typography
               component="h1"
               variant="h6"
