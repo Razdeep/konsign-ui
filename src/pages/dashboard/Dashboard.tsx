@@ -16,8 +16,8 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MainListItems from './listItems';
 import { Routes, Route } from "react-router-dom";
-import BillEntry from '../entry/billentry/BillEntry';
-import Login from '../login/Login'
+import BillEntry from '../../pages/entry/billentry/BillEntry';
+import Login from '../../pages/login/Login'
 
 function Copyright(props: any) {
   return (
