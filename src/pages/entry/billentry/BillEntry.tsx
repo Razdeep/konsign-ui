@@ -150,7 +150,7 @@ function BillEntry() {
                         <Button onClick={addRow}><Add></Add>Add row</Button>
                     </Grid>
                     <Grid item lg={6}>
-                        <Button onClick={submitBill} variant="contained" type="button" fullWidth>
+                        <Button onClick={submitBill} variant="contained" className="bg-yellow-600" type="button" fullWidth>
                             <Save></Save>
                             Save
                         </Button>
