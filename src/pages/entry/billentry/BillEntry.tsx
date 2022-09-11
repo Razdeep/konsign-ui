@@ -119,9 +119,9 @@ function BillEntry() {
                             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>LR</TableCell>
-                                        <TableCell align="right">PM</TableCell>
-                                        <TableCell align="right">Operations</TableCell>
+                                        <TableCell sx={{ minWidth: 250}} variant="head" align="center">LR</TableCell>
+                                        <TableCell sx={{ minWidth: 250}} variant="head" align="center">PM</TableCell>
+                                        <TableCell sx={{ minWidth: 150}} variant="head" align="center">Operations</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -150,7 +150,7 @@ function BillEntry() {
                         <Button onClick={addRow}><Add></Add>Add row</Button>
                     </Grid>
                     <Grid item lg={6}>
-                        <Button onClick={submitBill} variant="contained" type="button" fullWidth>
+                        <Button onClick={submitBill} variant="contained" className="bg-yellow-600" type="button" fullWidth>
                             <Save></Save>
                             Save
                         </Button>
