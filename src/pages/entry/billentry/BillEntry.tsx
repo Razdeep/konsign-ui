@@ -135,7 +135,7 @@ function BillEntry() {
                                             <TableCell align="right">
                                                 {idxAtEditMode === i ? <Button onClick={() => updateLrRow(i)}><Done></Done></Button> :
                                                     <Button onClick={() => startEditingLrPmRow(i)}><Edit></Edit></Button>}
-                                                <Button><Delete onClick={() => deleteRow(i)}></Delete></Button>
+                                                <Button onClick={() => deleteRow(i)}><Delete></Delete></Button>
                                             </TableCell>
                                         </TableRow>
                                     ))}
