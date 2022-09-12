@@ -69,7 +69,7 @@ function Login() {
             console.log('response status is ' +  response.status)
             if (response.status === 200) {
                 console.log('response message is ' + response.json())
-                navigate("/", { replace: true });
+                navigate("/dashboard", { replace: true });
             } else {
                 setErrorMessages({
                     name: 'error',
