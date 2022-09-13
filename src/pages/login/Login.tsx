@@ -1,5 +1,6 @@
 import { ChangeEvent, useState } from 'react'
 import Config from '../../util/config';
+import { useAuth } from '../../util/auth';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import React from 'react';
@@ -7,6 +8,9 @@ import { Container, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 function Login() {
+
+    const auth = useAuth()
+
     class ErrorMessage {
         name: string = '';
         message: string = '';
@@ -68,7 +72,10 @@ function Login() {
         if (response) {
             console.log('response status is ' +  response.status)
             if (response.status === 200) {
-                console.log('response message is ' + response.json())
+                const user = await response.json()
+                let response_json = JSON.stringify(user)
+                console.log('response message is ' + response_json)
+                auth.login(user)
                 navigate("/dashboard", { replace: true });
             } else {
                 setErrorMessages({

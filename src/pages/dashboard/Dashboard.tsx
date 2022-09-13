@@ -8,15 +8,15 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
-import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import MainListItems from './listItems';
 import { Routes, Route } from "react-router-dom";
 import BillEntry from '../../pages/entry/billentry/BillEntry';
+import { Logout } from '@mui/icons-material';
+import { useAuth } from '../../util/auth';
+import Container from '@mui/material/Container';
 
 function Copyright(props: any) {
   return (
@@ -89,6 +89,8 @@ function DashboardContent() {
     setOpen(!open);
   };
 
+  const auth = useAuth()
+
   return (
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: 'flex' }}>
@@ -111,7 +113,7 @@ function DashboardContent() {
             >
               <MenuIcon />
             </IconButton>
-            <img src="konsign_icon.png" alt="logo"></img>
+            <img src="/konsign_icon.png" alt="logo"></img>
             <Typography
               component="h1"
               variant="h6"
@@ -121,11 +123,11 @@ function DashboardContent() {
             >
               Konsign
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+            {
+              auth.user ?
+                <IconButton color="inherit">
+                  <Logout /> </IconButton> : <></>
+            }
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
