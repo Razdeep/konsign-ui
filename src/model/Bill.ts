@@ -8,7 +8,7 @@ class Bill {
     transport: String = '';
     lrDate: String = '';
     lrPm: LrPm[] = [];
-    billAmount: String = '';
+    billAmount: number = 0;
 }
 
 export default Bill;

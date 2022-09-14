@@ -4,8 +4,11 @@ import LrPm from '../../../model/LrPm';
 import React, { ChangeEvent, useState, useEffect } from 'react'
 import Bill from '../../../model/Bill';
 import Config from '../../../util/config';
+import { useAuth } from '../../../util/auth';
 
-function BillEntry() {
+const BillEntry: React.FC<React.ReactNode> = () => {
+
+    const auth = useAuth();
 
     const [bill, setBill] = useState<Bill>({
         supplierName: '',
@@ -15,7 +18,7 @@ function BillEntry() {
         transport: '',
         lrDate: (new Date()).toISOString().substring(0, 10),
         lrPm: [],
-        billAmount: ''
+        billAmount: 0
     });
 
     const [lrPmList, setLrPmList] = useState<LrPm[]>([]);
@@ -61,6 +64,10 @@ function BillEntry() {
 
     const handleBillChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         e.preventDefault();
+        if (e.target.name === 'billAmount') {
+            setBill({ ...bill, [e.target.name]: parseInt(e.target.value) });
+            return
+        }
         setBill({ ...bill, [e.target.name]: e.target.value });
     }
 
@@ -73,7 +80,8 @@ function BillEntry() {
         const serializedData = JSON.stringify(bill);
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + auth?.user?.jwt },
             body: serializedData
         };
         fetch(Config.BILL_ENTRY_URL, requestOptions)
@@ -144,7 +152,7 @@ function BillEntry() {
                         </TableContainer>
                     </Grid>
                     <Grid item lg={4}>
-                        <TextField name="billAmount" label="Amount" onChange={handleBillChange} size="small"></TextField>
+                        <TextField name="billAmount" type="number" label="Amount" onChange={handleBillChange} size="small"></TextField>
                     </Grid>
                     <Grid item lg={2}>
                         <Button onClick={addRow}><Add></Add>Add row</Button>

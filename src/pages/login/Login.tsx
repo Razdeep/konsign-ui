@@ -8,7 +8,7 @@ import { Backdrop, Button, CircularProgress, Container, DialogActions, DialogCon
 import { useNavigate } from 'react-router-dom';
 import { LoginSharp } from '@mui/icons-material';
 
-function Login() {
+const Login: React.FC<React.ReactNode> = () => {
 
     const auth = useAuth()
 
@@ -42,7 +42,7 @@ function Login() {
         setIsLoading(true)
         const jsonified_credential = JSON.stringify(credential)
         console.log('sending message = ' + jsonified_credential)
-        var myHeaders = new Headers();
+        const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         const requestOptions = {
             method: 'POST',
