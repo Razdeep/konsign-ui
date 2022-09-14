@@ -6,7 +6,7 @@ import Dialog from '@mui/material/Dialog';
 import React from 'react';
 import { Button, Container, Grid, Paper, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { LoginOutlined, LoginRounded, LoginSharp } from '@mui/icons-material';
+import { LoginSharp } from '@mui/icons-material';
 
 function Login() {
 
