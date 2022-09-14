@@ -12,7 +12,7 @@ import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import MainListItems from './listItems';
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import BillEntry from '../../pages/entry/billentry/BillEntry';
 import { Logout } from '@mui/icons-material';
 import { useAuth } from '../../util/auth';
@@ -89,6 +89,12 @@ function DashboardContent() {
     setOpen(!open);
   };
 
+  const navigate = useNavigate()
+
+  const logout = () => {
+    navigate("/login")
+  }
+
   const auth = useAuth()
 
   return (
@@ -125,8 +131,9 @@ function DashboardContent() {
             </Typography>
             {
               auth.user ?
-                <IconButton color="inherit">
-                  <Logout /> </IconButton> : <></>
+                <IconButton color="inherit" onClick={logout}>
+                  <Logout /><Typography>Logout</Typography>
+                </IconButton> : <></>
             }
           </Toolbar>
         </AppBar>

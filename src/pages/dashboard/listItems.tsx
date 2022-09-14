@@ -9,6 +9,7 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 
 import { Collapse, Divider, List, ListItemButton } from '@mui/material';
 import { StarBorder } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
 
 export default function MainListItems() {
   const [expandedIndex, setExpandedIndex] = React.useState<Number>(-1);
@@ -30,12 +31,14 @@ export default function MainListItems() {
     </ListItem>
     <Collapse in={expandedIndex === 1} timeout="auto" unmountOnExit>
       <List component="div" disablePadding>
-        <ListItemButton sx={{ pl: 4 }}>
-          <ListItemIcon>
-            <StarBorder />
-          </ListItemIcon>
-          <ListItemText primary="Bill Entry" />
-        </ListItemButton>
+        <Link to="billentry">
+          <ListItemButton sx={{ pl: 4 }}>
+            <ListItemIcon>
+              <StarBorder />
+            </ListItemIcon>
+            <ListItemText primary="Bill Entry" />
+          </ListItemButton>
+        </Link>
       </List>
       <List component="div" disablePadding>
         <ListItemButton sx={{ pl: 4 }}>
