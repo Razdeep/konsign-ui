@@ -4,7 +4,7 @@ import { useAuth } from '../../util/auth';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import React from 'react';
-import { Button, Container, Grid, Paper, TextField } from '@mui/material';
+import { Backdrop, Button, CircularProgress, Container, DialogActions, DialogContent, DialogContentText, Grid, Paper, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { LoginSharp } from '@mui/icons-material';
 
@@ -12,35 +12,21 @@ function Login() {
 
     const auth = useAuth()
 
-    class ErrorMessage {
-        name: string = '';
-        message: string = '';
-    }
-    
-    const [errorMessages, setErrorMessages] = useState<ErrorMessage>({
-        name: '',
-        message: ''
-    });
-    const [isSubmitted, setIsSubmitted] = useState(false);
-    
-    const renderErrorMessage = (name: string) => {
-        return name === errorMessages.name && (
-            <div className="error">{errorMessages.message}</div>
-        );
-    }
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isIncorrectCredential, setIncorrectCredential] = useState<boolean>(false);
 
     class Credential {
         username: String = "";
         password: String = "";
     }
-    
+
     const [credential, setCredential] = useState<Credential>({
         username: '',
         password: ''
     });
 
     const handleClose = () => {
-        setIsSubmitted(false);
+        setIncorrectCredential(false)
     }
 
     const handleCredentialChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -52,7 +38,8 @@ function Login() {
 
     const handleSubmit = async (event: any) => {
         // Prevent page reload
-        event.preventDefault();
+        event.preventDefault()
+        setIsLoading(true)
         const jsonified_credential = JSON.stringify(credential)
         console.log('sending message = ' + jsonified_credential)
         var myHeaders = new Headers();
@@ -63,15 +50,13 @@ function Login() {
             body: jsonified_credential,
         };
         const response: Response | void = await fetch(Config.LOGIN_URL, requestOptions).catch(e => {
-            console.log("Error authenticating");
-            setErrorMessages({
-                name: 'error',
-                message: e.string
-            });
-            return;
+            console.log("Error authenticating")
+            setIsLoading(false)
+            return
         })
+        setIsLoading(false)
         if (response) {
-            console.log('response status is ' +  response.status)
+            console.log('response status is ' + response.status)
             if (response.status === 200) {
                 const user = await response.json()
                 let response_json = JSON.stringify(user)
@@ -79,35 +64,58 @@ function Login() {
                 auth.login(user)
                 navigate("/dashboard", { replace: true });
             } else {
-                setErrorMessages({
-                    name: 'error',
-                    message: 'wrong username or pword'
-                });
+                setIncorrectCredential(true)
             }
         }
     };
 
-    const paperStyle = {height: 200, width: 250, margin: "auto auto", textalign: "center", background: "rgb(195, 248, 255)", display: "block", padding: 2}
+    const paperStyle = { height: 200, width: 250, margin: "auto", textalign: "center", background: "rgb(195, 248, 255)", display: "block", padding: 2 }
 
-    const renderForm = (    
-        <Grid>
+    const renderForm = (
+        <Grid style={{ minHeight:'100vh' }}>
             <Paper sx={paperStyle}>
                 <form>
                     <Container style={{textAlign: "center"}}>
                         <TextField label="username" name="username" onChange={handleCredentialChange} variant="standard" required></TextField>
-                        {renderErrorMessage("uname")}
                         <TextField label="password" type="password" name="password" onChange={handleCredentialChange} variant="standard" required />
-                        {renderErrorMessage("pass")}
-                        <Button onClick={handleSubmit} style={{color: "lightgreen", background: "green", margin: "10 10 10 10"}} fullWidth><LoginSharp/>Login</Button>
+                        <Button onClick={handleSubmit} style={{ color: "lightgreen", background: "green", margin: "10 10 10 10" }} fullWidth><LoginSharp />Login</Button>
                     </Container>
                 </form>
-                <Dialog onClose={handleClose} open={isSubmitted}>
-                    <DialogTitle>{errorMessages.name === '' ? <>Logged in Successfully</> : <>Login not successful</>}</DialogTitle>
-                </Dialog>
             </Paper>
+            {
+                !isLoading ? <></> :
+                    <Backdrop
+                        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                        open={isLoading}
+                        onClick={handleClose}
+                    >
+                        <CircularProgress color="inherit" />
+                    </Backdrop>
+            }
+            {
+                !isIncorrectCredential ? <></> :
+                    <Dialog
+                        open={isIncorrectCredential}
+                        onClose={handleClose}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                    >
+                        <DialogTitle id="alert-dialog-title">
+                            {"Incorrect username/password"}
+                        </DialogTitle>
+                        <DialogContent>
+                            <DialogContentText id="alert-dialog-description">
+                                You have either typed incorrect username or password. Please try again.
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleClose}>Ok</Button>
+                        </DialogActions>
+                    </Dialog>
+            }
         </Grid>
     );
-    
+
     return renderForm;
 }
 
