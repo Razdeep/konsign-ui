@@ -4,8 +4,9 @@ import { useAuth } from '../../util/auth';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import React from 'react';
-import { Grid, Paper, TextField } from '@mui/material';
+import { Button, Container, Grid, Paper, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { LoginOutlined, LoginRounded, LoginSharp } from '@mui/icons-material';
 
 function Login() {
 
@@ -86,25 +87,19 @@ function Login() {
         }
     };
 
-    const paperStyle = {height: 200, width: 250, margin: "auto auto", textalign: "center", background: "lightgreen"}
+    const paperStyle = {height: 200, width: 250, margin: "auto auto", textalign: "center", background: "rgb(195, 248, 255)", display: "block", padding: 2}
 
     const renderForm = (    
         <Grid>
-            <Paper style={paperStyle}>
+            <Paper sx={paperStyle}>
                 <form>
-                    <div className="input-container">
-                        <label>Username</label>
-                        <TextField name="username" onChange={handleCredentialChange} variant="standard" required></TextField>
+                    <Container style={{textAlign: "center"}}>
+                        <TextField label="username" name="username" onChange={handleCredentialChange} variant="standard" required></TextField>
                         {renderErrorMessage("uname")}
-                    </div>
-                    <div className="input-container">
-                        <label>Password</label>
-                        <TextField type="password" name="password" onChange={handleCredentialChange} variant="standard" required />
+                        <TextField label="password" type="password" name="password" onChange={handleCredentialChange} variant="standard" required />
                         {renderErrorMessage("pass")}
-                    </div>
-                    <div className="button-container">
-                        <button type="button" onClick={handleSubmit}>Login</button>
-                    </div>
+                        <Button onClick={handleSubmit} style={{color: "lightgreen", background: "green", margin: "10 10 10 10"}} fullWidth><LoginSharp/>Login</Button>
+                    </Container>
                 </form>
                 <Dialog onClose={handleClose} open={isSubmitted}>
                     <DialogTitle>{errorMessages.name === '' ? <>Logged in Successfully</> : <>Login not successful</>}</DialogTitle>
