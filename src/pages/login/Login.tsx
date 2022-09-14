@@ -4,7 +4,7 @@ import { useAuth } from '../../util/auth';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import React from 'react';
-import { Container, TextField } from '@mui/material';
+import { Grid, Paper, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 function Login() {
@@ -85,28 +85,32 @@ function Login() {
             }
         }
     };
-    
-    const renderForm = (
-        <Container className="form">
-            <form>
-                <div className="input-container">
-                    <label>Username </label>
-                    <TextField name="username" onChange={handleCredentialChange}></TextField>
-                    {renderErrorMessage("uname")}
-                </div>
-                <div className="input-container">
-                    <label>Password </label>
-                    <TextField type="password" name="password" onChange={handleCredentialChange} required />
-                    {renderErrorMessage("pass")}
-                </div>
-                <div className="button-container">
-                    <button type="button" onClick={handleSubmit}>Login</button>
-                </div>
-            </form>
-            <Dialog onClose={handleClose} open={isSubmitted}>
-                <DialogTitle>{errorMessages.name === '' ? <>Logged in Successfully</> : <>Login not successful</>}</DialogTitle>
-            </Dialog>
-        </Container>
+
+    const paperStyle = {height: 200, width: 250, margin: "auto auto", textalign: "center", background: "lightgreen"}
+
+    const renderForm = (    
+        <Grid>
+            <Paper style={paperStyle}>
+                <form>
+                    <div className="input-container">
+                        <label>Username</label>
+                        <TextField name="username" onChange={handleCredentialChange} variant="standard" required></TextField>
+                        {renderErrorMessage("uname")}
+                    </div>
+                    <div className="input-container">
+                        <label>Password</label>
+                        <TextField type="password" name="password" onChange={handleCredentialChange} variant="standard" required />
+                        {renderErrorMessage("pass")}
+                    </div>
+                    <div className="button-container">
+                        <button type="button" onClick={handleSubmit}>Login</button>
+                    </div>
+                </form>
+                <Dialog onClose={handleClose} open={isSubmitted}>
+                    <DialogTitle>{errorMessages.name === '' ? <>Logged in Successfully</> : <>Login not successful</>}</DialogTitle>
+                </Dialog>
+            </Paper>
+        </Grid>
     );
     
     return renderForm;
