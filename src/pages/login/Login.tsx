@@ -4,9 +4,10 @@ import { useAuth } from '../../util/auth';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import React from 'react';
-import { Backdrop, Button, CircularProgress, Container, DialogActions, DialogContent, DialogContentText, Grid, Paper, TextField } from '@mui/material';
+import { Backdrop, Button, Container, DialogActions, DialogContent, DialogContentText, Grid, Paper, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { LoginSharp } from '@mui/icons-material';
+import { MutatingDots } from 'react-loader-spinner';
 
 const Login: React.FC<React.ReactNode> = () => {
 
@@ -89,7 +90,17 @@ const Login: React.FC<React.ReactNode> = () => {
                         open={isLoading}
                         onClick={handleClose}
                     >
-                        <CircularProgress color="inherit" />
+                        <MutatingDots 
+                            height="100"
+                            width="100"
+                            color="#533483"
+                            secondaryColor='#E94560'
+                            radius='20'
+                            ariaLabel="mutating-dots-loading"
+                            wrapperStyle={{}}
+                            wrapperClass=""
+                            visible={true}
+                        />
                     </Backdrop>
             }
             {
