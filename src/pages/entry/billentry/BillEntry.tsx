@@ -1,5 +1,5 @@
 import { Add, Delete, Done, Edit, Save } from '@mui/icons-material';
-import { Button, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material'
+import { Alert, Button, Grid, Paper, Slide, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material'
 import LrPm from '../../../model/LrPm';
 import React, { ChangeEvent, useState, useEffect } from 'react'
 import Bill from '../../../model/Bill';
@@ -27,6 +27,9 @@ const BillEntry: React.FC<React.ReactNode> = () => {
         lr: '',
         pm: ''
     });
+    
+    const [successVisibility, setSuccessVisibility] = useState<boolean>(false)
+    const [errorVisibility, setErrorVisibility] = useState<boolean>(false)
 
     const addRow = () => {
         let lrpm = new LrPm()
@@ -86,12 +89,19 @@ const BillEntry: React.FC<React.ReactNode> = () => {
             }),
             body: serializedData
         };
-        fetch(Config.BILL_ENTRY_URL, requestOptions)
-            .then((res) => {
-                console.log("Response code is " + res.status);
-            }).catch(e => {
-                console.log("Error sending " + serializedData);
-            })
+        const response: Response | void = await fetch(Config.BILL_ENTRY_URL, requestOptions)
+                                                    .catch(e => {
+                                                        console.log(e);
+                                                        setErrorVisibility(true)
+                                                    })
+        
+        if (response && response.ok) {
+            setSuccessVisibility(true)
+        }
+    }
+
+    function TransitionDown(props: any) {
+        return <Slide {...props} direction="right" />;
     }
 
     useEffect(() => {
@@ -167,6 +177,18 @@ const BillEntry: React.FC<React.ReactNode> = () => {
                     </Grid>
                 </Grid>
             </form>
+            <Snackbar open={successVisibility} autoHideDuration={6000} onClose={ ()=>setSuccessVisibility(false) }
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} TransitionComponent={TransitionDown}>
+                <Alert onClose={()=>setSuccessVisibility(false)} severity='success' sx={{ width: '100%' }}>
+                    Bill saved successfully!
+                </Alert>
+            </Snackbar>
+            <Snackbar open={errorVisibility} autoHideDuration={6000} onClose={ ()=>setErrorVisibility(false) }
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+                <Alert onClose={()=>setErrorVisibility(false)} severity='error' sx={{ width: '100%' }}>
+                    ERROR: Bill couldn't be saved
+                </Alert>
+            </Snackbar>
         </div>
     )
 }
