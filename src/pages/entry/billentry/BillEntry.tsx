@@ -80,8 +80,10 @@ const BillEntry: React.FC<React.ReactNode> = () => {
         const serializedData = JSON.stringify(bill);
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + auth?.user?.jwt },
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + auth?.user?.jwt
+            }),
             body: serializedData
         };
         fetch(Config.BILL_ENTRY_URL, requestOptions)
