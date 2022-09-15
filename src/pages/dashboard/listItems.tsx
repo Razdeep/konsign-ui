@@ -1,14 +1,14 @@
-import * as React from 'react';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import PeopleIcon from '@mui/icons-material/People';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import PeopleIcon from '@mui/icons-material/People';
-import BarChartIcon from '@mui/icons-material/BarChart';
+import * as React from 'react';
 
+import { CurrencyRupee, Inventory, LocalShipping, PlaylistAddCheckCircle, StarBorder } from '@mui/icons-material';
 import { Collapse, Divider, List, ListItemButton } from '@mui/material';
-import { StarBorder } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 
 export default function MainListItems() {
@@ -43,7 +43,7 @@ export default function MainListItems() {
       <List component="div" disablePadding>
         <ListItemButton sx={{ pl: 4 }}>
           <ListItemIcon>
-            <StarBorder />
+            <PlaylistAddCheckCircle />
           </ListItemIcon>
           <ListItemText primary="Collection Entry" />
         </ListItemButton>
@@ -51,7 +51,7 @@ export default function MainListItems() {
       <List component="div" disablePadding>
         <ListItemButton sx={{ pl: 4 }}>
           <ListItemIcon>
-            <StarBorder />
+            <CurrencyRupee />
           </ListItemIcon>
           <ListItemText primary="Payment Entry" />
         </ListItemButton>
@@ -68,7 +68,7 @@ export default function MainListItems() {
       <List component="div" disablePadding>
         <ListItemButton sx={{ pl: 4 }}>
           <ListItemIcon>
-            <StarBorder />
+            <Inventory />
           </ListItemIcon>
           <ListItemText primary="Supplier Ledger" />
         </ListItemButton>
@@ -84,7 +84,7 @@ export default function MainListItems() {
       <List component="div" disablePadding>
         <ListItemButton sx={{ pl: 4 }}>
           <ListItemIcon>
-            <StarBorder />
+            <LocalShipping />
           </ListItemIcon>
           <ListItemText primary="Transport Ledger" />
         </ListItemButton>
