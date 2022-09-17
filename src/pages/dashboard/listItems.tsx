@@ -100,12 +100,14 @@ export default function MainListItems() {
     </ListItem>
     <Collapse in={expandedIndex === 3} timeout="auto" unmountOnExit>
       <List component="div" disablePadding>
-        <ListItemButton sx={{ pl: 4 }}>
-          <ListItemIcon>
-            <StarBorder />
-          </ListItemIcon>
-          <ListItemText primary="Supplier Master" />
-        </ListItemButton>
+        <Link to="suppliermaster">
+          <ListItemButton sx={{ pl: 4 }}>
+            <ListItemIcon>
+              <StarBorder />
+            </ListItemIcon>
+            <ListItemText primary="Supplier Master" />
+          </ListItemButton>
+          </Link>
       </List>
       <List component="div" disablePadding>
         <ListItemButton sx={{ pl: 4 }}>

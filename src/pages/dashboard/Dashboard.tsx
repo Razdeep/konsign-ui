@@ -17,6 +17,7 @@ import BillEntry from '../../pages/entry/billentry/BillEntry';
 import { Logout } from '@mui/icons-material';
 import { useAuth } from '../../util/auth';
 import Container from '@mui/material/Container';
+import SupplierMaster from '../master/SupplierMaster';
 
 function Copyright(props: any) {
   return (
@@ -169,6 +170,9 @@ function DashboardContent() {
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Routes>
               <Route path="billentry" element={<BillEntry/>} />
+            </Routes>
+            <Routes>
+              <Route path="suppliermaster" element={<SupplierMaster/>} />
             </Routes>
           </Container>
           <Copyright />
