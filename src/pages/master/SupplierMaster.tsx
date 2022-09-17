@@ -1,12 +1,13 @@
 import React from 'react';
 import Config from '../../util/config';
 import { useState } from 'react';
-import { Button, Table, TableCell, TableHead, TableRow } from '@mui/material';
+import { Alert, Button, Snackbar, Table, TableCell, TableHead, TableRow } from '@mui/material';
 import { useAuth } from '../../util/auth';
 
 const SupplierMaster: React.FC<React.ReactNode> = () => {
 
     const [errorMessage, setErrorMessage] = useState<String>('')
+    const [errorVisibility, setErrorVisibility] = useState<boolean>(false)
     const [suppliers, setSuppliers] = useState<String[] | null>(null)
     const auth = useAuth();
 
@@ -53,6 +54,12 @@ const SupplierMaster: React.FC<React.ReactNode> = () => {
                     ))
                 }
             </Table>
+            <Snackbar open={errorVisibility} autoHideDuration={6000} onClose={ ()=>setErrorVisibility(false) }
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+                <Alert onClose={()=>setErrorVisibility(false)} severity='error' sx={{ width: '100%' }}>
+                    {errorMessage}
+                </Alert>
+            </Snackbar>
         </>
     )
 
