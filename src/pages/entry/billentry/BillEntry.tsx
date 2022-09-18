@@ -28,8 +28,8 @@ const BillEntry: React.FC<React.ReactNode> = () => {
         pm: ''
     });
     
-    const [successVisibility, setSuccessVisibility] = useState<boolean>(false)
-    const [errorVisibility, setErrorVisibility] = useState<boolean>(false)
+    const [snackbarVisibility, setSnackbarVisibility] = useState<number>(0)
+    const [snackbarMessage, setSnackbarMessage] = useState<string>('')
 
     const addRow = () => {
         let lrpm = new LrPm()
@@ -87,16 +87,29 @@ const BillEntry: React.FC<React.ReactNode> = () => {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + auth?.user?.jwt
             }),
-            body: serializedData
+            body: serializedData,
+            json: true
         };
         const response: Response | void = await fetch(Config.BILL_ENTRY_URL, requestOptions)
                                                     .catch(e => {
                                                         console.log(e);
-                                                        setErrorVisibility(true)
+                                                        setSnackbarMessage('Error while fetching response')
+                                                        setSnackbarVisibility(1)
+                                                        return
                                                     })
         
-        if (response && response.ok) {
-            setSuccessVisibility(true)
+        if (!response) {
+            setSnackbarMessage('No response found')
+            setSnackbarVisibility(1)
+            return
+        }
+
+        if (response.status === 200) {
+            const responseJson = await response.json()
+            const message = responseJson.message;
+            setSnackbarMessage(message)
+            setSnackbarVisibility(2)
+            return
         }
     }
 
@@ -177,16 +190,16 @@ const BillEntry: React.FC<React.ReactNode> = () => {
                     </Grid>
                 </Grid>
             </form>
-            <Snackbar open={successVisibility} autoHideDuration={6000} onClose={ ()=>setSuccessVisibility(false) }
+            <Snackbar open={snackbarVisibility === 2} autoHideDuration={6000} onClose={()=>setSnackbarVisibility(0)}
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} TransitionComponent={TransitionDown}>
-                <Alert onClose={()=>setSuccessVisibility(false)} severity='success' sx={{ width: '100%' }}>
-                    Bill saved successfully!
+                <Alert onClose={()=>setSnackbarVisibility(0)} severity='success' sx={{ width: '100%' }}>
+                    {snackbarMessage}
                 </Alert>
             </Snackbar>
-            <Snackbar open={errorVisibility} autoHideDuration={6000} onClose={ ()=>setErrorVisibility(false) }
+            <Snackbar open={snackbarVisibility === 1} autoHideDuration={6000} onClose={()=>setSnackbarVisibility(0)}
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
-                <Alert onClose={()=>setErrorVisibility(false)} severity='error' sx={{ width: '100%' }}>
-                    ERROR: Bill couldn't be saved
+                <Alert onClose={()=>setSnackbarVisibility(0)} severity='error' sx={{ width: '100%' }}>
+                    {snackbarMessage}
                 </Alert>
             </Snackbar>
         </div>
