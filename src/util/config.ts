@@ -6,6 +6,7 @@ class LocalConfig {
     static BILL_ENTRY_URL = this.BACKEND_BASE_URL + 'billentry';
     static LOGIN_URL = this.BACKEND_BASE_URL + 'authenticate';
     static GET_ALL_SUPPLIERS: string = this.BACKEND_BASE_URL + 'suppliers';
+    static DELETE_SUPPLIER: string = this.BACKEND_BASE_URL + 'supplier';
 };
 
 class DevConfig {
@@ -13,6 +14,7 @@ class DevConfig {
     static BILL_ENTRY_URL = this.BACKEND_BASE_URL + 'billentry';
     static LOGIN_URL = this.BACKEND_BASE_URL + 'authenticate';
     static GET_ALL_SUPPLIERS: string = this.BACKEND_BASE_URL + 'suppliers';
+    static DELETE_SUPPLIER: string = this.BACKEND_BASE_URL + 'supplier';
 };
 
 const Config = active_profile === 'dev' ? DevConfig : LocalConfig;

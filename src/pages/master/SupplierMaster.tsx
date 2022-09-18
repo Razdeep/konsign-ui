@@ -1,27 +1,23 @@
 import React from 'react';
 import Config from '../../util/config';
 import { useState } from 'react';
-import { Alert, Box, Button, FormControl, Snackbar, Table, TableCell, TableHead, TableRow, TextField } from '@mui/material';
+import { Alert, Button, Slide, Snackbar, Table, TableCell, TableHead, TableRow } from '@mui/material';
 import { useAuth } from '../../util/auth';
-import { Add, Refresh } from '@mui/icons-material';
+import { Delete, Refresh } from '@mui/icons-material';
+import Supplier from '../../model/Supplier';
 
 const SupplierMaster: React.FC<React.ReactNode> = () => {
-
-    class Supplier {
-        supplierId: string = '';
-        supplierName: string = '';
-    }
 
     interface Master {
         suppliers: Supplier[];
     }
 
-    const [errorMessage, setErrorMessage] = useState<String>('')
-    const [errorVisibility, setErrorVisibility] = useState<boolean>(false)
+    const [snackbarMessage, setSnackbarMessage] = useState<string>('')
+    const [snackbarVisibility, setSnackbarVisibility] = useState<number>(0)
     const [suppliers, setSuppliers] = useState<Supplier[]>([])
     const auth = useAuth();
 
-    const fetchSupplier = async () => {
+    const syncSuppliers = async () => {
         const requestOptions = {
             method: 'GET',
             headers: new Headers({
@@ -32,12 +28,14 @@ const SupplierMaster: React.FC<React.ReactNode> = () => {
         };
 
         const response = await fetch(Config.GET_ALL_SUPPLIERS, requestOptions).catch(e => {
-            setErrorMessage('Something went wrong while trying to fetch the suppliers')
+            setSnackbarMessage('Something went wrong while trying to fetch the suppliers')
+            setSnackbarVisibility(1)
             return
         })
 
         if (response == null || response?.status !== 200) {
-            setErrorMessage('Something went wrong while trying to fetch the suppliers')
+            setSnackbarMessage('Something went wrong while trying to fetch the suppliers')
+            setSnackbarVisibility(1)
             return
         }
         
@@ -45,40 +43,68 @@ const SupplierMaster: React.FC<React.ReactNode> = () => {
         setSuppliers(master?.suppliers)
     }
 
-    const SupplierMasterInput = () => {
-        return (
-        <FormControl>
-            <TextField name="supplierId" label="Supplier ID" />
-            <TextField name="supplierName" label="Supplier name" />
-            <Button><Add></Add>Add supplier</Button>
-        </FormControl>
-        )
+    const deleteSupplier = async(supplierId: string) => {
+        const requestOptions = {
+            method: 'DELETE',
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + auth?.user?.jwt
+            }),
+            json: true
+        }
+
+        const response = await fetch(Config.DELETE_SUPPLIER + "/" + supplierId, requestOptions).catch(e => {
+            setSnackbarMessage('Something went wrong while trying to delete the suppliers')
+            setSnackbarVisibility(1)
+            return
+        })
+        
+        if (response == null || response?.status !== 200) {
+            setSnackbarMessage('Something went wrong while trying to fetch the suppliers')
+            setSnackbarVisibility(1)
+            return
+        }
+
+        const responseJson = await response.json()
+        setSnackbarMessage(responseJson?.message)
+        setSnackbarVisibility(2)
+    }
+
+    function TransitionDown(props: any) {
+        return <Slide {...props} direction="right" />;
     }
 
     return (
         <>
-            <Box>
-                <SupplierMasterInput></SupplierMasterInput>
-            </Box>
-            <Button onClick={fetchSupplier}><Refresh/>Refresh</Button>
+            <Button onClick={syncSuppliers}><Refresh/>Sync</Button>
             <Table>
                 <TableHead>
-                    <TableCell>Supplier ID</TableCell>
-                    <TableCell>Supplier name</TableCell>
+                    <TableRow>
+                        <TableCell>Supplier ID</TableCell>
+                        <TableCell>Supplier name</TableCell>
+                        <TableCell>Actions</TableCell>
+                    </TableRow>
                 </TableHead>
                 {
                     suppliers?.map((supplier: Supplier) => (
                         <TableRow>
                             <TableCell>{supplier.supplierId}</TableCell>
                             <TableCell>{supplier.supplierName}</TableCell>
+                            <TableCell><Button onClick={()=>{deleteSupplier(supplier.supplierId)}}><Delete></Delete></Button></TableCell>
                         </TableRow>
                     ))
                 }
             </Table>
-            <Snackbar open={errorVisibility} autoHideDuration={6000} onClose={ ()=>setErrorVisibility(false) }
+            <Snackbar open={snackbarVisibility === 2} autoHideDuration={6000} onClose={()=>setSnackbarVisibility(0)}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} TransitionComponent={TransitionDown}>
+                <Alert onClose={()=>setSnackbarVisibility(0)} severity='success' sx={{ width: '100%' }}>
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
+            <Snackbar open={snackbarVisibility === 1} autoHideDuration={6000} onClose={()=>setSnackbarVisibility(0)}
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
-                <Alert onClose={()=>setErrorVisibility(false)} severity='error' sx={{ width: '100%' }}>
-                    {errorMessage}
+                <Alert onClose={()=>setSnackbarVisibility(0)} severity='error' sx={{ width: '100%' }}>
+                    {snackbarMessage}
                 </Alert>
             </Snackbar>
         </>
