@@ -5,6 +5,7 @@ import { Alert, Button, Slide, Snackbar, Table, TableCell, TableHead, TableRow }
 import { useAuth } from '../../util/auth';
 import { Delete, Refresh } from '@mui/icons-material';
 import Supplier from '../../model/Supplier';
+import SupplierMasterInput from './SupplierMasterInput';
 
 const SupplierMaster: React.FC<React.ReactNode> = () => {
 
@@ -76,6 +77,7 @@ const SupplierMaster: React.FC<React.ReactNode> = () => {
 
     return (
         <>
+            <SupplierMasterInput></SupplierMasterInput>
             <Button onClick={syncSuppliers}><Refresh/>Sync</Button>
             <Table>
                 <TableHead>

@@ -7,6 +7,7 @@ class LocalConfig {
     static LOGIN_URL = this.BACKEND_BASE_URL + 'authenticate';
     static GET_ALL_SUPPLIERS: string = this.BACKEND_BASE_URL + 'suppliers';
     static DELETE_SUPPLIER: string = this.BACKEND_BASE_URL + 'supplier';
+    static ADD_SUPPLIER: string = this.BACKEND_BASE_URL + 'addSupplier';
 };
 
 class DevConfig {
@@ -15,6 +16,7 @@ class DevConfig {
     static LOGIN_URL = this.BACKEND_BASE_URL + 'authenticate';
     static GET_ALL_SUPPLIERS: string = this.BACKEND_BASE_URL + 'suppliers';
     static DELETE_SUPPLIER: string = this.BACKEND_BASE_URL + 'supplier';
+    static ADD_SUPPLIER: string = this.BACKEND_BASE_URL + 'addSupplier';
 };
 
 const Config = active_profile === 'dev' ? DevConfig : LocalConfig;
