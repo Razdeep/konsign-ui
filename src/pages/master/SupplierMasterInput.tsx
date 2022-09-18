@@ -17,15 +17,13 @@ const SupplierMasterInput: React.FC<React.ReactNode> = () => {
     const [snackbarMessage, setSnackbarMessage] = useState<string>('')
     const [snackbarVisibility, setSnackbarVisibility] = useState<number>(0)
 
-    const handleSupplierMasterInputChange = (e: any) => {
+    const handleSupplierMasterInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         e.preventDefault();
         setSupplier({ ...supplier, [e.target.name]: e.target.value })
     }
 
     const addSupplier = async () => {
-        // hack to resolve circular json dependency; TODO find the root cause
-        const newSupplier = {supplierId: supplier.supplierId, supplierName: supplier.supplierName}
-        const serializedData = JSON.stringify(newSupplier);
+        const serializedData = JSON.stringify(supplier);
         const requestOptions = {
             method: 'POST',
             headers: new Headers({
@@ -49,23 +47,23 @@ const SupplierMasterInput: React.FC<React.ReactNode> = () => {
     }
 
     return <>
-        <form>
+        <FormControl>
             <TextField value={supplier.supplierId} type="text" name="supplierId" label="Supplier ID" size="small" onChange={handleSupplierMasterInputChange}></TextField>
             <TextField value={supplier.supplierName} type="text" name="supplierName" label="Supplier Name" size="small" onChange={handleSupplierMasterInputChange}></TextField>
-        </form>
+        </FormControl>
         <Button onClick={addSupplier}><Add></Add>Add Supplier</Button>
         <Snackbar open={snackbarVisibility === 2} autoHideDuration={6000} onClose={()=>setSnackbarVisibility(0)}
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
-                <Alert onClose={()=>setSnackbarVisibility(0)} severity='success' sx={{ width: '100%' }}>
-                    {snackbarMessage}
-                </Alert>
-            </Snackbar>
-            <Snackbar open={snackbarVisibility === 1} autoHideDuration={6000} onClose={()=>setSnackbarVisibility(0)}
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
-                <Alert onClose={()=>setSnackbarVisibility(0)} severity='error' sx={{ width: '100%' }}>
-                    {snackbarMessage}
-                </Alert>
-            </Snackbar>
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+            <Alert onClose={()=>setSnackbarVisibility(0)} severity='success' sx={{ width: '100%' }}>
+                {snackbarMessage}
+            </Alert>
+        </Snackbar>
+        <Snackbar open={snackbarVisibility === 1} autoHideDuration={6000} onClose={()=>setSnackbarVisibility(0)}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+            <Alert onClose={()=>setSnackbarVisibility(0)} severity='error' sx={{ width: '100%' }}>
+                {snackbarMessage}
+            </Alert>
+        </Snackbar>
     </>
 }
 
