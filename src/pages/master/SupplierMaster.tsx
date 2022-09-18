@@ -1,9 +1,9 @@
 import React from 'react';
 import Config from '../../util/config';
 import { useState } from 'react';
-import { Alert, Button, Snackbar, Table, TableCell, TableHead, TableRow } from '@mui/material';
+import { Alert, Box, Button, FormControl, Snackbar, Table, TableCell, TableHead, TableRow, TextField } from '@mui/material';
 import { useAuth } from '../../util/auth';
-import { Refresh } from '@mui/icons-material';
+import { Add, Refresh } from '@mui/icons-material';
 
 const SupplierMaster: React.FC<React.ReactNode> = () => {
 
@@ -45,8 +45,21 @@ const SupplierMaster: React.FC<React.ReactNode> = () => {
         setSuppliers(master?.suppliers)
     }
 
+    const SupplierMasterInput = () => {
+        return (
+        <FormControl>
+            <TextField name="supplierId" label="Supplier ID" />
+            <TextField name="supplierName" label="Supplier name" />
+            <Button><Add></Add>Add supplier</Button>
+        </FormControl>
+        )
+    }
+
     return (
         <>
+            <Box>
+                <SupplierMasterInput></SupplierMasterInput>
+            </Box>
             <Button onClick={fetchSupplier}><Refresh/>Refresh</Button>
             <Table>
                 <TableHead>
