@@ -4,7 +4,7 @@ import LrPm from '../../../model/LrPm';
 import React, { ChangeEvent, useState, useEffect } from 'react'
 import Bill from '../../../model/Bill';
 import Config from '../../../util/config';
-import { useAuth } from '../../../util/auth';
+import { useAuth } from '../../../context/AuthProvider';
 
 const BillEntry: React.FC<React.ReactNode> = () => {
 

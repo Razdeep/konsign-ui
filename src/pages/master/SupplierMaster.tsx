@@ -2,7 +2,7 @@ import React from 'react';
 import Config from '../../util/config';
 import { useState } from 'react';
 import { Alert, Button, Slide, Snackbar, Table, TableCell, TableHead, TableRow } from '@mui/material';
-import { useAuth } from '../../util/auth';
+import { useAuth } from '../../context/AuthProvider';
 import { Delete, Refresh } from '@mui/icons-material';
 import Supplier from '../../model/Supplier';
 import SupplierMasterInput from './SupplierMasterInput';

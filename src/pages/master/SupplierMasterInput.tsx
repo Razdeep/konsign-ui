@@ -2,7 +2,7 @@ import { Add } from "@mui/icons-material"
 import { Alert, Button, FormControl, Snackbar, TextField } from "@mui/material"
 import { ChangeEvent, useState } from "react"
 import Supplier from "../../model/Supplier"
-import { useAuth } from "../../util/auth"
+import { useAuth } from "../../context/AuthProvider"
 import Config from "../../util/config"
 import React from 'react';
 

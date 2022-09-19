@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from 'react'
 import Config from '../../util/config';
-import { useAuth } from '../../util/auth';
+import { useAuth } from '../../context/AuthProvider';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import React from 'react';

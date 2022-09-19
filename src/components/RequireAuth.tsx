@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from 'react';
-import { useAuth } from '../util/auth';
+import { useAuth } from '../context/AuthProvider';
 import { Navigate } from 'react-router-dom';
 
 const RequireAuth: FC<ReactNode> = ({ children }) => {
