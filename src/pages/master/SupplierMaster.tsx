@@ -6,12 +6,9 @@ import { useAuth } from '../../context/AuthProvider';
 import { Delete, Refresh } from '@mui/icons-material';
 import Supplier from '../../model/Supplier';
 import SupplierMasterInput from './SupplierMasterInput';
+import { fetchAllSuppliersFromApi } from '../../services/SupplierServices';
 
 const SupplierMaster: React.FC<React.ReactNode> = () => {
-
-    interface Master {
-        suppliers: Supplier[];
-    }
 
     const [snackbarMessage, setSnackbarMessage] = useState<string>('')
     const [snackbarVisibility, setSnackbarVisibility] = useState<number>(0)
@@ -19,29 +16,15 @@ const SupplierMaster: React.FC<React.ReactNode> = () => {
     const auth = useAuth();
 
     const syncSuppliers = async () => {
-        const requestOptions = {
-            method: 'GET',
-            headers: new Headers({
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + auth?.user?.jwt
-            }),
-            json: true
-        };
+        const fetchedSuppliers = await fetchAllSuppliersFromApi(auth)
 
-        const response = await fetch(Config.GET_ALL_SUPPLIERS, requestOptions).catch(e => {
-            setSnackbarMessage('Something went wrong while trying to fetch the suppliers')
-            setSnackbarVisibility(1)
-            return
-        })
-
-        if (response == null || response?.status !== 200) {
+        if (fetchedSuppliers === null) {
             setSnackbarMessage('Something went wrong while trying to fetch the suppliers')
             setSnackbarVisibility(1)
             return
         }
-        
-        const master: Master = JSON.parse(await response?.text())
-        setSuppliers(master?.suppliers)
+
+        setSuppliers(fetchedSuppliers)
     }
 
     const deleteSupplier = async(supplierId: string) => {
