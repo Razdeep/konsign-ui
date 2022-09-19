@@ -1,10 +1,11 @@
 import { Add, Delete, Done, Edit, Save } from '@mui/icons-material';
-import { Alert, Button, Grid, Paper, Slide, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material'
+import { Alert, Autocomplete, Button, Grid, Paper, Slide, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material'
 import LrPm from '../../../model/LrPm';
 import React, { ChangeEvent, useState, useEffect } from 'react'
 import Bill from '../../../model/Bill';
 import Config from '../../../util/config';
 import { useAuth } from '../../../context/AuthProvider';
+import { fetchAllSuppliersFromApi } from '../../../services/SupplierServices';
 
 const BillEntry: React.FC<React.ReactNode> = () => {
 
@@ -119,7 +120,23 @@ const BillEntry: React.FC<React.ReactNode> = () => {
 
     useEffect(() => {
         console.log(currentLrPm);
-    }, [currentLrPm]);
+        const fetchedSuppliersWrapperFunc = async () => {
+            return await fetchAllSuppliersFromApi(auth)
+        }
+        const fetchedSuppliers = fetchedSuppliersWrapperFunc()
+        if (fetchedSuppliers === null) {
+            return
+        }
+        fetchedSuppliers.then(a => {
+            // setSuppliers(a == null ? [] : a
+            if (a == null) return
+            const suppliernames = a.map(aa => aa.supplierName)
+            setSuppliers(suppliernames)
+        })
+        
+    }, [currentLrPm, auth]);
+
+    const [suppliers, setSuppliers] = useState<String[]>([])
 
     return (
         <div>
@@ -127,7 +144,14 @@ const BillEntry: React.FC<React.ReactNode> = () => {
             <form>
                 <Grid container spacing={3}>
                     <Grid item md={6}>
-                        <TextField name="supplierName" label="Supplier Name" size="small" onChange={handleBillChange} fullWidth></TextField>
+                        {/* <TextField name="supplierName" label="Supplier Name" size="small" onChange={handleBillChange} fullWidth></TextField> */}
+                        <Autocomplete
+                            disablePortal
+                            id="combo-box-demo"
+                            options={suppliers}
+                            sx={{ width: 300 }}
+                            renderInput={(params) => <TextField {...params} name="supplierName" label="Supplier name" onChange={handleBillChange}/>}
+                        />
                     </Grid>
                     <Grid item md={6}>
                         <TextField name="buyerName" label="Buyer Name" size="small" onChange={handleBillChange} fullWidth></TextField>
