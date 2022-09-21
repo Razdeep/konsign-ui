@@ -110,12 +110,14 @@ export default function MainListItems() {
           </Link>
       </List>
       <List component="div" disablePadding>
-        <ListItemButton sx={{ pl: 4 }}>
-          <ListItemIcon>
-            <ShoppingCartIcon />
-          </ListItemIcon>
-          <ListItemText primary="Buyer Master" />
-        </ListItemButton>
+        <Link to="buyermaster">
+          <ListItemButton sx={{ pl: 4 }}>
+            <ListItemIcon>
+              <ShoppingCartIcon />
+            </ListItemIcon>
+            <ListItemText primary="Buyer Master" />
+          </ListItemButton>
+        </Link>
       </List>
       <List component="div" disablePadding>
         <ListItemButton sx={{ pl: 4 }}>

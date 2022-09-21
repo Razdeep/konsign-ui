@@ -5,6 +5,9 @@ class Config {
     static GET_ALL_SUPPLIERS: string = this.BACKEND_BASE_URL + 'suppliers';
     static DELETE_SUPPLIER: string = this.BACKEND_BASE_URL + 'supplier';
     static ADD_SUPPLIER: string = this.BACKEND_BASE_URL + 'addSupplier';
+    static GET_ALL_BUYERS: string = `${this.BACKEND_BASE_URL}buyers`;
+    static ADD_BUYER: string = `${this.BACKEND_BASE_URL}addBuyer`;
+    static DELETE_BUYER: string = `${this.BACKEND_BASE_URL}buyer`;
 };
 
 export default Config;

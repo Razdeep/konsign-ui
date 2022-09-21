@@ -18,6 +18,7 @@ import { Logout } from '@mui/icons-material';
 import { useAuth } from '../../context/AuthProvider';
 import Container from '@mui/material/Container';
 import SupplierMaster from '../master/SupplierMaster';
+import BuyerMaster from '../master/BuyerMaster';
 
 function Copyright(props: any) {
   return (
@@ -173,6 +174,9 @@ function DashboardContent() {
             </Routes>
             <Routes>
               <Route path="suppliermaster" element={<SupplierMaster/>} />
+            </Routes>
+            <Routes>
+            <Route path="buyermaster" element={<BuyerMaster/>} />
             </Routes>
           </Container>
           <Copyright />
