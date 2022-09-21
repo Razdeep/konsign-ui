@@ -75,6 +75,11 @@ const BillEntry: React.FC<React.ReactNode> = () => {
         setBill({ ...bill, [e.target.name]: e.target.value });
     }
 
+    const handleSupplierNameChange = (event: React.SyntheticEvent<Element, Event>, newValue: any) => {
+        event.preventDefault()
+        setBill({...bill, supplierName: newValue})
+    }
+
     const handleLrPmChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         e.preventDefault();
         setCurrentLrPm({...currentLrPm, [e.target.name]: e.target.value});
@@ -150,7 +155,9 @@ const BillEntry: React.FC<React.ReactNode> = () => {
                             id="combo-box-demo"
                             options={suppliers}
                             sx={{ width: 300 }}
-                            renderInput={(params) => <TextField {...params} name="supplierName" label="Supplier name" onChange={handleBillChange}/>}
+                            value={bill.supplierName}
+                            onChange={handleSupplierNameChange}
+                            renderInput={(params) => <TextField {...params} name="supplierName" label="Supplier name" />}
                         />
                     </Grid>
                     <Grid item md={6}>
