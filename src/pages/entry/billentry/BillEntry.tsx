@@ -91,7 +91,7 @@ const BillEntry: React.FC<React.ReactNode> = () => {
             method: 'POST',
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + auth?.user?.jwt
+                'Authorization': `Bearer ${auth?.user?.jwt}`
             }),
             body: serializedData,
             json: true

@@ -31,12 +31,12 @@ const BuyerMaster: React.FC<React.ReactNode> = () => {
             method: 'DELETE',
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + auth?.user?.jwt
+                'Authorization': `Bearer ${auth?.user?.jwt}`
             }),
             json: true
         }
 
-        const response = await fetch(`${Config.DELETE_BUYER}/{buyerId}`, requestOptions).catch(e => {
+        const response = await fetch(`${Config.DELETE_BUYER}/${buyerId}`, requestOptions).catch(e => {
             setSnackbarMessage('Something went wrong while trying to delete the buyer')
             setSnackbarVisibility(1)
             return
