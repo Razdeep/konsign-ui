@@ -1,12 +1,11 @@
-import React from 'react';
-import Config from '../../util/config';
-import { useState } from 'react';
-import { Alert, Button, Slide, Snackbar, Table, TableCell, TableHead, TableRow } from '@mui/material';
-import { useAuth } from '../../context/AuthProvider';
 import { Delete, Refresh } from '@mui/icons-material';
+import { Alert, Button, Slide, Snackbar, Table, TableCell, TableHead, TableRow } from '@mui/material';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useAuth } from '../../context/AuthProvider';
 import Supplier from '../../model/Supplier';
-import SupplierMasterInput from './SupplierMasterInput';
 import { fetchAllSuppliersFromApi } from '../../services/SupplierServices';
+import Config from '../../util/config';
+import SupplierMasterInput from './SupplierMasterInput';
 
 const SupplierMaster: React.FC<React.ReactNode> = () => {
 
@@ -15,7 +14,7 @@ const SupplierMaster: React.FC<React.ReactNode> = () => {
     const [suppliers, setSuppliers] = useState<Supplier[]>([])
     const auth = useAuth();
 
-    const syncSuppliers = async () => {
+    const syncSuppliers = useCallback(async () => {
         const fetchedSuppliers = await fetchAllSuppliersFromApi(auth)
 
         if (fetchedSuppliers === null) {
@@ -25,7 +24,7 @@ const SupplierMaster: React.FC<React.ReactNode> = () => {
         }
 
         setSuppliers(fetchedSuppliers)
-    }
+    }, [auth])
 
     const deleteSupplier = async(supplierId: string) => {
         const requestOptions = {
@@ -57,6 +56,12 @@ const SupplierMaster: React.FC<React.ReactNode> = () => {
     function TransitionDown(props: any) {
         return <Slide {...props} direction="right" />;
     }
+
+    useEffect(() => {
+        (async () => {
+            await syncSuppliers()
+        })()
+    }, [syncSuppliers])
 
     return (
         <>
