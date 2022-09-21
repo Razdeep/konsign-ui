@@ -6,6 +6,7 @@ import Bill from '../../../model/Bill';
 import Config from '../../../util/config';
 import { useAuth } from '../../../context/AuthProvider';
 import { fetchAllSuppliersFromApi } from '../../../services/SupplierServices';
+import { fetchAllBuyersFromApi } from '../../../services/BuyerServices';
 
 const BillEntry: React.FC<React.ReactNode> = () => {
 
@@ -80,6 +81,11 @@ const BillEntry: React.FC<React.ReactNode> = () => {
         setBill({...bill, supplierName: newValue})
     }
 
+    const handleBuyerNameChange = (event: React.SyntheticEvent<Element, Event>, newValue: any) => {
+        event.preventDefault()
+        setBill({...bill, buyerName: newValue})
+    }
+
     const handleLrPmChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         e.preventDefault();
         setCurrentLrPm({...currentLrPm, [e.target.name]: e.target.value});
@@ -125,23 +131,37 @@ const BillEntry: React.FC<React.ReactNode> = () => {
 
     useEffect(() => {
         console.log(currentLrPm);
-        const fetchedSuppliersWrapperFunc = async () => {
+        const fetchSuppliersWrapperFunc = async () => {
             return await fetchAllSuppliersFromApi(auth)
         }
-        const fetchedSuppliers = fetchedSuppliersWrapperFunc()
-        if (fetchedSuppliers === null) {
+        const fetchedSuppliersPromise = fetchSuppliersWrapperFunc()
+        if (fetchedSuppliersPromise === null) {
             return
         }
-        fetchedSuppliers.then(a => {
-            // setSuppliers(a == null ? [] : a
-            if (a == null) return
-            const suppliernames = a.map(aa => aa.supplierName)
+        fetchedSuppliersPromise.then(fetchedSuppliers => {
+            if (fetchedSuppliers == null) return
+            const suppliernames = fetchedSuppliers.map(fetchedSupplier => fetchedSupplier.supplierName)
             setSuppliers(suppliernames)
+        })
+
+        const fetchBuyersWrapperFunc = async () => {
+            return await fetchAllBuyersFromApi(auth)
+        }
+
+        const fetchedBuyersPromise = fetchBuyersWrapperFunc()
+        if (fetchedBuyersPromise === null) {
+            return
+        }
+        fetchedBuyersPromise.then(fetchedBuyers => {
+            if (fetchedBuyers == null) return
+            const buyernames = fetchedBuyers.map(fetchedBuyer => fetchedBuyer.buyerName)
+            setBuyers(buyernames)
         })
         
     }, [currentLrPm, auth]);
 
     const [suppliers, setSuppliers] = useState<String[]>([])
+    const [buyers, setBuyers] = useState<String[]>([])
 
     return (
         <div>
@@ -149,10 +169,9 @@ const BillEntry: React.FC<React.ReactNode> = () => {
             <form>
                 <Grid container spacing={3}>
                     <Grid item md={6}>
-                        {/* <TextField name="supplierName" label="Supplier Name" size="small" onChange={handleBillChange} fullWidth></TextField> */}
                         <Autocomplete
                             disablePortal
-                            id="combo-box-demo"
+                            id="supplierNameAutocomplete"
                             options={suppliers}
                             sx={{ width: 300 }}
                             value={bill.supplierName}
@@ -161,7 +180,15 @@ const BillEntry: React.FC<React.ReactNode> = () => {
                         />
                     </Grid>
                     <Grid item md={6}>
-                        <TextField name="buyerName" label="Buyer Name" size="small" onChange={handleBillChange} fullWidth></TextField>
+                    <Autocomplete
+                            disablePortal
+                            id="buyerrNameAutocomplete"
+                            options={buyers}
+                            sx={{ width: 300 }}
+                            value={bill.buyerName}
+                            onChange={handleBuyerNameChange}
+                            renderInput={(params) => <TextField {...params} name="buyerName" label="Buyer name" />}
+                        />
                     </Grid>
                     <Grid item md={6}>
                         <TextField name="billNo" label="Bill Number" size="small" onChange={handleBillChange} fullWidth></TextField>
