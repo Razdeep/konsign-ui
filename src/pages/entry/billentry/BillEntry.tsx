@@ -19,7 +19,7 @@ const BillEntry: React.FC<React.ReactNode> = () => {
         billDate: (new Date()).toISOString().substring(0, 10),
         transport: '',
         lrDate: (new Date()).toISOString().substring(0, 10),
-        lrPm: [],
+        lrPmList: [],
         billAmount: 0
     });
 
@@ -42,7 +42,7 @@ const BillEntry: React.FC<React.ReactNode> = () => {
         let newLrPmList = lrPmList.filter((x, j) => j !== i);
         setLrPmList([]);
         setLrPmList(newLrPmList);
-        bill.lrPm = lrPmList;
+        bill.lrPmList = lrPmList;
         setBill(bill);
     }
 
@@ -56,7 +56,7 @@ const BillEntry: React.FC<React.ReactNode> = () => {
             return x;
         })
         setLrPmList(lrPmList);
-        bill.lrPm = lrPmList;
+        bill.lrPmList = lrPmList;
         setBill(bill);
     }
 

@@ -7,7 +7,7 @@ class Bill {
     billDate: String = '';
     transport: String = '';
     lrDate: String = '';
-    lrPm: LrPm[] = [];
+    lrPmList: LrPm[] = [];
     billAmount: number = 0;
 }
 
