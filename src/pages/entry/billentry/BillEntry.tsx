@@ -1,4 +1,4 @@
-import { Add, Delete, Done, Edit, Save } from '@mui/icons-material';
+import { Add, Clear, Delete, Done, Edit, Save } from '@mui/icons-material';
 import { Alert, Autocomplete, Button, Grid, Paper, Slide, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material'
 import LrPm from '../../../model/LrPm';
 import React, { ChangeEvent, useState, useEffect } from 'react'
@@ -67,13 +67,51 @@ const BillEntry: React.FC<React.ReactNode> = () => {
         setCurrentLrPm(currentLrPm);
     }
 
-    const handleBillChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleBillChange = async (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         e.preventDefault();
         if (e.target.name === 'billAmount') {
             setBill({ ...bill, [e.target.name]: parseInt(e.target.value) });
             return
         }
         setBill({ ...bill, [e.target.name]: e.target.value });
+
+        if (e.target.name === 'billNo') {
+            await getBill(e.target.value)
+        }
+    }
+
+    const getBill = async (billNo: String) => {
+        const requestOptions = {
+            method: 'GET',
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${auth?.user?.jwt}`
+            }),
+            json: true
+        };
+
+        const response: Response | void = await fetch(`${Config.GET_BILL_URL}?billNo=${billNo}`, requestOptions)
+                                                    .catch(e => {
+                                                        console.log(e);
+                                                        setSnackbarMessage('Error while fetching bill')
+                                                        setSnackbarVisibility(1)
+                                                        return
+                                                    })
+        
+        if (!response) {
+            setSnackbarMessage('Getting bill failed')
+            setSnackbarVisibility(1)
+            return
+        }
+
+        if (response.status === 200) {
+            const responseJson: Bill = await response.json()
+            setBill(responseJson)
+            const message = `Autofilled values for ${billNo} as it already exists in database`;
+            setSnackbarMessage(message)
+            setSnackbarVisibility(2)
+            return
+        }
     }
 
     const handleSupplierNameChange = (event: React.SyntheticEvent<Element, Event>, newValue: any) => {
@@ -125,6 +163,19 @@ const BillEntry: React.FC<React.ReactNode> = () => {
         }
     }
 
+    const clearBill = () => {
+        setBill({
+            supplierName: '',
+            buyerName: '',
+            billNo: '',
+            billDate: (new Date()).toISOString().substring(0, 10),
+            transport: '',
+            lrDate: (new Date()).toISOString().substring(0, 10),
+            lrPmList: [],
+            billAmount: 0
+        })
+    }
+
     function TransitionDown(props: any) {
         return <Slide {...props} direction="right" />;
     }
@@ -169,6 +220,12 @@ const BillEntry: React.FC<React.ReactNode> = () => {
             <form>
                 <Grid container spacing={3}>
                     <Grid item md={6}>
+                        <TextField name="billNo" label="Bill Number" size="small" value={bill.billNo} onChange={handleBillChange} fullWidth></TextField>
+                    </Grid>
+                    <Grid item lg={6}>
+                        <TextField name="billDate" type="date" defaultValue={(new Date()).toISOString().substring(0, 10)} label="Bill Date" size="small" onChange={handleBillChange} fullWidth></TextField>
+                    </Grid>
+                    <Grid item md={6}>
                         <Autocomplete
                             disablePortal
                             id="supplierNameAutocomplete"
@@ -190,17 +247,11 @@ const BillEntry: React.FC<React.ReactNode> = () => {
                             renderInput={(params) => <TextField {...params} name="buyerName" label="Buyer name" />}
                         />
                     </Grid>
-                    <Grid item md={6}>
-                        <TextField name="billNo" label="Bill Number" size="small" onChange={handleBillChange} fullWidth></TextField>
+                    <Grid item lg={6}>
+                        <TextField name="transport" label="Transport" size="small" value={bill.transport} onChange={handleBillChange} fullWidth></TextField>
                     </Grid>
                     <Grid item lg={6}>
-                        <TextField name="billDate" type="date" defaultValue={(new Date()).toISOString().substring(0, 10)} label="Bill Date" size="small" onChange={handleBillChange} fullWidth></TextField>
-                    </Grid>
-                    <Grid item lg={6}>
-                        <TextField name="transport" label="Transport" size="small" onChange={handleBillChange} fullWidth></TextField>
-                    </Grid>
-                    <Grid item lg={6}>
-                        <TextField name="lrDate" type="date" onChange={handleBillChange} defaultValue={(new Date()).toISOString().substring(0, 10)} label="LR Date" size="small" fullWidth></TextField>
+                        <TextField name="lrDate" type="date" value={bill.lrDate} onChange={handleBillChange} defaultValue={(new Date()).toISOString().substring(0, 10)} label="LR Date" size="small" fullWidth></TextField>
                     </Grid>
                     <Grid item lg={12}>
                         {/* <TextField type="date" label="LR Date" size="small" fullWidth></TextField> */}
@@ -235,15 +286,27 @@ const BillEntry: React.FC<React.ReactNode> = () => {
                         </TableContainer>
                     </Grid>
                     <Grid item lg={4}>
-                        <TextField name="billAmount" type="number" label="Amount" onChange={handleBillChange} size="small"></TextField>
+                        <TextField name="billAmount" type="number" label="Amount" value={bill.billAmount} onChange={handleBillChange} size="small"></TextField>
                     </Grid>
                     <Grid item lg={2}>
                         <Button onClick={addRow}><Add></Add>Add row</Button>
                     </Grid>
-                    <Grid item lg={6}>
+                    <Grid item lg={2}>
+                        <Button onClick={clearBill} variant="contained" type="button" fullWidth>
+                            <Clear></Clear>
+                            Clear
+                        </Button>
+                    </Grid>
+                    <Grid item lg={2}>
                         <Button onClick={submitBill} variant="contained" className="bg-yellow-600" type="button" fullWidth>
                             <Save></Save>
                             Save
+                        </Button>
+                    </Grid>
+                    <Grid item lg={2}>
+                        <Button onClick={() => {}} variant="contained" className="bg-yellow-600" type="button" fullWidth>
+                            <Delete></Delete>
+                            Delete
                         </Button>
                     </Grid>
                 </Grid>
