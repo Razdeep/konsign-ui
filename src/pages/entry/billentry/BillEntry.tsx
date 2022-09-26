@@ -7,6 +7,7 @@ import Config from '../../../util/config';
 import { useAuth } from '../../../context/AuthProvider';
 import { fetchAllSuppliersFromApi } from '../../../services/SupplierServices';
 import { fetchAllBuyersFromApi } from '../../../services/BuyerServices';
+import { fetchAllTransportsFromApi } from '../../../services/TransportServices';
 
 const BillEntry: React.FC<React.ReactNode> = () => {
 
@@ -17,7 +18,7 @@ const BillEntry: React.FC<React.ReactNode> = () => {
         buyerName: '',
         billNo: '',
         billDate: (new Date()).toISOString().substring(0, 10),
-        transport: '',
+        transportName: '',
         lrDate: (new Date()).toISOString().substring(0, 10),
         lrPmList: [],
         billAmount: 0
@@ -124,6 +125,11 @@ const BillEntry: React.FC<React.ReactNode> = () => {
         setBill({...bill, buyerName: newValue})
     }
 
+    const handleTransportNameChange = (event: React.SyntheticEvent<Element, Event>, newValue: any) => {
+        event.preventDefault()
+        setBill({...bill, transportName: newValue})
+    }
+
     const handleLrPmChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         e.preventDefault();
         setCurrentLrPm({...currentLrPm, [e.target.name]: e.target.value});
@@ -169,7 +175,7 @@ const BillEntry: React.FC<React.ReactNode> = () => {
             buyerName: '',
             billNo: '',
             billDate: (new Date()).toISOString().substring(0, 10),
-            transport: '',
+            transportName: '',
             lrDate: (new Date()).toISOString().substring(0, 10),
             lrPmList: [],
             billAmount: 0
@@ -208,11 +214,26 @@ const BillEntry: React.FC<React.ReactNode> = () => {
             const buyernames = fetchedBuyers.map(fetchedBuyer => fetchedBuyer.buyerName)
             setBuyers(buyernames)
         })
+
+        const fetchTransportsWrapperFunc = async () => {
+            return await fetchAllTransportsFromApi(auth)
+        }
+
+        const fetchedTransportsPromise = fetchTransportsWrapperFunc()
+        if (fetchedTransportsPromise === null) {
+            return
+        }
+        fetchedTransportsPromise.then(fetchedTransports => {
+            if (fetchedTransports == null) return
+            const transportNames = fetchedTransports.map(fetchedTransport => fetchedTransport.transportName)
+            setTransports(transportNames)
+        })
         
     }, [currentLrPm, auth]);
 
     const [suppliers, setSuppliers] = useState<String[]>([])
     const [buyers, setBuyers] = useState<String[]>([])
+    const [transports, setTransports] = useState<String[]>([])
 
     return (
         <div>
@@ -237,9 +258,9 @@ const BillEntry: React.FC<React.ReactNode> = () => {
                         />
                     </Grid>
                     <Grid item md={6}>
-                    <Autocomplete
+                        <Autocomplete
                             disablePortal
-                            id="buyerrNameAutocomplete"
+                            id="buyerNameAutocomplete"
                             options={buyers}
                             sx={{ width: 300 }}
                             value={bill.buyerName}
@@ -248,13 +269,18 @@ const BillEntry: React.FC<React.ReactNode> = () => {
                         />
                     </Grid>
                     <Grid item lg={6}>
-                        <TextField name="transport" label="Transport" size="small" value={bill.transport} onChange={handleBillChange} fullWidth></TextField>
+                        <Autocomplete
+                            disablePortal
+                            id="transportNameAutocomplete"
+                            options={transports}
+                            sx={{ width: 300 }}
+                            value={bill.transportName}
+                            onChange={handleTransportNameChange}
+                            renderInput={(params) => <TextField {...params} name="transportName" label="Transport name" />}
+                        />
                     </Grid>
                     <Grid item lg={6}>
                         <TextField name="lrDate" type="date" value={bill.lrDate} onChange={handleBillChange} defaultValue={(new Date()).toISOString().substring(0, 10)} label="LR Date" size="small" fullWidth></TextField>
-                    </Grid>
-                    <Grid item lg={12}>
-                        {/* <TextField type="date" label="LR Date" size="small" fullWidth></TextField> */}
                     </Grid>
                     <Grid item lg={12}>
                         <TableContainer component={Paper}>

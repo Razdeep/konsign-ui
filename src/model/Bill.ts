@@ -5,7 +5,7 @@ class Bill {
     buyerName: String = '';
     billNo: String = '';
     billDate: String = '';
-    transport: String = '';
+    transportName: String = '';
     lrDate: String = '';
     lrPmList: LrPm[] = [];
     billAmount: number = 0;

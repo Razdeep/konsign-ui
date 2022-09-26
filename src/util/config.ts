@@ -10,6 +10,9 @@ class Config {
     static GET_ALL_BUYERS: string = `${this.BACKEND_BASE_URL}/buyers`;
     static ADD_BUYER: string = `${this.BACKEND_BASE_URL}/addBuyer`;
     static DELETE_BUYER: string = `${this.BACKEND_BASE_URL}/buyer`;
+    static GET_ALL_TRANSPORTS: string = `${this.BACKEND_BASE_URL}/transports`;
+    static ADD_TRANSPORT: string = `${this.BACKEND_BASE_URL}/transport`;
+    static DELETE_TRANSPORT: string = `${this.BACKEND_BASE_URL}/tranport`;
 };
 
 export default Config;
