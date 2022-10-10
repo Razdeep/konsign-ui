@@ -19,6 +19,7 @@ import { useAuth } from '../../context/AuthProvider';
 import Container from '@mui/material/Container';
 import SupplierMaster from '../master/SupplierMaster';
 import BuyerMaster from '../master/BuyerMaster';
+import TransportMaster from '../master/TransportMaster';
 
 function Copyright(props: any) {
   return (
@@ -170,13 +171,16 @@ function DashboardContent() {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Routes>
-              <Route path="billentry" element={<BillEntry/>} />
+              <Route path="billentry" element={<BillEntry />} />
             </Routes>
             <Routes>
-              <Route path="suppliermaster" element={<SupplierMaster/>} />
+              <Route path="suppliermaster" element={<SupplierMaster />} />
             </Routes>
             <Routes>
-            <Route path="buyermaster" element={<BuyerMaster/>} />
+              <Route path="buyermaster" element={<BuyerMaster />} />
+            </Routes>
+            <Routes>
+              <Route path="transportmaster" element={<TransportMaster />} />
             </Routes>
           </Container>
           <Copyright />
