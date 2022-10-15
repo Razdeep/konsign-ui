@@ -41,12 +41,14 @@ export default function MainListItems() {
         </Link>
       </List>
       <List component="div" disablePadding>
-        <ListItemButton sx={{ pl: 4 }}>
-          <ListItemIcon>
-            <PlaylistAddCheckCircle />
-          </ListItemIcon>
-          <ListItemText primary="Collection Entry" />
-        </ListItemButton>
+        <Link to="collectionentry">
+          <ListItemButton sx={{ pl: 4 }}>
+            <ListItemIcon>
+              <PlaylistAddCheckCircle />
+            </ListItemIcon>
+            <ListItemText primary="Collection Entry" />
+          </ListItemButton>
+        </Link>
       </List>
       <List component="div" disablePadding>
         <ListItemButton sx={{ pl: 4 }}>

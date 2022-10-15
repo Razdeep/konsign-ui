@@ -20,6 +20,7 @@ import Container from '@mui/material/Container';
 import SupplierMaster from '../master/SupplierMaster';
 import BuyerMaster from '../master/BuyerMaster';
 import TransportMaster from '../master/TransportMaster';
+import CollectionEntry from '../entry/collectionentry/CollectionEntry';
 
 function Copyright(props: any) {
   return (
@@ -181,6 +182,9 @@ function DashboardContent() {
             </Routes>
             <Routes>
               <Route path="transportmaster" element={<TransportMaster />} />
+            </Routes>
+            <Routes>
+              <Route path="collectionentry" element={<CollectionEntry />} />
             </Routes>
           </Container>
           <Copyright />
