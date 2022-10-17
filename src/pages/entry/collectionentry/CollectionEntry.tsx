@@ -21,14 +21,15 @@ const CollectionEntry: React.FC<React.ReactNode> = () => {
         buyerName: ''
     })
 
-    // const [pendingBillNumbers, setPendingBillNumbers] = useState<String[]>()
+    const [pendingBillNumbers, setPendingBillNumbers] = useState<string[]>()
 
-    const handleBuyerNameChange = (event: React.SyntheticEvent<Element, Event>, newValue: any) => {
+    const handleBuyerNameChange = async (event: React.SyntheticEvent<Element, Event>, newValue: any) => {
         event.preventDefault()
         setCollectionVoucher({...collectionVoucher, buyerName: newValue})
-        // @TODO
-        fetchAllPendingBillNumbersFromApi(auth)
-
+        let fetchedPendingBillNumbers: string[] | null = await fetchAllPendingBillNumbersFromApi(auth, newValue)
+        if (fetchedPendingBillNumbers != null) {
+            setPendingBillNumbers(fetchedPendingBillNumbers)
+        }
         setSnackbarMessage("buyerName Changed")
     }
 
@@ -79,6 +80,18 @@ const CollectionEntry: React.FC<React.ReactNode> = () => {
                         onChange={handleBuyerNameChange}
                         renderInput={(params) => <TextField {...params} name="buyerName" label="Buyer name" />}
                     />
+                </Grid>
+
+                <Grid item md={6}>
+                    <table>
+                        {
+                            pendingBillNumbers && pendingBillNumbers.map((billNumber, i) => 
+                                <tr>
+                                    <td>{billNumber}</td>
+                                </tr>
+                            )
+                        }
+                    </table>
                 </Grid>
                 
                 <Grid item lg={12}>
