@@ -3,7 +3,7 @@ import Config from "../util/config";
 export const fetchAllPendingBillNumbersFromApi = async (auth: any, buyerName: string) => {
 
     class Response {
-        pendingBillNumber: string[] = []
+        pendingBillNumbers: string[] = []
     }
 
     const requestOptions = {
@@ -24,6 +24,6 @@ export const fetchAllPendingBillNumbersFromApi = async (auth: any, buyerName: st
     }
     
     const res: Response = JSON.parse(await response?.text())
-    const billNumbers: string[] = res.pendingBillNumber
-    return billNumbers
+    const pendingBillNumbers: string[] = res.pendingBillNumbers
+    return pendingBillNumbers
 }
