@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { LoginSharp } from '@mui/icons-material';
 import { MutatingDots } from 'react-loader-spinner';
 
-const Login: React.FC<React.ReactNode> = () => {
+const Login: React.FC = () => {
 
     const auth = useAuth()
 

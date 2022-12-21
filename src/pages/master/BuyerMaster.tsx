@@ -7,7 +7,7 @@ import { fetchAllBuyersFromApi } from '../../services/BuyerServices';
 import Config from '../../util/config';
 import BuyerMasterInput from './BuyerMasterInput';
 
-const BuyerMaster: React.FC<React.ReactNode> = () => {
+const BuyerMaster: React.FC = () => {
 
     const [snackbarMessage, setSnackbarMessage] = useState<string>('')
     const [snackbarVisibility, setSnackbarVisibility] = useState<number>(0)

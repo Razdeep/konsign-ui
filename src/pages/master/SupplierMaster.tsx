@@ -7,7 +7,7 @@ import { fetchAllSuppliersFromApi } from '../../services/SupplierServices';
 import Config from '../../util/config';
 import SupplierMasterInput from './SupplierMasterInput';
 
-const SupplierMaster: React.FC<React.ReactNode> = () => {
+const SupplierMaster: React.FC = () => {
 
     const [snackbarMessage, setSnackbarMessage] = useState<string>('')
     const [snackbarVisibility, setSnackbarVisibility] = useState<number>(0)

@@ -3,7 +3,11 @@ import React from 'react'
 
 const AuthContext = createContext<any>(null)
 
-export const AuthProvider: FC<ReactNode> = ({ children }) => {
+interface Intf {
+    children: ReactNode
+}
+
+export const AuthProvider: FC<Intf> = ({ children }) => {
 
     const [user, setUser] = useState<String | null>('');
 

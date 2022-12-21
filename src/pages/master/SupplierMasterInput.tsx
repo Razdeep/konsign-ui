@@ -6,7 +6,7 @@ import { useAuth } from "../../context/AuthProvider"
 import Config from "../../util/config"
 import React from 'react';
 
-const SupplierMasterInput: React.FC<React.ReactNode> = () => {
+const SupplierMasterInput: React.FC = () => {
 
     const auth = useAuth()
     const [supplier, setSupplier] = useState<Supplier>({

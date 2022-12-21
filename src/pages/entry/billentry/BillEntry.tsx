@@ -9,7 +9,7 @@ import { fetchAllSuppliersFromApi } from '../../../services/SupplierServices';
 import { fetchAllBuyersFromApi } from '../../../services/BuyerServices';
 import { fetchAllTransportsFromApi } from '../../../services/TransportServices';
 
-const BillEntry: React.FC<React.ReactNode> = () => {
+const BillEntry: React.FC = () => {
 
     const auth = useAuth();
 

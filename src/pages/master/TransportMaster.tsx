@@ -6,9 +6,8 @@ import Transport from '../../model/Transport';
 import { fetchAllTransportsFromApi } from '../../services/TransportServices';
 import Config from '../../util/config';
 import TransportMasterInput from './TransportMasterInput';
-// import SupplierMasterInput from './SupplierMasterInput';
 
-const TransportMaster: React.FC<React.ReactNode> = () => {
+const TransportMaster: React.FC = () => {
 
     const [snackbarMessage, setSnackbarMessage] = useState<string>('')
     const [snackbarVisibility, setSnackbarVisibility] = useState<number>(0)

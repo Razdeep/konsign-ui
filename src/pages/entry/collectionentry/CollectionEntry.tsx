@@ -7,7 +7,7 @@ import CollectionVoucher from "../../../model/Collection";
 import { fetchAllBuyersFromApi } from "../../../services/BuyerServices";
 import { fetchAllPendingBillNumbersFromApi } from "../../../services/CollectionServices";
 
-const CollectionEntry: React.FC<React.ReactNode> = () => {
+const CollectionEntry: React.FC = () => {
 
     const auth = useAuth();
     const [buyers, setBuyers] = useState<String[]>([])

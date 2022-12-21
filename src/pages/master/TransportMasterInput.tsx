@@ -6,7 +6,7 @@ import { useAuth } from "../../context/AuthProvider"
 import Config from "../../util/config"
 import React from 'react';
 
-const TransportMasterInput: React.FC<React.ReactNode> = () => {
+const TransportMasterInput: React.FC = () => {
 
     const auth = useAuth()
     const [transport, setTransport] = useState<Transport>({
