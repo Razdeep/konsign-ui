@@ -1,5 +1,5 @@
 class Config {
-    static BACKEND_BASE_URL: string = process.env.BASE_URL || 'https://konsign-api.herokuapp.com';
+    static BACKEND_BASE_URL: string = process.env.BASE_URL || 'https://konsign-api-production.up.railway.app';
     // static BACKEND_BASE_URL: string = 'http://localhost:8080'
     static BILL_ENTRY_URL = `${this.BACKEND_BASE_URL}/billentry`;
     static GET_BILL_URL = `${this.BACKEND_BASE_URL}/getBill`;
