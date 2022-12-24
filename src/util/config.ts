@@ -14,6 +14,7 @@ class Config {
     static ADD_TRANSPORT: string = `${this.BACKEND_BASE_URL}/transport`;
     static DELETE_TRANSPORT: string = `${this.BACKEND_BASE_URL}/tranport`;
     static GET_PENDING_BILLS_FOR_COLLECTION: string = `${this.BACKEND_BASE_URL}/get-pending-bill-numbers-to-be-collected`;
+    static ADD_COLLECTION: string = `${this.BACKEND_BASE_URL}/collection-voucher`;
 };
 
 export default Config;

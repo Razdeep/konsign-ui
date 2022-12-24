@@ -1,3 +1,5 @@
+import CollectionVoucher from "../model/CollectionVoucher";
+import CollectionVoucherItem from "../model/CollectionVoucherItem";
 import Config from "../util/config";
 
 export const fetchAllPendingBillNumbersFromApi = async (auth: any, buyerName: string) => {
@@ -26,4 +28,41 @@ export const fetchAllPendingBillNumbersFromApi = async (auth: any, buyerName: st
     const res: Response = JSON.parse(await response?.text())
     const pendingBillNumbers: string[] = res.pendingBillNumbers
     return pendingBillNumbers
+}
+
+export const submitCollectionToApi = async (auth: any, 
+        collectionVoucher: CollectionVoucher, 
+        collectionVoucherItemList: CollectionVoucherItem[]) => {
+
+    class RequestBody {
+        voucherNo: string = '';
+        voucherDate: string = '';
+        buyerName: string = '';
+        collectionVoucherItemList: CollectionVoucherItem[] = []
+    }
+
+    const requestBody = new RequestBody()
+    requestBody.voucherNo = collectionVoucher.voucherNo
+    requestBody.voucherDate = collectionVoucher.voucherDate
+    requestBody.buyerName = collectionVoucher.buyerName
+    requestBody.collectionVoucherItemList = collectionVoucherItemList
+    
+    const serializedData = JSON.stringify(requestBody)
+
+    const requestOptions = {
+        method: 'POST',
+        headers: new Headers({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + auth?.user?.jwt
+        }),
+        body: serializedData,
+        json: true
+    };
+
+    const response = await fetch(Config.ADD_COLLECTION, requestOptions).catch(e => {
+        console.error(e)
+        return null
+    })
+
+    return response
 }

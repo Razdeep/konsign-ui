@@ -5,7 +5,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useAuth } from "../../../context/AuthProvider";
 import CollectionVoucher from "../../../model/CollectionVoucher";
 import { fetchAllBuyersFromApi } from "../../../services/BuyerServices";
-import { fetchAllPendingBillNumbersFromApi } from "../../../services/CollectionServices";
+import { fetchAllPendingBillNumbersFromApi, submitCollectionToApi } from "../../../services/CollectionServices";
 import CollectionVoucherItem from "../../../model/CollectionVoucherItem";
 
 const CollectionEntry: React.FC = () => {
@@ -77,6 +77,10 @@ const CollectionEntry: React.FC = () => {
     const handleCollectionVoucherItemChange = async (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         e.preventDefault();
         setCurCollectionVoucherItem({ ...curCollectionVoucherItem, [e.target.name]: e.target.value });
+    }
+
+    const submitCollection = () => {
+        submitCollectionToApi(auth, collectionVoucher, collectionVoucherItemList)
     }
 
     useEffect(() => {
@@ -208,7 +212,7 @@ const CollectionEntry: React.FC = () => {
                     </Button>
                 </Grid>
                 <Grid item lg={2}>
-                    <Button onClick={() => {}} variant="contained" className="bg-yellow-600" type="button" fullWidth>
+                    <Button onClick={submitCollection} variant="contained" className="bg-yellow-600" type="button" fullWidth>
                         <Save></Save>
                         Save
                     </Button>
