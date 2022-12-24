@@ -1,11 +1,12 @@
-import { Add, Clear, Delete, Save } from "@mui/icons-material";
+import { Add, Clear, Delete, Done, Edit, Save } from "@mui/icons-material";
 import { Alert, Autocomplete, Button, Grid, Paper, Slide, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useAuth } from "../../../context/AuthProvider";
-import CollectionVoucher from "../../../model/Collection";
+import CollectionVoucher from "../../../model/CollectionVoucher";
 import { fetchAllBuyersFromApi } from "../../../services/BuyerServices";
 import { fetchAllPendingBillNumbersFromApi } from "../../../services/CollectionServices";
+import CollectionVoucherItem from "../../../model/CollectionVoucherItem";
 
 const CollectionEntry: React.FC = () => {
 
@@ -20,6 +21,10 @@ const CollectionEntry: React.FC = () => {
         voucherDate: (new Date()).toISOString().substring(0, 10),
         buyerName: ''
     })
+
+    const [collectionVoucherItemList, setCollectionVoucherItemList] = useState<CollectionVoucherItem[]>([])
+
+    const [idxAtEditMode, setIdxAtEditMode] = useState<number>(-1)
 
     const [pendingBillNumbers, setPendingBillNumbers] = useState<string[]>()
 
@@ -40,6 +45,22 @@ const CollectionEntry: React.FC = () => {
 
     function TransitionDown(props: any) {
         return <Slide {...props} direction="right" />;
+    }
+
+    const addNewCollectionVoucherItem = () => {
+        setCollectionVoucherItemList([...collectionVoucherItemList, new CollectionVoucherItem()])
+    }
+
+    const updateCollectionVoucherItemRow = (index: number) => {
+
+    }
+
+    const startEditingCollectionVoucherRow = (index: number) => {
+
+    }
+
+    const deleteRow = (index: number) => {
+
     }
 
     useEffect(() => {
@@ -99,19 +120,51 @@ const CollectionEntry: React.FC = () => {
                         <Table sx={{ minWidth: 650 }} aria-label="simple table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell sx={{ minWidth: 250 }} variant="head" align="center">LR</TableCell>
-                                    <TableCell sx={{ minWidth: 250 }} variant="head" align="center">PM</TableCell>
-                                    <TableCell sx={{ minWidth: 150 }} variant="head" align="center">Operations</TableCell>
+                                    <TableCell sx={{ minWidth: 70 }} variant="head" align="center">Bill No.</TableCell>
+                                    <TableCell sx={{ minWidth: 70 }} variant="head" align="center">Supplier name</TableCell>
+                                    <TableCell sx={{ minWidth: 70 }} variant="head" align="center">Bill Amount</TableCell>
+                                    <TableCell sx={{ minWidth: 70 }} variant="head" align="center">Collection Amount</TableCell>
+                                    <TableCell sx={{ minWidth: 70 }} variant="head" align="center">DD No.</TableCell>
+                                    <TableCell sx={{ minWidth: 70 }} variant="head" align="center">DD Date</TableCell>
+                                    <TableCell sx={{ minWidth: 70 }} variant="head" align="center">Bank</TableCell>
+                                    <TableCell sx={{ minWidth: 70 }} variant="head" align="center">Operations</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                
+                                {
+                                    collectionVoucherItemList && collectionVoucherItemList.map((collectionVoucherItem, i) => 
+                                        <TableRow>
+                                            <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
+                                                <input></input>
+                                            </TableCell>
+                                            <TableCell sx={{ minWidth: 70 }} variant="head" align="center">Supplier name</TableCell>
+                                            <TableCell sx={{ minWidth: 70 }} variant="head" align="center">Bill Amount</TableCell>
+                                            <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
+                                                <input></input>
+                                            </TableCell>
+                                            <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
+                                                <input></input>
+                                            </TableCell>
+                                            <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
+                                                <input></input>
+                                            </TableCell>
+                                            <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
+                                                <input></input>
+                                            </TableCell>
+                                            <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
+                                            {idxAtEditMode === i ? <Button onClick={() => updateCollectionVoucherItemRow(i)}><Done></Done></Button> :
+                                                    <Button onClick={() => startEditingCollectionVoucherRow(i)}><Edit></Edit></Button>}
+                                                <Button onClick={() => deleteRow(i)}><Delete></Delete></Button>
+                                            </TableCell>
+                                        </TableRow>
+                                        )
+                                }
                             </TableBody>
                         </Table>
                     </TableContainer>
                 </Grid>
                 <Grid item lg={2}>
-                    <Button onClick={() => {}}><Add></Add>Add row</Button>
+                    <Button onClick={addNewCollectionVoucherItem}><Add></Add>Add row</Button>
                 </Grid>
                 <Grid item lg={2}>
                     <Button onClick={() => {}} variant="contained" type="button" fullWidth>
