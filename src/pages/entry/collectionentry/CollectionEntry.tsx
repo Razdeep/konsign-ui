@@ -67,6 +67,12 @@ const CollectionEntry: React.FC = () => {
 
     const startEditingCollectionVoucherRow = (index: number) => {
         setIdxAtEditMode(index)
+        curCollectionVoucherItem.billNo = collectionVoucherItemList[index].billNo
+        curCollectionVoucherItem.amountCollected = collectionVoucherItemList[index].amountCollected
+        curCollectionVoucherItem.ddNo = collectionVoucherItemList[index].ddNo
+        curCollectionVoucherItem.ddDate = collectionVoucherItemList[index].ddDate
+        curCollectionVoucherItem.bank = collectionVoucherItemList[index].bank
+        setCurCollectionVoucherItem(curCollectionVoucherItem)
     }
 
     const deleteRow = (index: number) => {
