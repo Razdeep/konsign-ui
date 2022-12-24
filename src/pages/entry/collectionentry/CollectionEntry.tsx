@@ -25,6 +25,9 @@ const CollectionEntry: React.FC = () => {
     const [collectionVoucherItemList, setCollectionVoucherItemList] = useState<CollectionVoucherItem[]>([])
 
     const [idxAtEditMode, setIdxAtEditMode] = useState<number>(-1)
+    const [curCollectionVoucherItem, setCurCollectionVoucherItem] = useState<CollectionVoucherItem>(
+        new CollectionVoucherItem()
+    )
 
     const [pendingBillNumbers, setPendingBillNumbers] = useState<string[]>()
 
@@ -52,15 +55,28 @@ const CollectionEntry: React.FC = () => {
     }
 
     const updateCollectionVoucherItemRow = (index: number) => {
-
+        const newCollectionVoucherItemList = collectionVoucherItemList.map((collectionVoucherItem, j) => 
+            j === index ? curCollectionVoucherItem : collectionVoucherItem
+        )
+        if (newCollectionVoucherItemList !== undefined) {
+            setCollectionVoucherItemList(newCollectionVoucherItemList as CollectionVoucherItem[])
+        }
+        setIdxAtEditMode(-1)
+        setCurCollectionVoucherItem(new CollectionVoucherItem())
     }
 
     const startEditingCollectionVoucherRow = (index: number) => {
-
+        setIdxAtEditMode(index)
     }
 
     const deleteRow = (index: number) => {
+        let newCollectionVoucherItemList = collectionVoucherItemList.filter((x, j) => j !== index)
+        setCollectionVoucherItemList(newCollectionVoucherItemList)
+    }
 
+    const handleCollectionVoucherItemChange = async (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        e.preventDefault();
+        setCurCollectionVoucherItem({ ...curCollectionVoucherItem, [e.target.name]: e.target.value });
     }
 
     useEffect(() => {
@@ -123,7 +139,7 @@ const CollectionEntry: React.FC = () => {
                                     <TableCell sx={{ minWidth: 70 }} variant="head" align="center">Bill No.</TableCell>
                                     <TableCell sx={{ minWidth: 70 }} variant="head" align="center">Supplier name</TableCell>
                                     <TableCell sx={{ minWidth: 70 }} variant="head" align="center">Bill Amount</TableCell>
-                                    <TableCell sx={{ minWidth: 70 }} variant="head" align="center">Collection Amount</TableCell>
+                                    <TableCell sx={{ minWidth: 70 }} variant="head" align="center">Amount Collected</TableCell>
                                     <TableCell sx={{ minWidth: 70 }} variant="head" align="center">DD No.</TableCell>
                                     <TableCell sx={{ minWidth: 70 }} variant="head" align="center">DD Date</TableCell>
                                     <TableCell sx={{ minWidth: 70 }} variant="head" align="center">Bank</TableCell>
@@ -135,21 +151,40 @@ const CollectionEntry: React.FC = () => {
                                     collectionVoucherItemList && collectionVoucherItemList.map((collectionVoucherItem, i) => 
                                         <TableRow>
                                             <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
-                                                <input></input>
-                                            </TableCell>
-                                            <TableCell sx={{ minWidth: 70 }} variant="head" align="center">Supplier name</TableCell>
-                                            <TableCell sx={{ minWidth: 70 }} variant="head" align="center">Bill Amount</TableCell>
-                                            <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
-                                                <input></input>
+                                                {idxAtEditMode === i ?
+                                                    <input name="billNo" value={curCollectionVoucherItem.billNo} onChange={handleCollectionVoucherItemChange}></input>
+                                                    : collectionVoucherItem.billNo
+                                                }                                            
                                             </TableCell>
                                             <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
-                                                <input></input>
+                                                <Typography color={'red'}>---</Typography>
                                             </TableCell>
                                             <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
-                                                <input></input>
+                                                <Typography color={'red'}>---</Typography>
                                             </TableCell>
                                             <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
-                                                <input></input>
+                                                {idxAtEditMode === i ?
+                                                    <input name="amountCollected" value={curCollectionVoucherItem.amountCollected} onChange={handleCollectionVoucherItemChange}></input>
+                                                    : collectionVoucherItem.amountCollected
+                                                }
+                                            </TableCell>
+                                            <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
+                                                {idxAtEditMode === i ?
+                                                    <input name="ddNo" value={curCollectionVoucherItem.ddNo} onChange={handleCollectionVoucherItemChange}></input>
+                                                    : collectionVoucherItem.ddNo
+                                                }
+                                            </TableCell>
+                                            <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
+                                                {idxAtEditMode === i ?
+                                                    <input name="ddDate" value={curCollectionVoucherItem.ddDate} onChange={handleCollectionVoucherItemChange}></input>
+                                                    : collectionVoucherItem.ddDate
+                                                }
+                                            </TableCell>
+                                            <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
+                                                {idxAtEditMode === i ?
+                                                    <input name="bank" value={curCollectionVoucherItem.bank} onChange={handleCollectionVoucherItemChange}></input>
+                                                    : collectionVoucherItem.bank
+                                                }
                                             </TableCell>
                                             <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
                                             {idxAtEditMode === i ? <Button onClick={() => updateCollectionVoucherItemRow(i)}><Done></Done></Button> :
