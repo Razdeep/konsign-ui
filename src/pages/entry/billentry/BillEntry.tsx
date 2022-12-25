@@ -8,6 +8,7 @@ import { useAuth } from '../../../context/AuthProvider';
 import { fetchAllSuppliersFromApi } from '../../../services/SupplierServices';
 import { fetchAllBuyersFromApi } from '../../../services/BuyerServices';
 import { fetchAllTransportsFromApi } from '../../../services/TransportServices';
+import { fetchBillFromApi } from '../../../services/BillServices';
 
 const BillEntry: React.FC = () => {
 
@@ -82,36 +83,22 @@ const BillEntry: React.FC = () => {
     }
 
     const getBill = async (billNo: String) => {
-        const requestOptions = {
-            method: 'GET',
-            headers: new Headers({
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${auth?.user?.jwt}`
-            }),
-            json: true
-        };
-
-        const response: Response | void = await fetch(`${Config.GET_BILL_URL}?billNo=${billNo}`, requestOptions)
-                                                    .catch(e => {
-                                                        console.log(e);
-                                                        setSnackbarMessage('Error while fetching bill')
-                                                        setSnackbarVisibility(1)
-                                                        return
-                                                    })
-        
-        if (!response) {
-            setSnackbarMessage('Getting bill failed')
+        try {
+            const responseBill: Bill | undefined = await fetchBillFromApi(auth, billNo, setSnackbarVisibility, setSnackbarMessage)
+            if (responseBill !== undefined) {
+                setBill(responseBill)
+                const message = `Autofilled values for ${billNo} as it already exists in database`;
+                setSnackbarMessage(message)
+                setSnackbarVisibility(2)
+            }
+        } catch (e) {
+            console.error(e)
+            if (e instanceof Error) {
+                setSnackbarMessage(e.message)
+            } else {
+                setSnackbarMessage('Error while getting bill')
+            }
             setSnackbarVisibility(1)
-            return
-        }
-
-        if (response.status === 200) {
-            const responseJson: Bill = await response.json()
-            setBill(responseJson)
-            const message = `Autofilled values for ${billNo} as it already exists in database`;
-            setSnackbarMessage(message)
-            setSnackbarVisibility(2)
-            return
         }
     }
 

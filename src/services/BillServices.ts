@@ -1,0 +1,30 @@
+import Bill from "../model/Bill";
+import Config from "../util/config";
+
+export const fetchBillFromApi = async (auth: any, billNo: String, setSnackbarVisibility: any, setSnackbarMessage: any): Promise<Bill|undefined> => {
+    const requestOptions = {
+        method: 'GET',
+        headers: new Headers({
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${auth?.user?.jwt}`
+        }),
+        json: true
+    };
+
+    const response: Response | null = await fetch(`${Config.GET_BILL_URL}?billNo=${billNo}`, requestOptions)
+                                                .catch(e => {
+                                                    console.error(e);
+                                                    throw new Error('Error while fetching bill')
+                                                })
+    
+    if (!response) {
+        throw new Error('Getting bill failed')
+    }
+
+    if (response.status === 200) {
+        const responseJson: Bill = await response.json()
+        return responseJson
+    }
+
+    console.error('Something went wrong')
+}
