@@ -28,12 +28,7 @@ const CollectionEntry: React.FC = () => {
 
     const [idxAtEditMode, setIdxAtEditMode] = useState<number>(-1)
 
-    class PresentableCollectionVoucherItem {
-        billNo: string = '';
-        amountCollected: string = '';
-        ddNo: string = '';
-        ddDate: string = '';
-        bank: string = '';
+    class PresentableCollectionVoucherItem extends CollectionVoucherItem {
         supplierName: string = '';
         billAmount: number = 0;
     }
