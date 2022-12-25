@@ -81,6 +81,8 @@ const CollectionEntry: React.FC = () => {
     const startEditingCollectionVoucherRow = (index: number) => {
         setIdxAtEditMode(index)
         curCollectionVoucherItem.billNo = collectionVoucherItemList[index].billNo
+        curCollectionVoucherItem.supplierName = collectionVoucherItemList[index].supplierName
+        curCollectionVoucherItem.billAmount = collectionVoucherItemList[index].billAmount
         curCollectionVoucherItem.amountCollected = collectionVoucherItemList[index].amountCollected
         curCollectionVoucherItem.ddNo = collectionVoucherItemList[index].ddNo
         curCollectionVoucherItem.ddDate = collectionVoucherItemList[index].ddDate
@@ -200,10 +202,14 @@ const CollectionEntry: React.FC = () => {
                                                 }                                            
                                             </TableCell>
                                             <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
-                                                <Typography color={'green'}>{curCollectionVoucherItem.supplierName}</Typography> 
+                                                {idxAtEditMode === i ?
+                                                <Typography color={'green'}>{curCollectionVoucherItem.supplierName}</Typography>
+                                                : collectionVoucherItem.supplierName} 
                                             </TableCell>
                                             <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
+                                                {idxAtEditMode === i ?
                                                 <Typography color={'green'}>{curCollectionVoucherItem.billAmount}</Typography>
+                                                : collectionVoucherItem.billAmount} 
                                             </TableCell>
                                             <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
                                                 {idxAtEditMode === i ?
