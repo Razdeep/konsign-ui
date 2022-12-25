@@ -1,12 +1,12 @@
 import LrPm from "./LrPm";
 
 class Bill {
-    supplierName: String = '';
-    buyerName: String = '';
-    billNo: String = '';
-    billDate: String = '';
-    transportName: String = '';
-    lrDate: String = '';
+    supplierName: string = '';
+    buyerName: string = '';
+    billNo: string = '';
+    billDate: string = '';
+    transportName: string = '';
+    lrDate: string = '';
     lrPmList: LrPm[] = [];
     billAmount: number = 0;
 }

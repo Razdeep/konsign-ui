@@ -7,6 +7,8 @@ import CollectionVoucher from "../../../model/CollectionVoucher";
 import { fetchAllBuyersFromApi } from "../../../services/BuyerServices";
 import { fetchAllPendingBillNumbersFromApi, submitCollectionToApi } from "../../../services/CollectionServices";
 import CollectionVoucherItem from "../../../model/CollectionVoucherItem";
+import { fetchBillFromApi } from "../../../services/BillServices";
+import Bill from "../../../model/Bill";
 
 const CollectionEntry: React.FC = () => {
 
@@ -22,11 +24,22 @@ const CollectionEntry: React.FC = () => {
         buyerName: ''
     })
 
-    const [collectionVoucherItemList, setCollectionVoucherItemList] = useState<CollectionVoucherItem[]>([])
+    const [collectionVoucherItemList, setCollectionVoucherItemList] = useState<PresentableCollectionVoucherItem[]>([])
 
     const [idxAtEditMode, setIdxAtEditMode] = useState<number>(-1)
-    const [curCollectionVoucherItem, setCurCollectionVoucherItem] = useState<CollectionVoucherItem>(
-        new CollectionVoucherItem()
+
+    class PresentableCollectionVoucherItem {
+        billNo: string = '';
+        amountCollected: string = '';
+        ddNo: string = '';
+        ddDate: string = '';
+        bank: string = '';
+        supplierName: string = '';
+        billAmount: number = 0;
+    }
+
+    const [curCollectionVoucherItem, setCurCollectionVoucherItem] = useState<PresentableCollectionVoucherItem>(
+        new PresentableCollectionVoucherItem()
     )
 
     const [pendingBillNumbers, setPendingBillNumbers] = useState<string[]>()
@@ -51,7 +64,7 @@ const CollectionEntry: React.FC = () => {
     }
 
     const addNewCollectionVoucherItem = () => {
-        setCollectionVoucherItemList([...collectionVoucherItemList, new CollectionVoucherItem()])
+        setCollectionVoucherItemList([...collectionVoucherItemList, new PresentableCollectionVoucherItem()])
     }
 
     const updateCollectionVoucherItemRow = (index: number) => {
@@ -59,10 +72,10 @@ const CollectionEntry: React.FC = () => {
             j === index ? curCollectionVoucherItem : collectionVoucherItem
         )
         if (newCollectionVoucherItemList !== undefined) {
-            setCollectionVoucherItemList(newCollectionVoucherItemList as CollectionVoucherItem[])
+            setCollectionVoucherItemList(newCollectionVoucherItemList as PresentableCollectionVoucherItem[])
         }
         setIdxAtEditMode(-1)
-        setCurCollectionVoucherItem(new CollectionVoucherItem())
+        setCurCollectionVoucherItem(new PresentableCollectionVoucherItem())
     }
 
     const startEditingCollectionVoucherRow = (index: number) => {
@@ -83,6 +96,26 @@ const CollectionEntry: React.FC = () => {
     const handleCollectionVoucherItemChange = async (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         e.preventDefault();
         setCurCollectionVoucherItem({ ...curCollectionVoucherItem, [e.target.name]: e.target.value });
+
+        if (e.target.name === 'billNo') {
+            const billResponse: Bill | undefined = await fetchBillFromApi(auth, e.target.value)
+            
+            const newCurCollectionVoucherItem = new PresentableCollectionVoucherItem()
+            newCurCollectionVoucherItem.billNo = e.target.value
+            
+            if (billResponse !== undefined) {
+                newCurCollectionVoucherItem.supplierName = billResponse.supplierName
+                newCurCollectionVoucherItem.billAmount = billResponse.billAmount
+            } else {
+                newCurCollectionVoucherItem.supplierName = '---'
+                newCurCollectionVoucherItem.billAmount = 0
+            }
+            
+            newCurCollectionVoucherItem.amountCollected = curCollectionVoucherItem.amountCollected
+            newCurCollectionVoucherItem.ddNo = curCollectionVoucherItem.ddNo
+            newCurCollectionVoucherItem.ddDate = curCollectionVoucherItem.ddDate
+            setCurCollectionVoucherItem(newCurCollectionVoucherItem)
+        }
     }
 
     const submitCollection = () => {
@@ -167,10 +200,10 @@ const CollectionEntry: React.FC = () => {
                                                 }                                            
                                             </TableCell>
                                             <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
-                                                <Typography color={'red'}>---</Typography>
+                                                <Typography color={'green'}>{curCollectionVoucherItem.supplierName}</Typography> 
                                             </TableCell>
                                             <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
-                                                <Typography color={'red'}>---</Typography>
+                                                <Typography color={'green'}>{curCollectionVoucherItem.billAmount}</Typography>
                                             </TableCell>
                                             <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
                                                 {idxAtEditMode === i ?

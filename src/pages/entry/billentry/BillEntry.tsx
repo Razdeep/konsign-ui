@@ -84,7 +84,7 @@ const BillEntry: React.FC = () => {
 
     const getBill = async (billNo: String) => {
         try {
-            const responseBill: Bill | undefined = await fetchBillFromApi(auth, billNo, setSnackbarVisibility, setSnackbarMessage)
+            const responseBill: Bill | undefined = await fetchBillFromApi(auth, billNo)
             if (responseBill !== undefined) {
                 setBill(responseBill)
                 const message = `Autofilled values for ${billNo} as it already exists in database`;

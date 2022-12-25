@@ -1,7 +1,7 @@
 import Bill from "../model/Bill";
 import Config from "../util/config";
 
-export const fetchBillFromApi = async (auth: any, billNo: String, setSnackbarVisibility: any, setSnackbarMessage: any): Promise<Bill|undefined> => {
+export const fetchBillFromApi = async (auth: any, billNo: String): Promise<Bill|undefined> => {
     const requestOptions = {
         method: 'GET',
         headers: new Headers({
