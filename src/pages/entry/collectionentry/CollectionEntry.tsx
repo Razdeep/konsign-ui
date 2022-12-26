@@ -49,10 +49,6 @@ const CollectionEntry: React.FC = () => {
     }
 
     const handleBillNoChange = (selectedBillNo: string, selectedIndex: number) => {
-        if (selectedIndex === -1) {
-            // wtf
-        }
-
         let targetSupplierName = '---'
         let targetBillAmount = 0
         let targetPendingAmount = 0
@@ -67,16 +63,32 @@ const CollectionEntry: React.FC = () => {
             }
         })
 
-        const newCollectionVoucherItemist = collectionVoucherItemList.map((collectionVoucherItem: PresentableCollectionVoucherItem, idx) => {
-            if (idx === selectedIndex) {
-                collectionVoucherItem.supplierName = targetSupplierName
-                collectionVoucherItem.billAmount = targetBillAmount
-                collectionVoucherItem.pendingAmount = targetPendingAmount
-            }
-            return collectionVoucherItem
+        console.log(`targetSupplierName: ${targetSupplierName}`)
+
+        const newCollectionVoucherItemList = collectionVoucherItemList.map((collectionVoucherItem: PresentableCollectionVoucherItem, idx) => {
+            return idx === selectedIndex ?
+                {
+                    ...collectionVoucherItem,
+                    billNo: selectedBillNo,
+                    supplierName: targetSupplierName,
+                    billAmount: targetBillAmount,
+                    pendingAmount: targetPendingAmount
+                } : {...collectionVoucherItem}
         })
 
-        setCollectionVoucherItemList(newCollectionVoucherItemist)
+        setCollectionVoucherItemList([...newCollectionVoucherItemList])
+
+        // ------- DESPERATE HACKS AHEAD ---------
+
+        // setCollectionVoucherItemList(x => [...newCollectionVoucherItemList])
+        
+        // const newObj = JSON.parse(JSON.stringify(newCollectionVoucherItemList)) as typeof newCollectionVoucherItemList
+
+        // setCollectionVoucherItemList(cloneDeep(newObj))
+        // setCollectionVoucherItemList([...newObj, newObj[0]])
+
+        // setCollectionVoucherItemList({...newCollectionVoucherItemList as PresentableCollectionVoucherItem[]})
+        // setCollectionVoucherItemList({...newCollectionVoucherItemList})
     }
 
     const handleVoucherChange = async (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
