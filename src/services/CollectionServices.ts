@@ -1,11 +1,12 @@
 import CollectionVoucher from "../model/CollectionVoucher";
 import CollectionVoucherItem from "../model/CollectionVoucherItem";
+import PendingBill from "../model/PendingBill";
 import Config from "../util/config";
 
 export const fetchAllPendingBillNumbersFromApi = async (auth: any, buyerName: string) => {
 
     class Response {
-        pendingBillNumbers: string[] = []
+        pendingBills: PendingBill[] = []
     }
 
     const requestOptions = {
@@ -26,7 +27,7 @@ export const fetchAllPendingBillNumbersFromApi = async (auth: any, buyerName: st
     }
     
     const res: Response = JSON.parse(await response?.text())
-    const pendingBillNumbers: string[] = res.pendingBillNumbers
+    const pendingBillNumbers: PendingBill[] = res.pendingBills
     return pendingBillNumbers
 }
 

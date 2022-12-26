@@ -6,9 +6,10 @@ import { useAuth } from "../../../context/AuthProvider";
 import CollectionVoucher from "../../../model/CollectionVoucher";
 import { fetchAllBuyersFromApi } from "../../../services/BuyerServices";
 import { fetchAllPendingBillNumbersFromApi, submitCollectionToApi } from "../../../services/CollectionServices";
-import CollectionVoucherItem from "../../../model/CollectionVoucherItem";
 import { fetchBillFromApi } from "../../../services/BillServices";
 import Bill from "../../../model/Bill";
+import PendingBill from "../../../model/PendingBill";
+import { PresentableCollectionVoucherItem } from "../../../model/PresentableVoucherItem";
 
 const CollectionEntry: React.FC = () => {
 
@@ -28,25 +29,54 @@ const CollectionEntry: React.FC = () => {
 
     const [idxAtEditMode, setIdxAtEditMode] = useState<number>(-1)
 
-    class PresentableCollectionVoucherItem extends CollectionVoucherItem {
-        supplierName: string = '';
-        billAmount: number = 0;
-    }
-
     const [curCollectionVoucherItem, setCurCollectionVoucherItem] = useState<PresentableCollectionVoucherItem>(
         new PresentableCollectionVoucherItem()
     )
 
-    const [pendingBillNumbers, setPendingBillNumbers] = useState<string[]>()
+    const [pendingBills, setPendingBills] = useState<PendingBill[]>()
+    const [pendingBillNos, setPendingBillNos] = useState<string[]>([])
 
     const handleBuyerNameChange = async (event: React.SyntheticEvent<Element, Event>, newValue: any) => {
         event.preventDefault()
         setCollectionVoucher({...collectionVoucher, buyerName: newValue})
-        let fetchedPendingBillNumbers: string[] | null = await fetchAllPendingBillNumbersFromApi(auth, newValue)
-        if (fetchedPendingBillNumbers != null) {
-            setPendingBillNumbers(fetchedPendingBillNumbers)
+        let fetchedPendingBills: PendingBill[] | null = await fetchAllPendingBillNumbersFromApi(auth, newValue)
+        if (fetchedPendingBills != null) {
+            setPendingBills(fetchedPendingBills)
+            const newPendingBillNos = fetchedPendingBills.map(pendingBill => pendingBill.billNo)
+            setPendingBillNos(newPendingBillNos)
         }
         setSnackbarMessage("buyerName Changed")
+    }
+
+    const handleBillNoChange = (selectedBillNo: string, selectedIndex: number) => {
+        if (selectedIndex === -1) {
+            // wtf
+        }
+
+        let targetSupplierName = '---'
+        let targetBillAmount = 0
+        let targetPendingAmount = 0
+
+        if (pendingBills === null || pendingBills === undefined) return
+
+        pendingBills.forEach((pendingBill: PendingBill, idx: number) => {
+            if (pendingBill.billNo === selectedBillNo) {
+                targetSupplierName = pendingBill.supplierName
+                targetBillAmount = pendingBill.billAmount
+                targetPendingAmount = pendingBill.pendingAmount
+            }
+        })
+
+        const newCollectionVoucherItemist = collectionVoucherItemList.map((collectionVoucherItem: PresentableCollectionVoucherItem, idx) => {
+            if (idx === selectedIndex) {
+                collectionVoucherItem.supplierName = targetSupplierName
+                collectionVoucherItem.billAmount = targetBillAmount
+                collectionVoucherItem.pendingAmount = targetPendingAmount
+            }
+            return collectionVoucherItem
+        })
+
+        setCollectionVoucherItemList(newCollectionVoucherItemist)
     }
 
     const handleVoucherChange = async (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -158,19 +188,6 @@ const CollectionEntry: React.FC = () => {
                         renderInput={(params) => <TextField {...params} name="buyerName" label="Buyer name" />}
                     />
                 </Grid>
-
-                <Grid item md={6}>
-                    <table>
-                        {
-                            pendingBillNumbers && pendingBillNumbers.map((billNumber, i) => 
-                                <tr>
-                                    <td>{billNumber}</td>
-                                </tr>
-                            )
-                        }
-                    </table>
-                </Grid>
-                
                 <Grid item lg={12}>
                     <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -179,6 +196,7 @@ const CollectionEntry: React.FC = () => {
                                     <TableCell sx={{ minWidth: 70 }} variant="head" align="center">Bill No.</TableCell>
                                     <TableCell sx={{ minWidth: 70 }} variant="head" align="center">Supplier name</TableCell>
                                     <TableCell sx={{ minWidth: 70 }} variant="head" align="center">Bill Amount</TableCell>
+                                    <TableCell sx={{ minWidth: 70 }} variant="head" align="center">Pending Amount</TableCell>
                                     <TableCell sx={{ minWidth: 70 }} variant="head" align="center">Amount Collected</TableCell>
                                     <TableCell sx={{ minWidth: 70 }} variant="head" align="center">DD No.</TableCell>
                                     <TableCell sx={{ minWidth: 70 }} variant="head" align="center">DD Date</TableCell>
@@ -192,9 +210,16 @@ const CollectionEntry: React.FC = () => {
                                         <TableRow>
                                             <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
                                                 {idxAtEditMode === i ?
-                                                    <input name="billNo" value={curCollectionVoucherItem.billNo} onChange={handleCollectionVoucherItemChange}></input>
-                                                    : collectionVoucherItem.billNo
-                                                }                                            
+                                                <Autocomplete
+                                                    disablePortal
+                                                    id="billNoAutocomplete"
+                                                    options={pendingBillNos}
+                                                    sx={{ width: 300 }}
+                                                    value={collectionVoucherItem.billNo}
+                                                    onChange={(event, newValue) => handleBillNoChange(newValue!, i)}
+                                                    renderInput={(params) => <TextField {...params} name="billNo" label="Bill No" />}
+                                                />
+                                                : collectionVoucherItem.billNo} 
                                             </TableCell>
                                             <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
                                                 {idxAtEditMode === i ?
@@ -205,6 +230,11 @@ const CollectionEntry: React.FC = () => {
                                                 {idxAtEditMode === i ?
                                                 <Typography color={'green'}>{curCollectionVoucherItem.billAmount}</Typography>
                                                 : collectionVoucherItem.billAmount} 
+                                            </TableCell>
+                                            <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
+                                                {idxAtEditMode === i ?
+                                                <Typography color={'green'}>{curCollectionVoucherItem.pendingAmount}</Typography>
+                                                : collectionVoucherItem.pendingAmount} 
                                             </TableCell>
                                             <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
                                                 {idxAtEditMode === i ?
