@@ -67,3 +67,24 @@ export const submitCollectionToApi = async (auth: any,
 
     return response
 }
+
+export const deleteCollectionFromApi = async (auth: any, voucherNo: string) => {
+    const requestOptions = {
+        method: 'DELETE',
+        headers: new Headers({
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${auth?.user?.jwt}`
+        }),
+        json: true
+    }
+
+    const response = await fetch(`${Config.DELETE_COLLECTION}/${voucherNo}`, requestOptions).catch(e => {
+        console.error('Something went wrong while trying to delete the collection voucher')
+    })
+    
+    if (response == null || response?.status !== 200) {
+        console.error('Something went wrong while trying to fetch the collection voucher')
+    }
+
+    return await response
+}

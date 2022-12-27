@@ -5,7 +5,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useAuth } from "../../../context/AuthProvider";
 import CollectionVoucher from "../../../model/CollectionVoucher";
 import { fetchAllBuyersFromApi } from "../../../services/BuyerServices";
-import { fetchAllPendingBillNumbersFromApi, submitCollectionToApi } from "../../../services/CollectionServices";
+import { deleteCollectionFromApi, fetchAllPendingBillNumbersFromApi, submitCollectionToApi } from "../../../services/CollectionServices";
 import { fetchBillFromApi } from "../../../services/BillServices";
 import Bill from "../../../model/Bill";
 import PendingBill from "../../../model/PendingBill";
@@ -173,6 +173,25 @@ const CollectionEntry: React.FC = () => {
         }
     }
 
+    const deleteCollection = async () => {
+        const response = await deleteCollectionFromApi(auth, collectionVoucher.voucherNo)
+        if (response === null || response === undefined) {
+            setSnackbarMessage('Could not delete collection. Please try again')
+            setSnackbarVisibility(1)
+            return
+        }
+
+        const responseMessage = (await response?.json()).message
+        
+        if (response.status === 200) {
+            setSnackbarMessage(responseMessage ?? `Successfully deleted collection voucher`)
+            setSnackbarVisibility(2)
+        } else {
+            setSnackbarMessage(responseMessage ?? `Could not delete collection voucher ${collectionVoucher.voucherNo}`)
+            setSnackbarVisibility(1)
+        }
+    }
+
     useEffect(() => {
 
         const fetchBuyersWrapperFunc = async () => {
@@ -312,7 +331,7 @@ const CollectionEntry: React.FC = () => {
                     </Button>
                 </Grid>
                 <Grid item lg={2}>
-                    <Button onClick={() => {}} variant="contained" className="bg-yellow-600" type="button" fullWidth>
+                    <Button onClick={deleteCollection} variant="contained" className="bg-yellow-600" type="button" fullWidth>
                         <Delete></Delete>
                         Delete
                     </Button>
