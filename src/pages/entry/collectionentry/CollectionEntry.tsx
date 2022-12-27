@@ -36,16 +36,16 @@ const CollectionEntry: React.FC = () => {
     const [pendingBills, setPendingBills] = useState<PendingBill[]>()
     const [pendingBillNos, setPendingBillNos] = useState<string[]>([])
 
-    const handleBuyerNameChange = async (event: React.SyntheticEvent<Element, Event>, newValue: any) => {
+    const handleBuyerNameChange = async (event: React.SyntheticEvent<Element, Event>, newValue: String | null) => {
         event.preventDefault()
-        setCollectionVoucher({...collectionVoucher, buyerName: newValue})
-        let fetchedPendingBills: PendingBill[] | null = await fetchAllPendingBillNumbersFromApi(auth, newValue)
+        const newBuyerNameValue = newValue?.toString() ?? ''
+        setCollectionVoucher({...collectionVoucher, buyerName: newBuyerNameValue})
+        let fetchedPendingBills: PendingBill[] | null = await fetchAllPendingBillNumbersFromApi(auth, newBuyerNameValue)
         if (fetchedPendingBills != null) {
             setPendingBills(fetchedPendingBills)
             const newPendingBillNos = fetchedPendingBills.map(pendingBill => pendingBill.billNo)
             setPendingBillNos(newPendingBillNos)
         }
-        setSnackbarMessage("buyerName Changed")
     }
 
     const handleBillNoChange = (selectedBillNo: string, selectedIndex: number) => {
