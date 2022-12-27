@@ -87,6 +87,7 @@ const BillEntry: React.FC = () => {
             const responseBill: Bill | undefined = await fetchBillFromApi(auth, billNo)
             if (responseBill !== undefined) {
                 setBill(responseBill)
+                setLrPmList(responseBill.lrPmList)
                 const message = `Autofilled values for ${billNo} as it already exists in database`;
                 setSnackbarMessage(message)
                 setSnackbarVisibility(2)
