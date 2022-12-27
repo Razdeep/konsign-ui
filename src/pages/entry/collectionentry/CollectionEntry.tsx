@@ -192,6 +192,12 @@ const CollectionEntry: React.FC = () => {
         }
     }
 
+    const clearCollection = async () => {
+        setCollectionVoucher(new CollectionVoucher())
+        setCollectionVoucherItemList([])
+        setCurCollectionVoucherItem(new PresentableCollectionVoucherItem())
+    }
+
     useEffect(() => {
 
         const fetchBuyersWrapperFunc = async () => {
@@ -319,7 +325,7 @@ const CollectionEntry: React.FC = () => {
                     <Button onClick={addNewCollectionVoucherItem}><Add></Add>Add row</Button>
                 </Grid>
                 <Grid item lg={2}>
-                    <Button onClick={() => {}} variant="contained" type="button" fullWidth>
+                    <Button onClick={clearCollection} variant="contained" type="button" fullWidth>
                         <Clear></Clear>
                         Clear
                     </Button>
