@@ -8,7 +8,7 @@ import { useAuth } from '../../../context/AuthProvider';
 import { fetchAllSuppliersFromApi } from '../../../services/SupplierServices';
 import { fetchAllBuyersFromApi } from '../../../services/BuyerServices';
 import { fetchAllTransportsFromApi } from '../../../services/TransportServices';
-import { fetchBillFromApi } from '../../../services/BillServices';
+import { deleteBillFromApi, fetchBillFromApi } from '../../../services/BillServices';
 
 const BillEntry: React.FC = () => {
 
@@ -98,6 +98,25 @@ const BillEntry: React.FC = () => {
             } else {
                 setSnackbarMessage('Error while getting bill')
             }
+            setSnackbarVisibility(1)
+        }
+    }
+
+    const deleteBill = async () => {
+        const response = await deleteBillFromApi(auth, bill.billNo)
+        if (response === null || response === undefined) {
+            setSnackbarMessage('Could not delete bill. Please try again')
+            setSnackbarVisibility(1)
+            return
+        }
+
+        const responseMessage = (await response?.json()).message
+        
+        if (response.status === 200) {
+            setSnackbarMessage(responseMessage ?? `Successfully deleted bill ${bill.billNo}`)
+            setSnackbarVisibility(2)
+        } else {
+            setSnackbarMessage(responseMessage ?? `Could not delete bill ${bill.billNo}`)
             setSnackbarVisibility(1)
         }
     }
@@ -317,7 +336,7 @@ const BillEntry: React.FC = () => {
                         </Button>
                     </Grid>
                     <Grid item lg={2}>
-                        <Button onClick={() => {}} variant="contained" className="bg-yellow-600" type="button" fullWidth>
+                        <Button onClick={(e) => deleteBill()} variant="contained" className="bg-yellow-600" type="button" fullWidth>
                             <Delete></Delete>
                             Delete
                         </Button>

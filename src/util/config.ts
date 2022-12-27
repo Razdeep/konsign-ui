@@ -3,6 +3,7 @@ class Config {
     // static BACKEND_BASE_URL: string = 'http://localhost:8080'
     static BILL_ENTRY_URL = `${this.BACKEND_BASE_URL}/billentry`;
     static GET_BILL_URL = `${this.BACKEND_BASE_URL}/getBill`;
+    static DELETE_BILL_URL = `${this.BACKEND_BASE_URL}/bill`;
     static LOGIN_URL = `${this.BACKEND_BASE_URL}/authenticate`;
     static GET_ALL_SUPPLIERS: string = `${this.BACKEND_BASE_URL}/suppliers`;
     static DELETE_SUPPLIER: string = `${this.BACKEND_BASE_URL}/supplier`;
@@ -16,6 +17,7 @@ class Config {
     static GET_PENDING_BILLS_FOR_COLLECTION: string = `${this.BACKEND_BASE_URL}/get-pending-bills-to-be-collected`;
     static ADD_COLLECTION: string = `${this.BACKEND_BASE_URL}/collection-voucher`;
     static DELETE_COLLECTION: string = `${this.BACKEND_BASE_URL}/collection-voucher`;
+    
 };
 
 export default Config;
