@@ -153,8 +153,24 @@ const CollectionEntry: React.FC = () => {
         }
     }
 
-    const submitCollection = () => {
-        submitCollectionToApi(auth, collectionVoucher, collectionVoucherItemList)
+    const submitCollection = async () => {
+        const response = await submitCollectionToApi(auth, collectionVoucher, collectionVoucherItemList)
+        if (response === null || response === undefined) {
+            setSnackbarMessage('Could not save collection. Please try again')
+            setSnackbarVisibility(1)
+            return
+        }
+
+        const responseBodyText = await response?.text()
+        const responseMessage = JSON.parse(responseBodyText)?.message
+        
+        if (response.status === 200) {
+            setSnackbarMessage(responseMessage ?? `Successfully saved collection voucher`)
+            setSnackbarVisibility(2)
+        } else {
+            setSnackbarMessage(responseMessage ?? `Could not save collection voucher ${collectionVoucher.voucherNo}`)
+            setSnackbarVisibility(1)
+        }
     }
 
     useEffect(() => {
