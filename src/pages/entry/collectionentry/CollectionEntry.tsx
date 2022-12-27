@@ -63,8 +63,6 @@ const CollectionEntry: React.FC = () => {
             }
         })
 
-        console.log(`targetSupplierName: ${targetSupplierName}`)
-
         const newCollectionVoucherItemList = collectionVoucherItemList.map((collectionVoucherItem: PresentableCollectionVoucherItem, idx) => {
             return idx === selectedIndex ?
                 {
@@ -76,19 +74,16 @@ const CollectionEntry: React.FC = () => {
                 } : {...collectionVoucherItem}
         })
 
+        setCurCollectionVoucherItem({
+            ...curCollectionVoucherItem,
+            billNo: selectedBillNo,
+            supplierName: targetSupplierName,
+            billAmount: targetBillAmount,
+            pendingAmount: targetPendingAmount
+        })
+
         setCollectionVoucherItemList([...newCollectionVoucherItemList])
 
-        // ------- DESPERATE HACKS AHEAD ---------
-
-        // setCollectionVoucherItemList(x => [...newCollectionVoucherItemList])
-        
-        // const newObj = JSON.parse(JSON.stringify(newCollectionVoucherItemList)) as typeof newCollectionVoucherItemList
-
-        // setCollectionVoucherItemList(cloneDeep(newObj))
-        // setCollectionVoucherItemList([...newObj, newObj[0]])
-
-        // setCollectionVoucherItemList({...newCollectionVoucherItemList as PresentableCollectionVoucherItem[]})
-        // setCollectionVoucherItemList({...newCollectionVoucherItemList})
     }
 
     const handleVoucherChange = async (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -120,6 +115,7 @@ const CollectionEntry: React.FC = () => {
         curCollectionVoucherItem.billNo = collectionVoucherItemList[index].billNo
         curCollectionVoucherItem.supplierName = collectionVoucherItemList[index].supplierName
         curCollectionVoucherItem.billAmount = collectionVoucherItemList[index].billAmount
+        curCollectionVoucherItem.pendingAmount = collectionVoucherItemList[index].pendingAmount
         curCollectionVoucherItem.amountCollected = collectionVoucherItemList[index].amountCollected
         curCollectionVoucherItem.ddNo = collectionVoucherItemList[index].ddNo
         curCollectionVoucherItem.ddDate = collectionVoucherItemList[index].ddDate
