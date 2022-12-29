@@ -88,3 +88,26 @@ export const deleteCollectionFromApi = async (auth: any, voucherNo: string) => {
 
     return await response
 }
+
+export const fetchCollectionVoucherFromApi = async (auth: any, voucherNo: string, setSnackbarMessage: any, setSnackbarVisibility: any) => {
+
+    const requestOptions = {
+        method: 'GET',
+        headers: new Headers({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + auth?.user?.jwt
+        }),
+        json: true
+    };
+
+    const response = await fetch(Config.GET_COLLECTION_URL + `?voucherNo=${voucherNo}`, requestOptions).catch(e => {
+        return null
+    })
+
+    if (response == null || response?.status !== 200) {
+        return null
+    }
+    
+    const collectionVoucher: CollectionVoucher = JSON.parse(await response?.text())
+    return await collectionVoucher
+}

@@ -5,7 +5,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useAuth } from "../../../context/AuthProvider";
 import CollectionVoucher from "../../../model/CollectionVoucher";
 import { fetchAllBuyersFromApi } from "../../../services/BuyerServices";
-import { deleteCollectionFromApi, fetchAllPendingBillNumbersFromApi, submitCollectionToApi } from "../../../services/CollectionServices";
+import { deleteCollectionFromApi, fetchAllPendingBillNumbersFromApi, fetchCollectionVoucherFromApi, submitCollectionToApi } from "../../../services/CollectionServices";
 import { fetchBillFromApi } from "../../../services/BillServices";
 import Bill from "../../../model/Bill";
 import PendingBill from "../../../model/PendingBill";
@@ -22,7 +22,8 @@ const CollectionEntry: React.FC = () => {
     const [collectionVoucher, setCollectionVoucher] = useState<CollectionVoucher>({
         voucherNo: '0',
         voucherDate: (new Date()).toISOString().substring(0, 10),
-        buyerName: ''
+        buyerName: '',
+        collectionVoucherItemList: []
     })
 
     const [collectionVoucherItemList, setCollectionVoucherItemList] = useState<PresentableCollectionVoucherItem[]>([])
@@ -89,6 +90,23 @@ const CollectionEntry: React.FC = () => {
     const handleVoucherChange = async (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         e.preventDefault();
         setCollectionVoucher({ ...collectionVoucher, [e.target.name]: e.target.value });
+
+        if (e.target.name !== 'voucherNo') return
+
+        await fetchCollectionVoucher(e.target.value)
+    }
+
+    const fetchCollectionVoucher = async (voucherNo: string) => {
+        const fetchedCollectionVoucher: CollectionVoucher | null 
+            = await fetchCollectionVoucherFromApi(auth, voucherNo, setSnackbarMessage, setSnackbarVisibility)
+
+        if (fetchedCollectionVoucher === null) return
+
+        setCollectionVoucher(fetchedCollectionVoucher)
+
+        if (fetchedCollectionVoucher.collectionVoucherItemList === null) return
+
+        setCollectionVoucherItemList(fetchedCollectionVoucher.collectionVoucherItemList as PresentableCollectionVoucherItem[])
     }
 
     function TransitionDown(props: any) {

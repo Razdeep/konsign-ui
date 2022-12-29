@@ -17,6 +17,7 @@ class Config {
     static GET_PENDING_BILLS_FOR_COLLECTION: string = `${this.BACKEND_BASE_URL}/get-pending-bills-to-be-collected`;
     static ADD_COLLECTION: string = `${this.BACKEND_BASE_URL}/collection-voucher`;
     static DELETE_COLLECTION: string = `${this.BACKEND_BASE_URL}/collection-voucher`;
+    static GET_COLLECTION_URL: string = `${this.BACKEND_BASE_URL}/collection-voucher`;
     
 };
 
