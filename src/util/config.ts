@@ -13,7 +13,7 @@ class Config {
     static DELETE_BUYER: string = `${this.BACKEND_BASE_URL}/buyer`;
     static GET_ALL_TRANSPORTS: string = `${this.BACKEND_BASE_URL}/transports`;
     static ADD_TRANSPORT: string = `${this.BACKEND_BASE_URL}/transport`;
-    static DELETE_TRANSPORT: string = `${this.BACKEND_BASE_URL}/tranport`;
+    static DELETE_TRANSPORT: string = `${this.BACKEND_BASE_URL}/transport`;
     static GET_PENDING_BILLS_FOR_COLLECTION: string = `${this.BACKEND_BASE_URL}/get-pending-bills-to-be-collected`;
     static ADD_COLLECTION: string = `${this.BACKEND_BASE_URL}/collection-voucher`;
     static DELETE_COLLECTION: string = `${this.BACKEND_BASE_URL}/collection-voucher`;
