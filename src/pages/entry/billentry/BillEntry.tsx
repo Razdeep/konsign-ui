@@ -251,7 +251,7 @@ const BillEntry: React.FC = () => {
                         <TextField name="billNo" label="Bill Number" size="small" value={bill.billNo} onChange={handleBillChange} fullWidth></TextField>
                     </Grid>
                     <Grid item lg={6}>
-                        <TextField name="billDate" type="date" defaultValue={(new Date()).toISOString().substring(0, 10)} label="Bill Date" size="small" onChange={handleBillChange} fullWidth></TextField>
+                        <TextField name="billDate" type="date" value={bill.billDate} defaultValue={(new Date()).toISOString().substring(0, 10)} label="Bill Date" size="small" onChange={handleBillChange} fullWidth></TextField>
                     </Grid>
                     <Grid item md={6}>
                         <Autocomplete
