@@ -39,6 +39,14 @@ export default function MainListItems() {
             <ListItemText primary="Bill Entry" />
           </ListItemButton>
         </Link>
+        <Link to="billview">
+          <ListItemButton sx={{ pl: 4 }}>
+            <ListItemIcon>
+              <StarBorder />
+            </ListItemIcon>
+            <ListItemText primary="Bill View" />
+          </ListItemButton>
+        </Link>
       </List>
       <List component="div" disablePadding>
         <Link to="collectionentry">

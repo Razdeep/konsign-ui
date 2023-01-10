@@ -21,6 +21,7 @@ import SupplierMaster from '../master/SupplierMaster';
 import BuyerMaster from '../master/BuyerMaster';
 import TransportMaster from '../master/TransportMaster';
 import CollectionEntry from '../entry/collectionentry/CollectionEntry';
+import { BillView } from '../entry/billentry/BillView';
 
 function Copyright(props: any) {
   return (
@@ -173,6 +174,9 @@ function DashboardContent() {
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Routes>
               <Route path="billentry" element={<BillEntry />} />
+            </Routes>
+            <Routes>
+              <Route path="billview" element={<BillView />} />
             </Routes>
             <Routes>
               <Route path="suppliermaster" element={<SupplierMaster />} />

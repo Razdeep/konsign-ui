@@ -50,3 +50,31 @@ export const deleteBillFromApi = async (auth: any, billNo: string) => {
 
     return await response
 }
+
+export const fetchAllBillsFromApi = async (auth: any, offset: number, pageSize: number): Promise<any> => {
+    const requestOptions = {
+        method: 'GET',
+        headers: new Headers({
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${auth?.user?.jwt}`
+        }),
+        json: true
+    };
+
+    const response: Response | null = await fetch(`${Config.GET_ALL_BILLS_URL}/${offset}/${pageSize}`, requestOptions)
+                                                .catch(e => {
+                                                    console.error(e);
+                                                    throw new Error('Error while fetching all bills')
+                                                })
+    
+    if (!response) {
+        throw new Error('Getting bills failed')
+    }
+
+    if (response.status === 200) {
+        const responseJson: Bill[] = await response.json()
+        return responseJson
+    }
+
+    console.error('Something went wrong')
+}
