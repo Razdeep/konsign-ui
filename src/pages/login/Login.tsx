@@ -7,7 +7,7 @@ import React from 'react';
 import { Backdrop, Button, Container, DialogActions, DialogContent, DialogContentText, Grid, Paper, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { LoginSharp } from '@mui/icons-material';
-import { MutatingDots } from 'react-loader-spinner';
+import { KonsignSpinner } from '../../components/KonsignSpinner';
 
 const Login: React.FC = () => {
 
@@ -90,17 +90,7 @@ const Login: React.FC = () => {
                         open={isLoading}
                         onClick={handleClose}
                     >
-                        <MutatingDots 
-                            height="100"
-                            width="100"
-                            color="#533483"
-                            secondaryColor='#E94560'
-                            radius='20'
-                            ariaLabel="mutating-dots-loading"
-                            wrapperStyle={{}}
-                            wrapperClass=""
-                            visible={true}
-                        />
+                        <KonsignSpinner/>
                     </Backdrop>
             }
             {
