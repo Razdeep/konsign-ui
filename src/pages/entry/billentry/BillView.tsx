@@ -1,22 +1,24 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useAuth } from "../../../context/AuthProvider";
 import Bill from "../../../model/Bill";
 import { fetchAllBillsFromApi } from "../../../services/BillServices";
-import { Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Button, Container, MenuItem, Paper, Select, SelectChangeEvent, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material";
 import { KonsignSpinner } from "../../../components/KonsignSpinner";
 import { Refresh } from "@mui/icons-material";
 
 
 export const BillView: React.FC = () => {
-    const auth = useAuth();
+    const auth = useAuth()
 
-    const [bills, setBills] = useState<Bill[]>([]);
+    const [bills, setBills] = useState<Bill[]>([])
+    const [billsPerPage, setBillsPerPage] = useState<number>(5)
+    const [pageOffset, setPageOffset] = useState<number>(0)
 
     const [isLoading, setIsLoading] = useState<boolean>(true)
 
-    const fetchData = async (auth: any) => {
+    const fetchData = async () => {
         setIsLoading(true)
-        const fetchedPage = await fetchAllBillsFromApi(auth, 0, 10)
+        const fetchedPage = await fetchAllBillsFromApi(auth, pageOffset, billsPerPage)
 
         if (fetchedPage === undefined || fetchedPage === null) return
 
@@ -24,15 +26,31 @@ export const BillView: React.FC = () => {
         setIsLoading(false)
     }
 
+    const handleOffsetChange = async (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setPageOffset(e.target.value as unknown as number)
+        await fetchData()
+    }
+
+    const handleBillsPerPageChange = async (e: SelectChangeEvent) => {
+        setBillsPerPage(e.target.value as unknown as number)
+        await fetchData()
+    }
+
     useEffect(() => {
         const fetchDataWrapperFunc = async () => {
-            return await fetchData(auth)
+            return await fetchData()
         }
         fetchDataWrapperFunc()
-    }, [auth])
+    }, [])
 
     return <>
-        <Button onClick={() => fetchData(auth) }><Refresh></Refresh>Refresh</Button>
+        <Button onClick={fetchData}><Refresh></Refresh>Refresh</Button>
+        <Select value={billsPerPage.toString()} onChange={handleBillsPerPageChange}>
+            <MenuItem value={5}>5</MenuItem>
+            <MenuItem value={10}>10</MenuItem>
+            <MenuItem value={15}>15</MenuItem>
+        </Select>
+        <TextField label="Offset" onChange={handleOffsetChange}></TextField>
         {isLoading ?
             <Container sx={{ margin: "auto", height: 200, width: 250, textAlign: "center" }}><KonsignSpinner /></Container> :
             <TableContainer component={Paper}>
