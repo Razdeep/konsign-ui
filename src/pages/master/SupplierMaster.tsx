@@ -6,15 +6,18 @@ import Supplier from '../../model/Supplier';
 import { fetchAllSuppliersFromApi } from '../../services/SupplierServices';
 import Config from '../../util/config';
 import SupplierMasterInput from './SupplierMasterInput';
+import { KonsignSpinner } from '../../components/KonsignSpinner';
 
 const SupplierMaster: React.FC = () => {
 
+    const [isLoading, setIsLoading] = useState<boolean>(true)
     const [snackbarMessage, setSnackbarMessage] = useState<string>('')
     const [snackbarVisibility, setSnackbarVisibility] = useState<number>(0)
     const [suppliers, setSuppliers] = useState<Supplier[]>([])
     const auth = useAuth();
 
     const syncSuppliers = useCallback(async () => {
+        setIsLoading(true)
         const fetchedSuppliers = await fetchAllSuppliersFromApi(auth)
 
         if (fetchedSuppliers === null) {
@@ -24,6 +27,7 @@ const SupplierMaster: React.FC = () => {
         }
 
         setSuppliers(fetchedSuppliers)
+        setIsLoading(false)
     }, [auth])
 
     const deleteSupplier = async(supplierId: string) => {
@@ -67,24 +71,27 @@ const SupplierMaster: React.FC = () => {
         <>
             <SupplierMasterInput></SupplierMasterInput>
             <Button onClick={syncSuppliers}><Refresh/>Sync</Button>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Supplier ID</TableCell>
-                        <TableCell>Supplier name</TableCell>
-                        <TableCell>Actions</TableCell>
-                    </TableRow>
-                </TableHead>
-                {
-                    suppliers?.map((supplier: Supplier) => (
+            {isLoading ?
+                <KonsignSpinner></KonsignSpinner> :
+                <Table>
+                    <TableHead>
                         <TableRow>
-                            <TableCell>{supplier.supplierId}</TableCell>
-                            <TableCell>{supplier.supplierName}</TableCell>
-                            <TableCell><Button onClick={()=>{deleteSupplier(supplier.supplierId)}}><Delete></Delete></Button></TableCell>
+                            <TableCell>Supplier ID</TableCell>
+                            <TableCell>Supplier name</TableCell>
+                            <TableCell>Actions</TableCell>
                         </TableRow>
-                    ))
-                }
-            </Table>
+                    </TableHead>
+                    {
+                        suppliers?.map((supplier: Supplier) => (
+                            <TableRow>
+                                <TableCell>{supplier.supplierId}</TableCell>
+                                <TableCell>{supplier.supplierName}</TableCell>
+                                <TableCell><Button onClick={() => { deleteSupplier(supplier.supplierId) }}><Delete></Delete></Button></TableCell>
+                            </TableRow>
+                        ))
+                    }
+                </Table>
+            }
             <Snackbar open={snackbarVisibility === 2} autoHideDuration={6000} onClose={()=>setSnackbarVisibility(0)}
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} TransitionComponent={TransitionDown}>
                 <Alert onClose={()=>setSnackbarVisibility(0)} severity='success' sx={{ width: '100%' }}>

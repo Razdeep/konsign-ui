@@ -6,15 +6,18 @@ import Buyer from '../../model/Buyer';
 import { fetchAllBuyersFromApi } from '../../services/BuyerServices';
 import Config from '../../util/config';
 import BuyerMasterInput from './BuyerMasterInput';
+import { KonsignSpinner } from '../../components/KonsignSpinner';
 
 const BuyerMaster: React.FC = () => {
 
+    const [isLoading, setIsLoading] = useState<boolean>(true)
     const [snackbarMessage, setSnackbarMessage] = useState<string>('')
     const [snackbarVisibility, setSnackbarVisibility] = useState<number>(0)
     const [buyers, setBuyers] = useState<Buyer[]>([])
     const auth = useAuth();
 
     const syncBuyers = useCallback(async () => {
+        setIsLoading(true)
         const fetchedBuyers = await fetchAllBuyersFromApi(auth)
 
         if (fetchedBuyers === null) {
@@ -24,6 +27,7 @@ const BuyerMaster: React.FC = () => {
         }
 
         setBuyers(fetchedBuyers)
+        setIsLoading(false)
     }, [auth])
 
     const deleteBuyer = async(buyerId: string) => {
@@ -67,24 +71,27 @@ const BuyerMaster: React.FC = () => {
         <>
             <BuyerMasterInput></BuyerMasterInput>
             <Button onClick={syncBuyers}><Refresh/>Sync</Button>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Buyer ID</TableCell>
-                        <TableCell>Buyer name</TableCell>
-                        <TableCell>Actions</TableCell>
-                    </TableRow>
-                </TableHead>
-                {
-                    buyers?.map((buyer: Buyer) => (
+            {isLoading ?
+                <KonsignSpinner></KonsignSpinner> :
+                <Table>
+                    <TableHead>
                         <TableRow>
-                            <TableCell>{buyer.buyerId}</TableCell>
-                            <TableCell>{buyer.buyerName}</TableCell>
-                            <TableCell><Button onClick={()=>{deleteBuyer(buyer.buyerId)}}><Delete></Delete></Button></TableCell>
+                            <TableCell>Buyer ID</TableCell>
+                            <TableCell>Buyer name</TableCell>
+                            <TableCell>Actions</TableCell>
                         </TableRow>
-                    ))
-                }
-            </Table>
+                    </TableHead>
+                    {
+                        buyers?.map((buyer: Buyer) => (
+                            <TableRow>
+                                <TableCell>{buyer.buyerId}</TableCell>
+                                <TableCell>{buyer.buyerName}</TableCell>
+                                <TableCell><Button onClick={() => { deleteBuyer(buyer.buyerId) }}><Delete></Delete></Button></TableCell>
+                            </TableRow>
+                        ))
+                    }
+                </Table>
+            }
             <Snackbar open={snackbarVisibility === 2} autoHideDuration={6000} onClose={()=>setSnackbarVisibility(0)}
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} TransitionComponent={TransitionDown}>
                 <Alert onClose={()=>setSnackbarVisibility(0)} severity='success' sx={{ width: '100%' }}>
