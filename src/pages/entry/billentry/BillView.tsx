@@ -1,14 +1,16 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useAuth } from "../../../context/AuthProvider";
 import Bill from "../../../model/Bill";
-import { fetchAllBillsFromApi } from "../../../services/BillServices";
-import { Button, Container, MenuItem, Pagination, Paper, Select, SelectChangeEvent, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material";
+import { deleteBillFromApi, fetchAllBillsFromApi } from "../../../services/BillServices";
+import { Alert, Button, Container, MenuItem, Pagination, Paper, Select, SelectChangeEvent, Slide, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material";
 import { KonsignSpinner } from "../../../components/KonsignSpinner";
-import { Refresh } from "@mui/icons-material";
-
+import { Delete, Edit, Refresh } from "@mui/icons-material";
 
 export const BillView: React.FC = () => {
     const auth = useAuth()
+
+    const [snackbarVisibility, setSnackbarVisibility] = useState<number>(0)
+    const [snackbarMessage, setSnackbarMessage] = useState<string>('')
 
     const [bills, setBills] = useState<Bill[]>([])
     const [totalPages, setTotalPages] = useState<number>(0)
@@ -39,12 +41,40 @@ export const BillView: React.FC = () => {
         await fetchData()
     }
 
+    const deleteBill = async (billNo: string) => {
+        const response = await deleteBillFromApi(auth, billNo)
+        if (response === null || response === undefined) {
+            setSnackbarMessage('Could not delete bill. Please try again')
+            setSnackbarVisibility(1)
+            return
+        }
+
+        const responseMessage = (await response?.json()).message
+        
+        if (response.status === 200) {
+            setSnackbarMessage(responseMessage ?? `Successfully deleted bill ${billNo}`)
+            setSnackbarVisibility(2)
+        } else {
+            setSnackbarMessage(responseMessage ?? `Could not delete bill ${billNo}`)
+            setSnackbarVisibility(1)
+        }
+    }
+
     useEffect(() => {
         const fetchDataWrapperFunc = async () => {
             return await fetchData()
         }
         fetchDataWrapperFunc()
     }, [])
+
+    function TransitionDown(props: any) {
+        return <Slide {...props} direction="right" />;
+    }
+
+    function showNotYetImplemented(): void {
+        setSnackbarMessage("Not yet implemented")
+        setSnackbarVisibility(1)
+    }
 
     return <>
         <Button onClick={fetchData}><Refresh></Refresh>Refresh</Button>
@@ -73,13 +103,13 @@ export const BillView: React.FC = () => {
                                 <TableCell sx={{ minWidth: 100 }} variant="head" align="center">Transport</TableCell>
                                 <TableCell sx={{ minWidth: 100 }} variant="head" align="center">LR Date</TableCell>
                                 <TableCell sx={{ minWidth: 100 }} variant="head" align="center">Amount</TableCell>
+                                <TableCell sx={{ minWidth: 100 }} variant="head" align="center">Operations</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {bills.map((bill, i) => (
                                 <TableRow
                                     key={i}
-                                // sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
                                     <TableCell>{bill.billNo}</TableCell>
                                     <TableCell>{bill.billDate}</TableCell>
@@ -88,6 +118,14 @@ export const BillView: React.FC = () => {
                                     <TableCell>{bill.transportName}</TableCell>
                                     <TableCell>{bill.lrDate}</TableCell>
                                     <TableCell>{bill.billAmount}</TableCell>
+                                    <TableCell>
+                                        <Button onClick={() => showNotYetImplemented()}>
+                                            <Edit></Edit>
+                                        </Button>
+                                        <Button onClick={() => deleteBill(bill.billNo)}>
+                                            <Delete color={"error"}></Delete>
+                                        </Button>
+                                    </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -96,5 +134,17 @@ export const BillView: React.FC = () => {
                 <Pagination page={pageOffset} onChange={handleOffsetChange} count={totalPages} variant="outlined" shape="rounded" />
             </>
         }
+        <Snackbar open={snackbarVisibility === 2} autoHideDuration={6000} onClose={() => setSnackbarVisibility(0)}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} TransitionComponent={TransitionDown}>
+            <Alert onClose={() => setSnackbarVisibility(0)} severity='success' sx={{ width: '100%' }}>
+                {snackbarMessage}
+            </Alert>
+        </Snackbar>
+        <Snackbar open={snackbarVisibility === 1} autoHideDuration={6000} onClose={() => setSnackbarVisibility(0)}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+            <Alert onClose={() => setSnackbarVisibility(0)} severity='error' sx={{ width: '100%' }}>
+                {snackbarMessage}
+            </Alert>
+        </Snackbar>
     </>
 }
