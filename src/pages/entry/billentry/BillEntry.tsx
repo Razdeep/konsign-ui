@@ -305,9 +305,9 @@ const BillEntry: React.FC = () => {
                                             key={i}
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
-                                            <TableCell>{idxAtEditMode === i ? <TextField name="lr" value={currentLrPm.lr} onChange={handleLrPmChange} variant="standard" size="small"></TextField> : row.lr}</TableCell>
-                                            <TableCell align="right">{idxAtEditMode === i ? <TextField name="pm" value={currentLrPm.pm} variant="standard" onChange={handleLrPmChange} size="small"></TextField> : row.pm}</TableCell>
-                                            <TableCell align="right">
+                                            <TableCell align="center">{idxAtEditMode === i ? <TextField sx={{width: 80}} name="lr" value={currentLrPm.lr} onChange={handleLrPmChange} variant="standard" size="small"></TextField> : row.lr}</TableCell>
+                                            <TableCell align="center">{idxAtEditMode === i ? <TextField sx={{width: 80}} name="pm" value={currentLrPm.pm} variant="standard" onChange={handleLrPmChange} size="small"></TextField> : row.pm}</TableCell>
+                                            <TableCell align="center">
                                                 {idxAtEditMode === i ? <Button onClick={() => updateLrRow(i)}><Done></Done></Button> :
                                                     <Button onClick={() => startEditingLrPmRow(i)}><Edit></Edit></Button>}
                                                 <Button onClick={() => deleteRow(i)}><Delete></Delete></Button>

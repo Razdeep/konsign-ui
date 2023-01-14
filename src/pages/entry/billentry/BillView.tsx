@@ -76,6 +76,8 @@ export const BillView: React.FC = () => {
         setSnackbarVisibility(1)
     }
 
+    const tableCellStyle = { minWidth: 100, padding: 0.5 }
+
     return <>
         <Button onClick={fetchData}><Refresh></Refresh>Refresh</Button>
         <Select value={billsPerPage.toString()} onChange={handleBillsPerPageChange}>
@@ -96,14 +98,14 @@ export const BillView: React.FC = () => {
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell sx={{ minWidth: 100 }} variant="head" align="center">Bill No</TableCell>
-                                <TableCell sx={{ minWidth: 100 }} variant="head" align="center">Bill Date</TableCell>
-                                <TableCell sx={{ minWidth: 100 }} variant="head" align="center">Supplier</TableCell>
-                                <TableCell sx={{ minWidth: 100 }} variant="head" align="center">Buyer</TableCell>
-                                <TableCell sx={{ minWidth: 100 }} variant="head" align="center">Transport</TableCell>
-                                <TableCell sx={{ minWidth: 100 }} variant="head" align="center">LR Date</TableCell>
-                                <TableCell sx={{ minWidth: 100 }} variant="head" align="center">Amount</TableCell>
-                                <TableCell sx={{ minWidth: 100 }} variant="head" align="center">Operations</TableCell>
+                                <TableCell sx={tableCellStyle} variant="head" align="center">Bill No</TableCell>
+                                <TableCell sx={tableCellStyle} variant="head" align="center">Bill Date</TableCell>
+                                <TableCell sx={tableCellStyle} variant="head" align="center">Supplier</TableCell>
+                                <TableCell sx={tableCellStyle} variant="head" align="center">Buyer</TableCell>
+                                <TableCell sx={tableCellStyle} variant="head" align="center">Transport</TableCell>
+                                <TableCell sx={tableCellStyle} variant="head" align="center">LR Date</TableCell>
+                                <TableCell sx={tableCellStyle} variant="head" align="center">Amount</TableCell>
+                                <TableCell sx={tableCellStyle} variant="head" align="center">Operations</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -111,14 +113,14 @@ export const BillView: React.FC = () => {
                                 <TableRow
                                     key={i}
                                 >
-                                    <TableCell>{bill.billNo}</TableCell>
-                                    <TableCell>{bill.billDate}</TableCell>
-                                    <TableCell>{bill.supplierName}</TableCell>
-                                    <TableCell>{bill.buyerName}</TableCell>
-                                    <TableCell>{bill.transportName}</TableCell>
-                                    <TableCell>{bill.lrDate}</TableCell>
-                                    <TableCell>{bill.billAmount}</TableCell>
-                                    <TableCell>
+                                    <TableCell sx={tableCellStyle} align="center">{bill.billNo}</TableCell>
+                                    <TableCell sx={tableCellStyle} align="center">{bill.billDate}</TableCell>
+                                    <TableCell sx={tableCellStyle} align="center">{bill.supplierName}</TableCell>
+                                    <TableCell sx={tableCellStyle} align="center">{bill.buyerName}</TableCell>
+                                    <TableCell sx={tableCellStyle} align="center">{bill.transportName}</TableCell>
+                                    <TableCell sx={tableCellStyle} align="center">{bill.lrDate}</TableCell>
+                                    <TableCell sx={tableCellStyle} align="center">{bill.billAmount}</TableCell>
+                                    <TableCell sx={tableCellStyle} align="center">
                                         <Button onClick={() => showNotYetImplemented()}>
                                             <Edit></Edit>
                                         </Button>

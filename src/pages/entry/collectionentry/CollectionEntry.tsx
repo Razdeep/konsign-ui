@@ -234,6 +234,8 @@ const CollectionEntry: React.FC = () => {
         
     }, [auth]);
 
+    const tableCellStyle = { minWidth: 70, padding: 0.5 }
+
     return <div>
         <Typography variant="h3" align="center">Collection Entry</Typography>
         <form>
@@ -260,74 +262,74 @@ const CollectionEntry: React.FC = () => {
                         <Table sx={{ minWidth: 650 }} aria-label="simple table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell sx={{ minWidth: 70 }} variant="head" align="center">Bill No.</TableCell>
-                                    <TableCell sx={{ minWidth: 70 }} variant="head" align="center">Supplier name</TableCell>
-                                    <TableCell sx={{ minWidth: 70 }} variant="head" align="center">Bill Amount</TableCell>
-                                    <TableCell sx={{ minWidth: 70 }} variant="head" align="center">Pending Amount</TableCell>
-                                    <TableCell sx={{ minWidth: 70 }} variant="head" align="center">Amount Collected</TableCell>
-                                    <TableCell sx={{ minWidth: 70 }} variant="head" align="center">DD No.</TableCell>
-                                    <TableCell sx={{ minWidth: 70 }} variant="head" align="center">DD Date</TableCell>
-                                    <TableCell sx={{ minWidth: 70 }} variant="head" align="center">Bank</TableCell>
-                                    <TableCell sx={{ minWidth: 70 }} variant="head" align="center">Operations</TableCell>
+                                    <TableCell sx={tableCellStyle} variant="head" align="center">Bill No.</TableCell>
+                                    <TableCell sx={tableCellStyle} variant="head" align="center">Supplier name</TableCell>
+                                    <TableCell sx={tableCellStyle} variant="head" align="center">Bill Amount</TableCell>
+                                    <TableCell sx={tableCellStyle} variant="head" align="center">Pending Amount</TableCell>
+                                    <TableCell sx={tableCellStyle} variant="head" align="center">Amount Collected</TableCell>
+                                    <TableCell sx={tableCellStyle} variant="head" align="center">DD No.</TableCell>
+                                    <TableCell sx={tableCellStyle} variant="head" align="center">DD Date</TableCell>
+                                    <TableCell sx={tableCellStyle} variant="head" align="center">Bank</TableCell>
+                                    <TableCell sx={tableCellStyle} variant="head" align="center">Operations</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 {
                                     collectionVoucherItemList && collectionVoucherItemList.map((collectionVoucherItem, i) => 
                                         <TableRow>
-                                            <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
+                                            <TableCell sx={tableCellStyle} align="center">
                                                 {idxAtEditMode === i ?
                                                 <Autocomplete
                                                     disablePortal
                                                     id="billNoAutocomplete"
                                                     options={pendingBillNos}
-                                                    sx={{ width: 300 }}
+                                                    sx={{width: 150, padding: 0}}
                                                     value={collectionVoucherItem.billNo}
                                                     onChange={(event, newValue) => handleBillNoChange(newValue!, i)}
-                                                    renderInput={(params) => <TextField {...params} name="billNo" label="Bill No" />}
+                                                    renderInput={(params) => <TextField {...params} size="small" name="billNo" label="Bill No" />}
                                                 />
                                                 : collectionVoucherItem.billNo} 
                                             </TableCell>
-                                            <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
+                                            <TableCell sx={tableCellStyle} align="center">
                                                 {idxAtEditMode === i ?
                                                 <Typography color={'green'}>{curCollectionVoucherItem.supplierName}</Typography>
                                                 : collectionVoucherItem.supplierName} 
                                             </TableCell>
-                                            <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
+                                            <TableCell sx={tableCellStyle} align="center">
                                                 {idxAtEditMode === i ?
                                                 <Typography color={'green'}>{curCollectionVoucherItem.billAmount}</Typography>
                                                 : collectionVoucherItem.billAmount} 
                                             </TableCell>
-                                            <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
+                                            <TableCell sx={tableCellStyle} align="center">
                                                 {idxAtEditMode === i ?
                                                 <Typography color={'green'}>{curCollectionVoucherItem.pendingAmount}</Typography>
                                                 : collectionVoucherItem.pendingAmount} 
                                             </TableCell>
-                                            <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
+                                            <TableCell sx={tableCellStyle} align="center">
                                                 {idxAtEditMode === i ?
-                                                    <input name="amountCollected" value={curCollectionVoucherItem.amountCollected} onChange={handleCollectionVoucherItemChange}></input>
+                                                    <TextField size="small" name="amountCollected" value={curCollectionVoucherItem.amountCollected} onChange={handleCollectionVoucherItemChange}></TextField>
                                                     : collectionVoucherItem.amountCollected
                                                 }
                                             </TableCell>
-                                            <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
+                                            <TableCell sx={tableCellStyle} align="center">
                                                 {idxAtEditMode === i ?
-                                                    <input name="ddNo" value={curCollectionVoucherItem.ddNo} onChange={handleCollectionVoucherItemChange}></input>
+                                                    <TextField size="small" name="ddNo" value={curCollectionVoucherItem.ddNo} onChange={handleCollectionVoucherItemChange}></TextField>
                                                     : collectionVoucherItem.ddNo
                                                 }
                                             </TableCell>
-                                            <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
+                                            <TableCell sx={tableCellStyle} align="center">
                                                 {idxAtEditMode === i ?
-                                                    <input name="ddDate" value={curCollectionVoucherItem.ddDate} onChange={handleCollectionVoucherItemChange}></input>
+                                                    <TextField size="small" name="ddDate" value={curCollectionVoucherItem.ddDate} onChange={handleCollectionVoucherItemChange}></TextField>
                                                     : collectionVoucherItem.ddDate
                                                 }
                                             </TableCell>
-                                            <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
+                                            <TableCell sx={tableCellStyle} align="center">
                                                 {idxAtEditMode === i ?
-                                                    <input name="bank" value={curCollectionVoucherItem.bank} onChange={handleCollectionVoucherItemChange}></input>
+                                                    <TextField size="small" name="bank" value={curCollectionVoucherItem.bank} onChange={handleCollectionVoucherItemChange}></TextField>
                                                     : collectionVoucherItem.bank
                                                 }
                                             </TableCell>
-                                            <TableCell sx={{ minWidth: 70 }} variant="head" align="center">
+                                            <TableCell sx={tableCellStyle} align="center">
                                             {idxAtEditMode === i ? <Button onClick={() => updateCollectionVoucherItemRow(i)}><Done></Done></Button> :
                                                     <Button onClick={() => startEditingCollectionVoucherRow(i)}><Edit></Edit></Button>}
                                                 <Button onClick={() => deleteRow(i)}><Delete></Delete></Button>
