@@ -1,25 +1,14 @@
-FROM node:latest as builder
+FROM node:alpine AS builder
 
-RUN mkdir source
-
-WORKDIR source
-
+WORKDIR /app
 COPY . .
 
-RUN npm install --legacy-peer-deps
+RUN npm install
+RUN npm run build
 
-RUN npm run build --if-present
+# ---------------------------
 
-FROM node:latest
-
-EXPOSE 3000
-
-WORKDIR /
-
-RUN npm i -g serve
-
-RUN mkdir /app
-
-COPY --from=builder /source/build /app
-
-CMD ["serve", "-s", "app"]
+FROM nginx:stable-alpine
+COPY --from=builder /app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
