@@ -1,4 +1,5 @@
 import Bill from "../model/Bill";
+import ResponseVerdict from "../model/ResponseVerdict";
 import Config from "../util/config";
 
 export const fetchBillFromApi = async (auth: any, billNo: String): Promise<Bill|undefined> => {
@@ -22,8 +23,8 @@ export const fetchBillFromApi = async (auth: any, billNo: String): Promise<Bill|
     }
 
     if (response.status === 200) {
-        const responseJson: Bill = await response.json()
-        return responseJson
+        const responseJson: ResponseVerdict = await response.json()
+        return responseJson.data
     }
 
     console.error('Something went wrong')
@@ -72,8 +73,8 @@ export const fetchAllBillsFromApi = async (auth: any, offset: number, pageSize: 
     }
 
     if (response.status === 200) {
-        const responseJson: Bill[] = await response.json()
-        return responseJson
+        const responseJson: ResponseVerdict = await response.json()
+        return responseJson.data
     }
 
     console.error('Something went wrong')
