@@ -1,7 +1,7 @@
 class Config {
     static BACKEND_BASE_URL: string = process.env.BASE_URL || 'https://konsign-api-production.up.railway.app';
     // static BACKEND_BASE_URL: string = 'http://localhost:8080'
-    static BILL_ENTRY_URL = `${this.BACKEND_BASE_URL}/billentry`;
+    static BILL_ENTRY_URL = `${this.BACKEND_BASE_URL}/addBillEntry`;
     static GET_BILL_URL = `${this.BACKEND_BASE_URL}/getBill`;
     static DELETE_BILL_URL = `${this.BACKEND_BASE_URL}/bill`;
     static GET_ALL_BILLS_URL = `${this.BACKEND_BASE_URL}/getAllBills`;
