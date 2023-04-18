@@ -1,12 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Overpass&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap');
 
 * {
-  font-family: 'Overpass' !important;
+  font-family: 'Quicksand' !important;
 }
 
 body {
   margin: 0;
-  font-family: 'Overpass', 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'Quicksand', 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -14,6 +14,6 @@ body {
 }
 
 code {
-  font-family: 'Overpass', source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: 'Quicksand', source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }

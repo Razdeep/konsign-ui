@@ -70,16 +70,19 @@ const Login: React.FC = () => {
         }
     };
 
-    const paperStyle = { height: 200, width: 250, margin: "auto", textalign: "center", background: "rgb(195, 248, 255)", display: "block", padding: 2 }
+    const paperStyle = {
+        height: '30vh', width: '15vw', margin: "auto", textalign: "center",
+        background: "#00FFCA", display: "block", padding: 2
+    }
 
     const renderForm = (
-        <Grid style={{ minHeight:'100vh' }}>
+        <Grid style={{ minHeight: '100vh', display: 'flex', backgroundColor: '#0A4D68' }}>
             <Paper sx={paperStyle}>
                 <form>
                     <Container style={{textAlign: "center"}}>
                         <TextField label="username" name="username" onChange={handleCredentialChange} variant="standard" required></TextField>
-                        <TextField label="password" type="password" name="password" onChange={handleCredentialChange} variant="standard" required />
-                        <Button onClick={handleSubmit} style={{ color: "lightgreen", background: "green", margin: "10 10 10 10" }} fullWidth><LoginSharp />Login</Button>
+                        <TextField label="password" type="password" name="password" onChange={handleCredentialChange} variant="standard" required style={{margin: '0vh 0vh 5vh 0vh'}}/>
+                        <Button onClick={handleSubmit} style={{ color: "#00FFCA", background: "#0A4D68", margin: "10" }} fullWidth><LoginSharp />Login</Button>
                     </Container>
                 </form>
             </Paper>
