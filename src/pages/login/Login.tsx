@@ -71,8 +71,8 @@ const Login: React.FC = () => {
     };
 
     const paperStyle = {
-        height: '30vh', width: '15vw', margin: "auto", textalign: "center",
-        background: "#00FFCA", display: "block", padding: 2
+        height: '30vh', width: '35vh', margin: "auto", textalign: "center",
+        background: "#00FFCA", display: "block", padding: '1vh'
     }
 
     const renderForm = (
