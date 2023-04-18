@@ -1,5 +1,5 @@
 import { Add, Clear, Delete, Done, Edit, Save } from '@mui/icons-material';
-import { Alert, Autocomplete, Button, Grid, Paper, Slide, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material'
+import { Alert, Autocomplete, Box, Button, FormControl, Grid, Paper, Slide, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material'
 import LrPm from '../../../model/LrPm';
 import React, { ChangeEvent, useState, useEffect } from 'react'
 import Bill from '../../../model/Bill';
@@ -243,9 +243,9 @@ const BillEntry: React.FC = () => {
     const [transports, setTransports] = useState<String[]>([])
 
     return (
-        <div>
+        <Box>
             <Typography variant="h3" align="center">Input Entry</Typography>
-            <form>
+            <FormControl>
                 <Grid container spacing={3}>
                     <Grid item md={6}>
                         <TextField name="billNo" label="Bill Number" size="small" value={bill.billNo} onChange={handleBillChange} fullWidth></TextField>
@@ -325,25 +325,22 @@ const BillEntry: React.FC = () => {
                         <Button onClick={addRow}><Add></Add>Add row</Button>
                     </Grid>
                     <Grid item lg={2}>
-                        <Button onClick={clearBill} variant="contained" type="button" fullWidth>
-                            <Clear></Clear>
+                        <Button onClick={clearBill} variant="contained" type="button" fullWidth startIcon={<Clear/>}>
                             Clear
                         </Button>
                     </Grid>
                     <Grid item lg={2}>
-                        <Button onClick={submitBill} variant="contained" className="bg-yellow-600" type="button" fullWidth>
-                            <Save></Save>
+                        <Button onClick={submitBill} variant="contained" className="bg-yellow-600" type="button" fullWidth startIcon={<Save/>}>
                             Save
                         </Button>
                     </Grid>
                     <Grid item lg={2}>
-                        <Button onClick={(e) => deleteBill()} variant="contained" className="bg-yellow-600" type="button" fullWidth>
-                            <Delete></Delete>
+                        <Button onClick={(e) => deleteBill()} variant="contained" className="bg-yellow-600" type="button" fullWidth startIcon={<Delete/>}>
                             Delete
                         </Button>
                     </Grid>
                 </Grid>
-            </form>
+            </FormControl>
             <Snackbar open={snackbarVisibility === 2} autoHideDuration={6000} onClose={()=>setSnackbarVisibility(0)}
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} TransitionComponent={TransitionDown}>
                 <Alert onClose={()=>setSnackbarVisibility(0)} severity='success' sx={{ width: '100%' }}>
@@ -356,7 +353,7 @@ const BillEntry: React.FC = () => {
                     {snackbarMessage}
                 </Alert>
             </Snackbar>
-        </div>
+        </Box>
     )
 }
 

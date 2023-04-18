@@ -82,9 +82,9 @@ const Login: React.FC = () => {
             <Paper sx={paperStyle}>
                 <FormControl fullWidth>
                     <Stack spacing={3}>
-                        <TextField label="username" name="username" onChange={handleCredentialChange} variant="standard" required fullWidth/>
+                        <TextField label="user name" name="username" onChange={handleCredentialChange} variant="standard" required fullWidth/>
                         <TextField label="password" type="password" name="password" onChange={handleCredentialChange} variant="standard" required fullWidth/>
-                        <Button onClick={handleSubmit} style={{ color: theme.palette.secondary.main, background: theme.palette.primary.main }} fullWidth><LoginSharp />Login</Button>
+                        <Button onClick={handleSubmit} style={{ color: theme.palette.secondary.main, background: theme.palette.primary.main }} fullWidth startIcon={<LoginSharp />}>Login</Button>
                     </Stack>
                 </FormControl>
             </Paper>
