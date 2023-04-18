@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthProvider';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import React from 'react';
-import { Backdrop, Button, Container, DialogActions, DialogContent, DialogContentText, Grid, Paper, TextField } from '@mui/material';
+import { Backdrop, Button, DialogActions, DialogContent, DialogContentText, FormControl, Grid, Paper, Stack, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { LoginSharp } from '@mui/icons-material';
 import { KonsignSpinner } from '../../components/KonsignSpinner';
@@ -72,19 +72,19 @@ const Login: React.FC = () => {
 
     const paperStyle = {
         height: '30vh', width: '35vh', margin: "auto", textalign: "center",
-        background: "#00FFCA", display: "block", padding: '1vh'
+        background: "#00FFCA", display: "flex", padding: '3vh', center: 1
     }
 
     const renderForm = (
         <Grid style={{ minHeight: '100vh', display: 'flex', backgroundColor: '#0A4D68' }}>
             <Paper sx={paperStyle}>
-                <form>
-                    <Container style={{textAlign: "center"}}>
-                        <TextField label="username" name="username" onChange={handleCredentialChange} variant="standard" required></TextField>
-                        <TextField label="password" type="password" name="password" onChange={handleCredentialChange} variant="standard" required style={{margin: '0vh 0vh 5vh 0vh'}}/>
-                        <Button onClick={handleSubmit} style={{ color: "#00FFCA", background: "#0A4D68", margin: "10" }} fullWidth><LoginSharp />Login</Button>
-                    </Container>
-                </form>
+                <FormControl fullWidth>
+                    <Stack spacing={3}>
+                        <TextField label="username" name="username" onChange={handleCredentialChange} variant="standard" required fullWidth/>
+                        <TextField label="password" type="password" name="password" onChange={handleCredentialChange} variant="standard" required fullWidth/>
+                        <Button onClick={handleSubmit} style={{ color: "#00FFCA", background: "#0A4D68" }} fullWidth><LoginSharp />Login</Button>
+                    </Stack>
+                </FormControl>
             </Paper>
             {
                 !isLoading ? <></> :
