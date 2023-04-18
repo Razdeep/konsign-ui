@@ -8,10 +8,12 @@ import { Backdrop, Button, DialogActions, DialogContent, DialogContentText, Form
 import { useNavigate } from 'react-router-dom';
 import { LoginSharp } from '@mui/icons-material';
 import { KonsignSpinner } from '../../components/KonsignSpinner';
+import { useTheme } from '@mui/material/styles';
 
 const Login: React.FC = () => {
 
     const auth = useAuth()
+    const theme = useTheme()
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isIncorrectCredential, setIncorrectCredential] = useState<boolean>(false);
@@ -72,17 +74,17 @@ const Login: React.FC = () => {
 
     const paperStyle = {
         height: '30vh', width: '35vh', margin: "auto", textalign: "center",
-        background: "#00FFCA", display: "flex", padding: '3vh', center: 1
+        background: theme.palette.secondary.main, display: "flex", padding: '3vh', center: 1
     }
 
     const renderForm = (
-        <Grid style={{ minHeight: '100vh', display: 'flex', backgroundColor: '#0A4D68' }}>
+        <Grid style={{ minHeight: '100vh', display: 'flex', backgroundColor: theme.palette.primary.main }}>
             <Paper sx={paperStyle}>
                 <FormControl fullWidth>
                     <Stack spacing={3}>
                         <TextField label="username" name="username" onChange={handleCredentialChange} variant="standard" required fullWidth/>
                         <TextField label="password" type="password" name="password" onChange={handleCredentialChange} variant="standard" required fullWidth/>
-                        <Button onClick={handleSubmit} style={{ color: "#00FFCA", background: "#0A4D68" }} fullWidth><LoginSharp />Login</Button>
+                        <Button onClick={handleSubmit} style={{ color: theme.palette.secondary.main, background: theme.palette.primary.main }} fullWidth><LoginSharp />Login</Button>
                     </Stack>
                 </FormControl>
             </Paper>
