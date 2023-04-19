@@ -247,7 +247,7 @@ const BillEntry: React.FC = () => {
             <FormControl>
                 <Grid container spacing={2}>
                     <Grid item lg={12} md={12} sm={12} xs={12}>
-                        <Typography variant="h4" align="center">Input Entry</Typography>
+                        <Typography variant="h4" align="center">Bill Entry</Typography>
                     </Grid>
                     <Grid item lg={4} md={6}>
                         <Stack spacing={2}>

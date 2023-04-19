@@ -2,7 +2,7 @@ import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "reac
 import { useAuth } from "../../../context/AuthProvider";
 import Bill from "../../../model/Bill";
 import { deleteBillFromApi, fetchAllBillsFromApi } from "../../../services/BillServices";
-import { Alert, Button, ButtonGroup, Container, MenuItem, Pagination, Paper, Select, SelectChangeEvent, Slide, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material";
+import { Alert, Button, ButtonGroup, Container, InputLabel, MenuItem, Pagination, Paper, Select, SelectChangeEvent, Slide, Snackbar, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { KonsignSpinner } from "../../../components/KonsignSpinner";
 import { Delete, Edit, Refresh } from "@mui/icons-material";
 
@@ -50,7 +50,7 @@ export const BillView: React.FC = () => {
         }
 
         const responseMessage = (await response?.json()).message
-        
+
         if (response.status === 200) {
             setSnackbarMessage(responseMessage ?? `Successfully deleted bill ${billNo}`)
             setSnackbarVisibility(2)
@@ -78,77 +78,86 @@ export const BillView: React.FC = () => {
 
     const tableCellStyle = { minWidth: 100, padding: 0.5 }
 
-    return <>
-        <Button onClick={fetchData}><Refresh></Refresh>Refresh</Button>
-        <Select value={billsPerPage.toString()} onChange={handleBillsPerPageChange}>
-            <MenuItem value={5}>5</MenuItem>
-            <MenuItem value={10}>10</MenuItem>
-            <MenuItem value={15}>15</MenuItem>
-            <MenuItem value={20}>20</MenuItem>
-            <MenuItem value={30}>30</MenuItem>
-            <MenuItem value={50}>50</MenuItem>
-            <MenuItem value={100}>100</MenuItem>
-        </Select>
+    return <Stack spacing={1}>
+        <Typography variant="h4" align="center">Bill View</Typography>
+        <>
+            <Stack direction="row">
+                <Container sx={{display: 'flex'}}>
+                    <InputLabel>Items per page</InputLabel>
+                    <Select value={billsPerPage.toString()} 
+                        size="small" onChange={handleBillsPerPageChange}>
+                        <MenuItem value={5}>5</MenuItem>
+                        <MenuItem value={10}>10</MenuItem>
+                        <MenuItem value={15}>15</MenuItem>
+                        <MenuItem value={20}>20</MenuItem>
+                        <MenuItem value={30}>30</MenuItem>
+                        <MenuItem value={50}>50</MenuItem>
+                        <MenuItem value={100}>100</MenuItem>
+                    </Select>
+                </Container>
+                <Button sx={{marginLeft: 'auto'}} variant="contained" onClick={fetchData} startIcon={<Refresh/>}>Refresh</Button>
+            </Stack>
 
-        {isLoading ?
-            <Container sx={{ margin: "auto", height: 200, width: 250, textAlign: "center" }}><KonsignSpinner /></Container> :
-            <>
-                <Pagination page={pageOffset} onChange={handleOffsetChange} count={totalPages} variant="outlined" shape="rounded" />
-                <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell sx={tableCellStyle} variant="head" align="center">Bill No</TableCell>
-                                <TableCell sx={tableCellStyle} variant="head" align="center">Bill Date</TableCell>
-                                <TableCell sx={tableCellStyle} variant="head" align="center">Supplier</TableCell>
-                                <TableCell sx={tableCellStyle} variant="head" align="center">Buyer</TableCell>
-                                <TableCell sx={tableCellStyle} variant="head" align="center">Transport</TableCell>
-                                <TableCell sx={tableCellStyle} variant="head" align="center">LR Date</TableCell>
-                                <TableCell sx={tableCellStyle} variant="head" align="center">Amount</TableCell>
-                                <TableCell sx={tableCellStyle} variant="head" align="center">Operations</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {bills.map((bill, i) => (
-                                <TableRow
-                                    key={i}
-                                >
-                                    <TableCell sx={tableCellStyle} align="center">{bill.billNo}</TableCell>
-                                    <TableCell sx={tableCellStyle} align="center">{bill.billDate}</TableCell>
-                                    <TableCell sx={tableCellStyle} align="center">{bill.supplierName}</TableCell>
-                                    <TableCell sx={tableCellStyle} align="center">{bill.buyerName}</TableCell>
-                                    <TableCell sx={tableCellStyle} align="center">{bill.transportName}</TableCell>
-                                    <TableCell sx={tableCellStyle} align="center">{bill.lrDate}</TableCell>
-                                    <TableCell sx={tableCellStyle} align="center">{bill.billAmount}</TableCell>
-                                    <TableCell sx={tableCellStyle} align="center">
-                                        <ButtonGroup>
-                                            <Button onClick={() => showNotYetImplemented()}>
-                                                <Edit></Edit>
-                                            </Button>
-                                            <Button onClick={() => deleteBill(bill.billNo)}>
-                                                <Delete color={"error"}></Delete>
-                                            </Button>
-                                        </ButtonGroup>
-                                    </TableCell>
+            {isLoading ?
+                <Container sx={{ margin: "auto", height: 200, width: 250, textAlign: "center" }}><KonsignSpinner /></Container> :
+                <>
+                    <Pagination page={pageOffset} onChange={handleOffsetChange} count={totalPages} variant="outlined" shape="rounded" />
+                    <TableContainer component={Paper}>
+                        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell sx={tableCellStyle} variant="head" align="center">Bill No</TableCell>
+                                    <TableCell sx={tableCellStyle} variant="head" align="center">Bill Date</TableCell>
+                                    <TableCell sx={tableCellStyle} variant="head" align="center">Supplier</TableCell>
+                                    <TableCell sx={tableCellStyle} variant="head" align="center">Buyer</TableCell>
+                                    <TableCell sx={tableCellStyle} variant="head" align="center">Transport</TableCell>
+                                    <TableCell sx={tableCellStyle} variant="head" align="center">LR Date</TableCell>
+                                    <TableCell sx={tableCellStyle} variant="head" align="center">Amount</TableCell>
+                                    <TableCell sx={tableCellStyle} variant="head" align="center">Operations</TableCell>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                <Pagination page={pageOffset} onChange={handleOffsetChange} count={totalPages} variant="outlined" shape="rounded" />
-            </>
-        }
-        <Snackbar open={snackbarVisibility === 2} autoHideDuration={6000} onClose={() => setSnackbarVisibility(0)}
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} TransitionComponent={TransitionDown}>
-            <Alert onClose={() => setSnackbarVisibility(0)} severity='success' sx={{ width: '100%' }}>
-                {snackbarMessage}
-            </Alert>
-        </Snackbar>
-        <Snackbar open={snackbarVisibility === 1} autoHideDuration={6000} onClose={() => setSnackbarVisibility(0)}
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
-            <Alert onClose={() => setSnackbarVisibility(0)} severity='error' sx={{ width: '100%' }}>
-                {snackbarMessage}
-            </Alert>
-        </Snackbar>
-    </>
+                            </TableHead>
+                            <TableBody>
+                                {bills.map((bill, i) => (
+                                    <TableRow
+                                        key={i}
+                                    >
+                                        <TableCell sx={tableCellStyle} align="center">{bill.billNo}</TableCell>
+                                        <TableCell sx={tableCellStyle} align="center">{bill.billDate}</TableCell>
+                                        <TableCell sx={tableCellStyle} align="center">{bill.supplierName}</TableCell>
+                                        <TableCell sx={tableCellStyle} align="center">{bill.buyerName}</TableCell>
+                                        <TableCell sx={tableCellStyle} align="center">{bill.transportName}</TableCell>
+                                        <TableCell sx={tableCellStyle} align="center">{bill.lrDate}</TableCell>
+                                        <TableCell sx={tableCellStyle} align="center">{bill.billAmount}</TableCell>
+                                        <TableCell sx={tableCellStyle} align="center">
+                                            <ButtonGroup>
+                                                <Button onClick={() => showNotYetImplemented()}>
+                                                    <Edit></Edit>
+                                                </Button>
+                                                <Button onClick={() => deleteBill(bill.billNo)}>
+                                                    <Delete color={"error"}></Delete>
+                                                </Button>
+                                            </ButtonGroup>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    <Pagination page={pageOffset} onChange={handleOffsetChange} count={totalPages} variant="outlined" shape="rounded" />
+                </>
+            }
+            <Snackbar open={snackbarVisibility === 2} autoHideDuration={6000} onClose={() => setSnackbarVisibility(0)}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} TransitionComponent={TransitionDown}>
+                <Alert onClose={() => setSnackbarVisibility(0)} severity='success' sx={{ width: '100%' }}>
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
+            <Snackbar open={snackbarVisibility === 1} autoHideDuration={6000} onClose={() => setSnackbarVisibility(0)}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+                <Alert onClose={() => setSnackbarVisibility(0)} severity='error' sx={{ width: '100%' }}>
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
+        </>
+    </Stack>
 }
