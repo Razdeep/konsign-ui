@@ -1,5 +1,5 @@
-import { Add, Clear, Delete, Done, Edit, Save } from '@mui/icons-material';
-import { Alert, Autocomplete, Box, Button, ButtonGroup, FormControl, Grid, Paper, Slide, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material'
+import { Add, Clear, CurrencyRupeeSharp, Delete, Done, Edit, Save } from '@mui/icons-material';
+import { Alert, Autocomplete, Box, Button, ButtonGroup, FilledInput, FormControl, Grid, InputAdornment, InputLabel, Paper, Slide, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material'
 import LrPm from '../../../model/LrPm';
 import React, { ChangeEvent, useState, useEffect } from 'react'
 import Bill from '../../../model/Bill';
@@ -72,7 +72,7 @@ const BillEntry: React.FC = () => {
     const handleBillChange = async (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         e.preventDefault();
         if (e.target.name === 'billAmount') {
-            setBill({ ...bill, [e.target.name]: parseInt(e.target.value) });
+            setBill({ ...bill, [e.target.name]: e.target.value === '' ? 0 : parseInt(e.target.value) });
             return
         }
         setBill({ ...bill, [e.target.name]: e.target.value });
@@ -321,7 +321,10 @@ const BillEntry: React.FC = () => {
                         </TableContainer>
                     </Grid>
                     <Grid item lg={4}>
-                        <TextField name="billAmount" type="number" label="Amount" value={bill.billAmount} onChange={handleBillChange} size="small"></TextField>
+                        <FilledInput name="billAmount" value={bill.billAmount} onChange={handleBillChange} size="small"
+                            startAdornment={<InputAdornment position='start'><CurrencyRupeeSharp fontSize='small' /></InputAdornment>}
+                            inputProps={{ min: 0, style: { textAlign: 'right' } }}
+                        ></FilledInput>
                     </Grid>
                     <Grid item lg={2}>
                         <Button onClick={addRow} startIcon={<Add/>}>Add row</Button>
