@@ -1,5 +1,5 @@
 import { Add, Clear, CurrencyRupeeSharp, Delete, Done, Edit, Save } from '@mui/icons-material';
-import { Alert, Autocomplete, Box, Button, ButtonGroup, FilledInput, FormControl, Grid, InputAdornment, InputLabel, Paper, Slide, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material'
+import { Alert, Autocomplete, Box, Button, ButtonGroup, FilledInput, FormControl, Grid, InputAdornment, InputLabel, Paper, Slide, Snackbar, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material'
 import LrPm from '../../../model/LrPm';
 import React, { ChangeEvent, useState, useEffect } from 'react'
 import Bill from '../../../model/Bill';
@@ -244,54 +244,48 @@ const BillEntry: React.FC = () => {
 
     return (
         <Box>
-            <Typography variant="h3" align="center">Input Entry</Typography>
             <FormControl>
-                <Grid container spacing={3}>
-                    <Grid item md={6}>
-                        <TextField name="billNo" label="Bill Number" size="small" value={bill.billNo} onChange={handleBillChange} fullWidth></TextField>
+                <Grid container spacing={2}>
+                    <Grid item lg={12} md={12} sm={12} xs={12}>
+                        <Typography variant="h4" align="center">Input Entry</Typography>
                     </Grid>
-                    <Grid item lg={6}>
-                        <TextField name="billDate" type="date" value={bill.billDate} defaultValue={(new Date()).toISOString().substring(0, 10)} label="Bill Date" size="small" onChange={handleBillChange} fullWidth></TextField>
+                    <Grid item lg={4} md={6}>
+                        <Stack spacing={2}>
+                            <TextField name="billNo" label="Bill Number" size="small" value={bill.billNo} onChange={handleBillChange} fullWidth></TextField>
+                            <TextField name="billDate" type="date" value={bill.billDate} defaultValue={(new Date()).toISOString().substring(0, 10)} label="Bill Date" size="small" onChange={handleBillChange} fullWidth></TextField>
+                            <Autocomplete
+                                disablePortal
+                                id="supplierNameAutocomplete"
+                                options={suppliers}
+                                sx={{ width: 350 }}
+                                value={bill.supplierName}
+                                onChange={handleSupplierNameChange}
+                                renderInput={(params) => <TextField {...params} name="supplierName" label="Supplier name" />}
+                            />
+                            <Autocomplete
+                                disablePortal
+                                id="buyerNameAutocomplete"
+                                options={buyers}
+                                sx={{ width: 350 }}
+                                value={bill.buyerName}
+                                onChange={handleBuyerNameChange}
+                                renderInput={(params) => <TextField {...params} name="buyerName" label="Buyer name" />}
+                            />
+                            <Autocomplete
+                                disablePortal
+                                id="transportNameAutocomplete"
+                                options={transports}
+                                sx={{ width: 350 }}
+                                value={bill.transportName}
+                                onChange={handleTransportNameChange}
+                                renderInput={(params) => <TextField {...params} name="transportName" label="Transport name" />}
+                            />
+                            <TextField name="lrDate" type="date" value={bill.lrDate} onChange={handleBillChange} defaultValue={(new Date()).toISOString().substring(0, 10)} label="LR Date" size="small" fullWidth></TextField>
+                        </Stack>
                     </Grid>
-                    <Grid item md={6}>
-                        <Autocomplete
-                            disablePortal
-                            id="supplierNameAutocomplete"
-                            options={suppliers}
-                            sx={{ width: 300 }}
-                            value={bill.supplierName}
-                            onChange={handleSupplierNameChange}
-                            renderInput={(params) => <TextField {...params} name="supplierName" label="Supplier name" />}
-                        />
-                    </Grid>
-                    <Grid item md={6}>
-                        <Autocomplete
-                            disablePortal
-                            id="buyerNameAutocomplete"
-                            options={buyers}
-                            sx={{ width: 300 }}
-                            value={bill.buyerName}
-                            onChange={handleBuyerNameChange}
-                            renderInput={(params) => <TextField {...params} name="buyerName" label="Buyer name" />}
-                        />
-                    </Grid>
-                    <Grid item lg={6}>
-                        <Autocomplete
-                            disablePortal
-                            id="transportNameAutocomplete"
-                            options={transports}
-                            sx={{ width: 300 }}
-                            value={bill.transportName}
-                            onChange={handleTransportNameChange}
-                            renderInput={(params) => <TextField {...params} name="transportName" label="Transport name" />}
-                        />
-                    </Grid>
-                    <Grid item lg={6}>
-                        <TextField name="lrDate" type="date" value={bill.lrDate} onChange={handleBillChange} defaultValue={(new Date()).toISOString().substring(0, 10)} label="LR Date" size="small" fullWidth></TextField>
-                    </Grid>
-                    <Grid item lg={12}>
+                    <Grid item lg={8}>
                         <TableContainer component={Paper}>
-                            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                            <Table sx={{ minWidth: '50vw' }} aria-label="simple table">
                                 <TableHead>
                                     <TableRow>
                                         <TableCell sx={{ minWidth: 250}} variant="head" align="center">LR</TableCell>
@@ -311,7 +305,7 @@ const BillEntry: React.FC = () => {
                                                 <ButtonGroup>
                                                     {idxAtEditMode === i ? <Button onClick={() => updateLrRow(i)}><Done></Done></Button> :
                                                         <Button onClick={() => startEditingLrPmRow(i)}><Edit></Edit></Button>}
-                                                    <Button onClick={() => deleteRow(i)}><Delete></Delete></Button>
+                                                    <Button onClick={() => deleteRow(i)} color="error"><Delete></Delete></Button>
                                                 </ButtonGroup>
                                             </TableCell>
                                         </TableRow>
