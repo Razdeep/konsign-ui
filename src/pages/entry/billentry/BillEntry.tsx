@@ -329,20 +329,18 @@ const BillEntry: React.FC = () => {
                     <Grid item lg={2}>
                         <Button onClick={addRow} startIcon={<Add/>}>Add row</Button>
                     </Grid>
-                    <Grid item lg={2}>
-                        <Button onClick={clearBill} variant="contained" type="button" fullWidth startIcon={<Clear/>}>
-                            Clear
-                        </Button>
-                    </Grid>
-                    <Grid item lg={2}>
-                        <Button onClick={submitBill} variant="contained" className="bg-yellow-600" type="button" fullWidth startIcon={<Save/>}>
-                            Save
-                        </Button>
-                    </Grid>
-                    <Grid item lg={2}>
-                        <Button onClick={(e) => deleteBill()} variant="contained" className="bg-yellow-600" type="button" fullWidth startIcon={<Delete/>}>
-                            Delete
-                        </Button>
+                    <Grid item lg={6}>
+                        <ButtonGroup size='large'>
+                            <Button onClick={clearBill} variant="contained" type="button" fullWidth startIcon={<Clear/>}>
+                                Clear
+                            </Button>
+                            <Button onClick={submitBill} variant="contained" type="button" color="success" fullWidth startIcon={<Save/>}>
+                                Save
+                            </Button>
+                            <Button onClick={(e) => deleteBill()} variant="contained" type="button" color="error" fullWidth startIcon={<Delete/>}>
+                                Delete
+                            </Button>
+                        </ButtonGroup>
                     </Grid>
                 </Grid>
             </FormControl>
