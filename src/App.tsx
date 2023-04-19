@@ -6,6 +6,7 @@ import Dashboard from './pages/dashboard/Dashboard';
 import Login from './pages/login/Login';
 import AuthProvider from './context/AuthProvider';
 import RequireAuth from './components/RequireAuth'
+import { colors } from '@mui/material';
 
 const konsignTheme = createTheme({
   palette: {
@@ -14,6 +15,10 @@ const konsignTheme = createTheme({
     },
     secondary: {
       main: '#00FFCA'
+    },
+    background: {
+      default: colors.grey[50],
+      paper: colors.cyan[500],
     }
   }
 })
