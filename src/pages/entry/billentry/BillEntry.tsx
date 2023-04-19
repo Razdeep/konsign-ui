@@ -1,5 +1,5 @@
 import { Add, Clear, Delete, Done, Edit, Save } from '@mui/icons-material';
-import { Alert, Autocomplete, Box, Button, FormControl, Grid, Paper, Slide, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material'
+import { Alert, Autocomplete, Box, Button, ButtonGroup, FormControl, Grid, Paper, Slide, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material'
 import LrPm from '../../../model/LrPm';
 import React, { ChangeEvent, useState, useEffect } from 'react'
 import Bill from '../../../model/Bill';
@@ -308,9 +308,11 @@ const BillEntry: React.FC = () => {
                                             <TableCell align="center">{idxAtEditMode === i ? <TextField sx={{width: 80}} name="lr" value={currentLrPm.lr} onChange={handleLrPmChange} variant="standard" size="small"></TextField> : row.lr}</TableCell>
                                             <TableCell align="center">{idxAtEditMode === i ? <TextField sx={{width: 80}} name="pm" value={currentLrPm.pm} variant="standard" onChange={handleLrPmChange} size="small"></TextField> : row.pm}</TableCell>
                                             <TableCell align="center">
-                                                {idxAtEditMode === i ? <Button onClick={() => updateLrRow(i)}><Done></Done></Button> :
-                                                    <Button onClick={() => startEditingLrPmRow(i)}><Edit></Edit></Button>}
-                                                <Button onClick={() => deleteRow(i)}><Delete></Delete></Button>
+                                                <ButtonGroup>
+                                                    {idxAtEditMode === i ? <Button onClick={() => updateLrRow(i)}><Done></Done></Button> :
+                                                        <Button onClick={() => startEditingLrPmRow(i)}><Edit></Edit></Button>}
+                                                    <Button onClick={() => deleteRow(i)}><Delete></Delete></Button>
+                                                </ButtonGroup>
                                             </TableCell>
                                         </TableRow>
                                     ))}
@@ -322,7 +324,7 @@ const BillEntry: React.FC = () => {
                         <TextField name="billAmount" type="number" label="Amount" value={bill.billAmount} onChange={handleBillChange} size="small"></TextField>
                     </Grid>
                     <Grid item lg={2}>
-                        <Button onClick={addRow}><Add></Add>Add row</Button>
+                        <Button onClick={addRow} startIcon={<Add/>}>Add row</Button>
                     </Grid>
                     <Grid item lg={2}>
                         <Button onClick={clearBill} variant="contained" type="button" fullWidth startIcon={<Clear/>}>

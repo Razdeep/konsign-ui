@@ -2,7 +2,7 @@ import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "reac
 import { useAuth } from "../../../context/AuthProvider";
 import Bill from "../../../model/Bill";
 import { deleteBillFromApi, fetchAllBillsFromApi } from "../../../services/BillServices";
-import { Alert, Button, Container, MenuItem, Pagination, Paper, Select, SelectChangeEvent, Slide, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material";
+import { Alert, Button, ButtonGroup, Container, MenuItem, Pagination, Paper, Select, SelectChangeEvent, Slide, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material";
 import { KonsignSpinner } from "../../../components/KonsignSpinner";
 import { Delete, Edit, Refresh } from "@mui/icons-material";
 
@@ -121,12 +121,14 @@ export const BillView: React.FC = () => {
                                     <TableCell sx={tableCellStyle} align="center">{bill.lrDate}</TableCell>
                                     <TableCell sx={tableCellStyle} align="center">{bill.billAmount}</TableCell>
                                     <TableCell sx={tableCellStyle} align="center">
-                                        <Button onClick={() => showNotYetImplemented()}>
-                                            <Edit></Edit>
-                                        </Button>
-                                        <Button onClick={() => deleteBill(bill.billNo)}>
-                                            <Delete color={"error"}></Delete>
-                                        </Button>
+                                        <ButtonGroup>
+                                            <Button onClick={() => showNotYetImplemented()}>
+                                                <Edit></Edit>
+                                            </Button>
+                                            <Button onClick={() => deleteBill(bill.billNo)}>
+                                                <Delete color={"error"}></Delete>
+                                            </Button>
+                                        </ButtonGroup>
                                     </TableCell>
                                 </TableRow>
                             ))}
