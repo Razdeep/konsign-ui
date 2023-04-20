@@ -2,13 +2,15 @@ import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "reac
 import { useAuth } from "../../../context/AuthProvider";
 import Bill from "../../../model/Bill";
 import { deleteBillFromApi, fetchAllBillsFromApi } from "../../../services/BillServices";
-import { Alert, Button, ButtonGroup, Container, InputLabel, MenuItem, Pagination, Paper, Select, SelectChangeEvent, Slide, Snackbar, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, ButtonGroup, Container, InputLabel, MenuItem, Pagination, Paper, Select, SelectChangeEvent, Slide, Snackbar, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { KonsignSpinner } from "../../../components/KonsignSpinner";
 import { Delete, Edit, Refresh } from "@mui/icons-material";
+import { Theme, useTheme } from "@emotion/react";
 
 export const BillView: React.FC = () => {
     const auth = useAuth()
 
+    const theme = useTheme()
     const [snackbarVisibility, setSnackbarVisibility] = useState<number>(0)
     const [snackbarMessage, setSnackbarMessage] = useState<string>('')
 
@@ -106,14 +108,14 @@ export const BillView: React.FC = () => {
                         <Table sx={{ minWidth: 650 }} aria-label="simple table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell sx={tableCellStyle} variant="head" align="center">Bill No</TableCell>
-                                    <TableCell sx={tableCellStyle} variant="head" align="center">Bill Date</TableCell>
-                                    <TableCell sx={tableCellStyle} variant="head" align="center">Supplier</TableCell>
-                                    <TableCell sx={tableCellStyle} variant="head" align="center">Buyer</TableCell>
-                                    <TableCell sx={tableCellStyle} variant="head" align="center">Transport</TableCell>
-                                    <TableCell sx={tableCellStyle} variant="head" align="center">LR Date</TableCell>
-                                    <TableCell sx={tableCellStyle} variant="head" align="center">Amount</TableCell>
-                                    <TableCell sx={tableCellStyle} variant="head" align="center">Operations</TableCell>
+                                    <TableCell sx={{backgroundColor: (theme) => theme.palette.primary.main, color: (theme) => theme.palette.secondary.main }} variant="head" align="center">Bill No</TableCell>
+                                    <TableCell sx={{backgroundColor: (theme) => theme.palette.primary.main, color: (theme) => theme.palette.secondary.main }} variant="head" align="center">Bill Date</TableCell>
+                                    <TableCell sx={{backgroundColor: (theme) => theme.palette.primary.main, color: (theme) => theme.palette.secondary.main }} variant="head" align="center">Supplier</TableCell>
+                                    <TableCell sx={{backgroundColor: (theme) => theme.palette.primary.main, color: (theme) => theme.palette.secondary.main }} variant="head" align="center">Buyer</TableCell>
+                                    <TableCell sx={{backgroundColor: (theme) => theme.palette.primary.main, color: (theme) => theme.palette.secondary.main }} variant="head" align="center">Transport</TableCell>
+                                    <TableCell sx={{backgroundColor: (theme) => theme.palette.primary.main, color: (theme) => theme.palette.secondary.main }} variant="head" align="center">LR Date</TableCell>
+                                    <TableCell sx={{backgroundColor: (theme) => theme.palette.primary.main, color: (theme) => theme.palette.secondary.main }} variant="head" align="center">Amount</TableCell>
+                                    <TableCell sx={{backgroundColor: (theme) => theme.palette.primary.main, color: (theme) => theme.palette.secondary.main }} variant="head" align="center">Operations</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>

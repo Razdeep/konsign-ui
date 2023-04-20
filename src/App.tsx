@@ -18,7 +18,7 @@ const konsignTheme = createTheme({
     },
     background: {
       default: colors.grey[50],
-      paper: colors.cyan[500],
+      paper: '#00FFCA',
     }
   }
 })
