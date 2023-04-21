@@ -1,16 +1,14 @@
-import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useAuth } from "../../../context/AuthProvider";
 import Bill from "../../../model/Bill";
 import { deleteBillFromApi, fetchAllBillsFromApi } from "../../../services/BillServices";
-import { Alert, Box, Button, ButtonGroup, Container, InputLabel, MenuItem, Pagination, Paper, Select, SelectChangeEvent, Slide, Snackbar, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Alert, Button, ButtonGroup, Container, InputLabel, MenuItem, Pagination, Paper, Select, SelectChangeEvent, Slide, Snackbar, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { KonsignSpinner } from "../../../components/KonsignSpinner";
 import { Delete, Edit, Refresh } from "@mui/icons-material";
-import { Theme, useTheme } from "@emotion/react";
 
 export const BillView: React.FC = () => {
     const auth = useAuth()
 
-    const theme = useTheme()
     const [snackbarVisibility, setSnackbarVisibility] = useState<number>(0)
     const [snackbarMessage, setSnackbarMessage] = useState<string>('')
 
