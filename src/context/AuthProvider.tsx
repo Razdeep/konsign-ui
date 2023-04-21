@@ -1,5 +1,6 @@
 import { createContext, FC, ReactNode, useContext, useState } from 'react'
 import React from 'react'
+import User from '../model/User';
 
 const AuthContext = createContext<any>(null)
 
@@ -9,9 +10,9 @@ interface Intf {
 
 export const AuthProvider: FC<Intf> = ({ children }) => {
 
-    const [user, setUser] = useState<String | null>('');
+    const [user, setUser] = useState<User | null>(null);
 
-    const login = (user: String) => {
+    const login = (user: User) => {
         setUser(user)
     }
 
