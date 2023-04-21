@@ -10,7 +10,7 @@ export const fetchAllBuyersFromApi = async (auth: any) => {
         method: 'GET',
         headers: new Headers({
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${auth?.user?.jwt}`
+            'Authorization': `Bearer ${auth?.user?.accessToken}`
         }),
         json: true
     };

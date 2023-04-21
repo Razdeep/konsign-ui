@@ -7,7 +7,7 @@ export const fetchBillFromApi = async (auth: any, billNo: String): Promise<Bill|
         method: 'GET',
         headers: new Headers({
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${auth?.user?.jwt}`
+            'Authorization': `Bearer ${auth?.user?.accessToken}`
         }),
         json: true
     };
@@ -36,7 +36,7 @@ export const deleteBillFromApi = async (auth: any, billNo: string) => {
         method: 'DELETE',
         headers: new Headers({
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${auth?.user?.jwt}`
+            'Authorization': `Bearer ${auth?.user?.accessToken}`
         }),
         json: true
     }
@@ -57,7 +57,7 @@ export const fetchAllBillsFromApi = async (auth: any, offset: number, pageSize: 
         method: 'GET',
         headers: new Headers({
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${auth?.user?.jwt}`
+            'Authorization': `Bearer ${auth?.user?.accessToken}`
         }),
         json: true
     };

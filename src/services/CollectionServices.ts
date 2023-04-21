@@ -13,7 +13,7 @@ export const fetchAllPendingBillNumbersFromApi = async (auth: any, buyerName: st
         method: 'GET',
         headers: new Headers({
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + auth?.user?.jwt
+            'Authorization': 'Bearer ' + auth?.user?.accessToken
         }),
         json: true
     };
@@ -54,7 +54,7 @@ export const submitCollectionToApi = async (auth: any,
         method: 'POST',
         headers: new Headers({
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + auth?.user?.jwt
+            'Authorization': 'Bearer ' + auth?.user?.accessToken
         }),
         body: serializedData,
         json: true
@@ -73,7 +73,7 @@ export const deleteCollectionFromApi = async (auth: any, voucherNo: string) => {
         method: 'DELETE',
         headers: new Headers({
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${auth?.user?.jwt}`
+            'Authorization': `Bearer ${auth?.user?.accessToken}`
         }),
         json: true
     }
@@ -95,7 +95,7 @@ export const fetchCollectionVoucherFromApi = async (auth: any, voucherNo: string
         method: 'GET',
         headers: new Headers({
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + auth?.user?.jwt
+            'Authorization': `Bearer ${auth?.user?.accessToken}`
         }),
         json: true
     };
