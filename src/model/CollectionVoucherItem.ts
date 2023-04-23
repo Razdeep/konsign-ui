@@ -1,6 +1,6 @@
 class CollectionVoucherItem {
     billNo: string = '';
-    amountCollected: string = '';
+    amountCollected: number = 0;
     ddNo: string = '';
     ddDate: string = '';
     bank: string = '';

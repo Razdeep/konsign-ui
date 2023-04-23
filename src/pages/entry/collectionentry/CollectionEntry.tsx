@@ -1,5 +1,5 @@
 import { Add, Clear, Delete, Done, Edit, Save } from "@mui/icons-material";
-import { Alert, Autocomplete, Button, Grid, Paper, Slide, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material";
+import { Alert, Autocomplete, Button, ButtonGroup, Grid, Paper, Slide, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useAuth } from "../../../context/AuthProvider";
@@ -240,13 +240,13 @@ const CollectionEntry: React.FC = () => {
         <Typography variant="h3" align="center">Collection Entry</Typography>
         <form>
             <Grid container spacing={3}>
-                <Grid item md={6}>
+                <Grid item lg={2}>
                     <TextField name="voucherNo" label="Voucher number" size="small" value={collectionVoucher.voucherNo} onChange={handleVoucherChange} fullWidth></TextField>
                 </Grid>
-                <Grid item lg={6}>
+                <Grid item lg={3}>
                     <TextField name="voucherDate" type="date" defaultValue={(new Date()).toISOString().substring(0, 10)} label="Voucher Date" size="small" onChange={handleVoucherChange} fullWidth></TextField>
                 </Grid>
-                <Grid item md={6}>
+                <Grid item lg={7}>
                     <Autocomplete
                         disablePortal
                         id="buyerNameAutocomplete"
@@ -330,9 +330,11 @@ const CollectionEntry: React.FC = () => {
                                                 }
                                             </TableCell>
                                             <TableCell sx={tableCellStyle} align="center">
-                                            {idxAtEditMode === i ? <Button onClick={() => updateCollectionVoucherItemRow(i)}><Done></Done></Button> :
-                                                    <Button onClick={() => startEditingCollectionVoucherRow(i)}><Edit></Edit></Button>}
-                                                <Button onClick={() => deleteRow(i)}><Delete></Delete></Button>
+                                                <ButtonGroup>
+                                                    {idxAtEditMode === i ? <Button onClick={() => updateCollectionVoucherItemRow(i)} startIcon={<Done />} /> :
+                                                        <Button onClick={() => startEditingCollectionVoucherRow(i)} startIcon={<Edit />} />}
+                                                    <Button onClick={() => deleteRow(i)} startIcon={<Delete />} color={'error'}/>
+                                                </ButtonGroup>
                                             </TableCell>
                                         </TableRow>
                                         )
