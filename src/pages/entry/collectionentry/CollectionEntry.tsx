@@ -41,7 +41,11 @@ const CollectionEntry: React.FC = () => {
         event.preventDefault()
         const newBuyerNameValue = newValue?.toString() ?? ''
         setCollectionVoucher({...collectionVoucher, buyerName: newBuyerNameValue})
-        let fetchedPendingBills: PendingBill[] | null = await fetchAllPendingBillNumbersFromApi(auth, newBuyerNameValue)
+        await fetchPendingBills()
+    }
+
+    const fetchPendingBills = async () => {
+        let fetchedPendingBills: PendingBill[] | null = await fetchAllPendingBillNumbersFromApi(auth, collectionVoucher.buyerName)
         if (fetchedPendingBills != null) {
             setPendingBills(fetchedPendingBills)
             const newPendingBillNos = fetchedPendingBills.map(pendingBill => pendingBill.billNo)
@@ -113,8 +117,9 @@ const CollectionEntry: React.FC = () => {
         return <Slide {...props} direction="right" />;
     }
 
-    const addNewCollectionVoucherItem = () => {
+    const addNewCollectionVoucherItem = async () => {
         setCollectionVoucherItemList([...collectionVoucherItemList, new PresentableCollectionVoucherItem()])
+        await fetchPendingBills()
     }
 
     const updateCollectionVoucherItemRow = (index: number) => {
@@ -321,7 +326,7 @@ const CollectionEntry: React.FC = () => {
                                             </TableCell>
                                             <TableCell sx={tableCellStyle} align="center">
                                                 {idxAtEditMode === i ?
-                                                    <TextField size="small" name="ddDate" value={curCollectionVoucherItem.ddDate} onChange={handleCollectionVoucherItemChange}></TextField>
+                                                    <TextField size="small" type="date" name="ddDate" value={curCollectionVoucherItem.ddDate} onChange={handleCollectionVoucherItemChange}></TextField>
                                                     : collectionVoucherItem.ddDate
                                                 }
                                             </TableCell>
