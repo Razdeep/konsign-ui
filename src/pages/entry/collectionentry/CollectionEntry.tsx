@@ -1,5 +1,5 @@
 import { Add, Clear, Delete, Done, Edit, Save } from "@mui/icons-material";
-import { Alert, Autocomplete, Button, ButtonGroup, Grid, Paper, Slide, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material";
+import { Alert, Autocomplete, Button, ButtonGroup, Grid, Paper, Slide, Snackbar, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useAuth } from "../../../context/AuthProvider";
@@ -237,11 +237,13 @@ const CollectionEntry: React.FC = () => {
     const tableCellStyle = { minWidth: 70, padding: 0.5 }
 
     return <div>
-        <Typography variant="h3" align="center">Collection Entry</Typography>
         <form>
             <Grid container spacing={3}>
+                <Grid item lg={12}>
+                <Typography variant="h4" align="center">Collection Entry</Typography>
+                </Grid>
                 <Grid item lg={2}>
-                    <TextField name="voucherNo" label="Voucher number" size="small" value={collectionVoucher.voucherNo} onChange={handleVoucherChange} fullWidth></TextField>
+                    <TextField name="voucherNo" label="Voucher no." size="small" value={collectionVoucher.voucherNo} onChange={handleVoucherChange} fullWidth></TextField>
                 </Grid>
                 <Grid item lg={3}>
                     <TextField name="voucherDate" type="date" defaultValue={(new Date()).toISOString().substring(0, 10)} label="Voucher Date" size="small" onChange={handleVoucherChange} fullWidth></TextField>
@@ -254,7 +256,7 @@ const CollectionEntry: React.FC = () => {
                         sx={{ width: 300 }}
                         value={collectionVoucher.buyerName}
                         onChange={handleBuyerNameChange}
-                        renderInput={(params) => <TextField {...params} name="buyerName" label="Buyer name" />}
+                        renderInput={(params) => <TextField {...params} size="small" name="buyerName" label="Buyer name" />}
                     />
                 </Grid>
                 <Grid item lg={12}>
@@ -344,25 +346,23 @@ const CollectionEntry: React.FC = () => {
                     </TableContainer>
                 </Grid>
                 <Grid item lg={2}>
-                    <Button onClick={addNewCollectionVoucherItem}><Add></Add>Add row</Button>
+                    <Button onClick={addNewCollectionVoucherItem} startIcon={<Add/>}>Add row</Button>
                 </Grid>
-                <Grid item lg={2}>
-                    <Button onClick={clearCollection} variant="contained" type="button" fullWidth>
-                        <Clear></Clear>
-                        Clear
-                    </Button>
-                </Grid>
-                <Grid item lg={2}>
-                    <Button onClick={submitCollection} variant="contained" className="bg-yellow-600" type="button" fullWidth>
-                        <Save></Save>
-                        Save
-                    </Button>
-                </Grid>
-                <Grid item lg={2}>
-                    <Button onClick={deleteCollection} variant="contained" className="bg-yellow-600" type="button" fullWidth>
-                        <Delete></Delete>
-                        Delete
-                    </Button>
+                <Grid item lg={8}>
+                    <ButtonGroup>
+                        <Button onClick={clearCollection} variant="contained" type="button" 
+                            fullWidth startIcon={<Clear/>}>
+                            Clear
+                        </Button>
+                        <Button onClick={submitCollection} variant="contained" className="bg-yellow-600" type="button" 
+                            fullWidth startIcon={<Save/>} color="success">
+                            Save
+                        </Button>
+                        <Button onClick={deleteCollection} variant="contained" className="bg-yellow-600" type="button" 
+                            fullWidth startIcon={<Delete/>} color="error">
+                            Delete
+                        </Button>
+                    </ButtonGroup>
                 </Grid>
             </Grid>
         </form>

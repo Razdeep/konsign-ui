@@ -257,28 +257,25 @@ const BillEntry: React.FC = () => {
                                 disablePortal
                                 id="supplierNameAutocomplete"
                                 options={suppliers}
-                                sx={{ width: 350 }}
                                 value={bill.supplierName}
                                 onChange={handleSupplierNameChange}
-                                renderInput={(params) => <TextField {...params} name="supplierName" label="Supplier name" />}
+                                renderInput={(params) => <TextField {...params} name="supplierName" size="small" label="Supplier name" />}
                             />
                             <Autocomplete
                                 disablePortal
                                 id="buyerNameAutocomplete"
                                 options={buyers}
-                                sx={{ width: 350 }}
                                 value={bill.buyerName}
                                 onChange={handleBuyerNameChange}
-                                renderInput={(params) => <TextField {...params} name="buyerName" label="Buyer name" />}
+                                renderInput={(params) => <TextField {...params} name="buyerName" size="small" label="Buyer name" />}
                             />
                             <Autocomplete
                                 disablePortal
                                 id="transportNameAutocomplete"
                                 options={transports}
-                                sx={{ width: 350 }}
                                 value={bill.transportName}
                                 onChange={handleTransportNameChange}
-                                renderInput={(params) => <TextField {...params} name="transportName" label="Transport name" />}
+                                renderInput={(params) => <TextField {...params} name="transportName" size="small" label="Transport name" />}
                             />
                             <TextField name="lrDate" type="date" value={bill.lrDate} onChange={handleBillChange} defaultValue={(new Date()).toISOString().substring(0, 10)} label="LR Date" size="small" fullWidth></TextField>
                         </Stack>
