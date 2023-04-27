@@ -1,5 +1,5 @@
-import { Delete, Refresh } from '@mui/icons-material';
-import { Alert, Button, Slide, Snackbar, Table, TableCell, TableHead, TableRow } from '@mui/material';
+import { Delete, Edit, Refresh } from '@mui/icons-material';
+import { Alert, Box, Button, ButtonGroup, Container, Slide, Snackbar, Stack, Table, TableCell, TableHead, TableRow, Typography } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthProvider';
 import Supplier from '../../model/Supplier';
@@ -68,11 +68,13 @@ const SupplierMaster: React.FC = () => {
     }, [syncSuppliers])
 
     return (
-        <>
-            <SupplierMasterInput></SupplierMasterInput>
-            <Button onClick={syncSuppliers}><Refresh/>Sync</Button>
+        <Stack spacing={2}>
+            <Box justifyContent="center" alignItems="center" sx={{display: 'flex'}}>
+                <Typography align='center' variant='h4'>Supplier master</Typography>
+            </Box>
+            <SupplierMasterInput syncSuppliers={syncSuppliers}></SupplierMasterInput>
             {isLoading ?
-                <KonsignSpinner></KonsignSpinner> :
+                <KonsignSpinner/> :
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -86,7 +88,12 @@ const SupplierMaster: React.FC = () => {
                             <TableRow>
                                 <TableCell>{supplier.supplierId}</TableCell>
                                 <TableCell>{supplier.supplierName}</TableCell>
-                                <TableCell><Button onClick={() => { deleteSupplier(supplier.supplierId) }}><Delete></Delete></Button></TableCell>
+                                <TableCell>
+                                    <ButtonGroup>
+                                        <Button><Edit></Edit></Button>
+                                        <Button color={'error'} onClick={() => { deleteSupplier(supplier.supplierId) }}><Delete></Delete></Button>
+                                    </ButtonGroup>
+                                </TableCell>
                             </TableRow>
                         ))
                     }
@@ -104,7 +111,7 @@ const SupplierMaster: React.FC = () => {
                     {snackbarMessage}
                 </Alert>
             </Snackbar>
-        </>
+        </Stack>
     )
 
 }

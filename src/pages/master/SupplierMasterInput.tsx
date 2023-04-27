@@ -1,12 +1,16 @@
-import { Add } from "@mui/icons-material"
-import { Alert, Button, FormControl, Snackbar, TextField } from "@mui/material"
+import { Add, Refresh } from "@mui/icons-material"
+import { Alert, Button, ButtonGroup, Snackbar, Stack, TextField } from "@mui/material"
 import { ChangeEvent, useState } from "react"
 import Supplier from "../../model/Supplier"
 import { useAuth } from "../../context/AuthProvider"
 import Config from "../../util/config"
 import React from 'react';
 
-const SupplierMasterInput: React.FC = () => {
+interface ParentProps {
+    syncSuppliers: () => void
+}
+
+const SupplierMasterInput: React.FC<ParentProps> = ({ syncSuppliers }: any) => {
 
     const auth = useAuth()
     const [supplier, setSupplier] = useState<Supplier>({
@@ -47,11 +51,14 @@ const SupplierMasterInput: React.FC = () => {
     }
 
     return <>
-        <FormControl>
+        <Stack direction={'row'} spacing={2}>
             <TextField value={supplier.supplierId} type="text" name="supplierId" label="Supplier ID" size="small" onChange={handleSupplierMasterInputChange}></TextField>
             <TextField value={supplier.supplierName} type="text" name="supplierName" label="Supplier Name" size="small" onChange={handleSupplierMasterInputChange}></TextField>
-        </FormControl>
-        <Button onClick={addSupplier}><Add></Add>Add Supplier</Button>
+            <ButtonGroup>
+                <Button color={'success'} variant={'contained'} onClick={addSupplier} startIcon={<Add/>}>Add Supplier</Button>
+                <Button color={'info'} variant={'contained'} onClick={syncSuppliers} startIcon={<Refresh/>}>Sync</Button>
+            </ButtonGroup>
+        </Stack>
         <Snackbar open={snackbarVisibility === 2} autoHideDuration={6000} onClose={()=>setSnackbarVisibility(0)}
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
             <Alert onClose={()=>setSnackbarVisibility(0)} severity='success' sx={{ width: '100%' }}>
