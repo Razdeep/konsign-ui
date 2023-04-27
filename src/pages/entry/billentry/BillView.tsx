@@ -65,7 +65,7 @@ export const BillView: React.FC = () => {
             return await fetchData()
         }
         fetchDataWrapperFunc()
-    }, [])
+    }, [billsPerPage])
 
     function TransitionDown(props: any) {
         return <Slide {...props} direction="right" />;
