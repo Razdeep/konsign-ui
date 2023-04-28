@@ -1,12 +1,16 @@
-import { Add } from "@mui/icons-material"
-import { Alert, Button, FormControl, Snackbar, TextField } from "@mui/material"
+import { Add, Refresh } from "@mui/icons-material"
+import { Alert, Button, ButtonGroup, FormControl, Snackbar, Stack, TextField } from "@mui/material"
 import { ChangeEvent, useState } from "react"
 import Transport from "../../model/Transport"
 import { useAuth } from "../../context/AuthProvider"
 import Config from "../../util/config"
 import React from 'react';
 
-const TransportMasterInput: React.FC = () => {
+interface ParentProps {
+    syncTransports: () => void
+}
+
+const TransportMasterInput: React.FC<ParentProps> = ({ syncTransports } : any) => {
 
     const auth = useAuth()
     const [transport, setTransport] = useState<Transport>({
@@ -28,7 +32,7 @@ const TransportMasterInput: React.FC = () => {
             method: 'POST',
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${auth?.user?.jwt}`
+                'Authorization': `Bearer ${auth?.user?.accessToken}`
             }),
             body: serializedData,
             json: true
@@ -47,11 +51,14 @@ const TransportMasterInput: React.FC = () => {
     }
 
     return <>
-        <FormControl>
+        <Stack direction={'row'} spacing={2}>
             <TextField value={transport.transportId} type="text" name="transportId" label="Transport ID" size="small" onChange={handleTransportMasterInputChange}></TextField>
             <TextField value={transport.transportName} type="text" name="transportName" label="Transport Name" size="small" onChange={handleTransportMasterInputChange}></TextField>
-        </FormControl>
-        <Button onClick={addTransport}><Add></Add>Add Transport</Button>
+            <ButtonGroup>
+                <Button variant={'contained'} onClick={addTransport} startIcon={<Add/>} color={"success"}>Add Transport</Button>
+                <Button color={'info'} variant={'contained'} onClick={syncTransports} startIcon={<Refresh/>}>Sync</Button>
+            </ButtonGroup>
+        </Stack>
         <Snackbar open={snackbarVisibility === 2} autoHideDuration={6000} onClose={()=>setSnackbarVisibility(0)}
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
             <Alert onClose={()=>setSnackbarVisibility(0)} severity='success' sx={{ width: '100%' }}>

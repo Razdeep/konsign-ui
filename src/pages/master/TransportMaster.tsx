@@ -1,5 +1,5 @@
-import { Delete, Refresh } from '@mui/icons-material';
-import { Alert, Button, Slide, Snackbar, Table, TableCell, TableHead, TableRow } from '@mui/material';
+import { Delete, Edit, Refresh } from '@mui/icons-material';
+import { Alert, Box, Button, ButtonGroup, Slide, Snackbar, Stack, Table, TableCell, TableHead, TableRow, Typography } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthProvider';
 import Transport from '../../model/Transport';
@@ -68,11 +68,15 @@ const TransportMaster: React.FC = () => {
     }, [syncTransports])
 
     return (
-        <>
-            <TransportMasterInput></TransportMasterInput>
-            <Button onClick={syncTransports}><Refresh/>Sync</Button>
+        <Stack spacing={2}>
+            <Box justifyContent="center" alignItems="center" sx={{display: 'flex'}}>
+                <Typography align='center' variant='h4'>Transport master</Typography>
+            </Box>
+            <TransportMasterInput syncTransports={syncTransports}></TransportMasterInput>
             {isLoading ?
-                <KonsignSpinner></KonsignSpinner> :
+                <Box justifyContent="center" alignItems="center" sx={{display: 'flex'}}>
+                    <KonsignSpinner />
+                </Box> :
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -86,7 +90,12 @@ const TransportMaster: React.FC = () => {
                             <TableRow>
                                 <TableCell>{transport.transportId}</TableCell>
                                 <TableCell>{transport.transportName}</TableCell>
-                                <TableCell><Button onClick={() => { deleteTransport(transport.transportId) }}><Delete></Delete></Button></TableCell>
+                                <TableCell>
+                                    <ButtonGroup>
+                                        <Button><Edit/></Button>
+                                        <Button onClick={() => { deleteTransport(transport.transportId) }} color={'error'}><Delete></Delete></Button>
+                                    </ButtonGroup>
+                                </TableCell>
                             </TableRow>
                         ))
                     }
@@ -104,7 +113,7 @@ const TransportMaster: React.FC = () => {
                     {snackbarMessage}
                 </Alert>
             </Snackbar>
-        </>
+        </Stack>
     )
 
 }

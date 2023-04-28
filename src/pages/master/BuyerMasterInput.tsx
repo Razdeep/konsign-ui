@@ -32,7 +32,7 @@ const BuyerMasterInput: React.FC<ParentProps> = ({ syncBuyers }: any) => {
             method: 'POST',
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${auth?.user?.jwt}`
+                'Authorization': `Bearer ${auth?.user?.accessToken}`
             }),
             body: serializedData,
             json: true
