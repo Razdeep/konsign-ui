@@ -2,10 +2,10 @@ import Buyer from "../model/Buyer";
 import Config from "../util/config";
 
 interface Master {
-    buyers: Buyer[];
+    data: Buyer[];
 }
 
-export const fetchAllBuyersFromApi = async (auth: any) => {
+export const fetchAllBuyersFromApi = async (auth: any): Promise<Buyer[] | null> => {
     const requestOptions = {
         method: 'GET',
         headers: new Headers({
@@ -25,7 +25,7 @@ export const fetchAllBuyersFromApi = async (auth: any) => {
     
     try {
         const master: Master = JSON.parse(await response?.text())
-        return master?.buyers
+        return master?.data
     } catch (e) {
         console.log(e)
         return []

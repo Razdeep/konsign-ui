@@ -2,10 +2,10 @@ import Transport from "../model/Transport";
 import Config from "../util/config";
 
 interface Master {
-    transports: Transport[];
+    data: Transport[];
 }
 
-export const fetchAllTransportsFromApi = async (auth: any) => {
+export const fetchAllTransportsFromApi = async (auth: any): Promise<Transport[] | null> => {
     const requestOptions = {
         method: 'GET',
         headers: new Headers({
@@ -25,7 +25,7 @@ export const fetchAllTransportsFromApi = async (auth: any) => {
     
     try {
         const master: Master = JSON.parse(await response?.text())
-        return master?.transports
+        return master?.data
     } catch (e) {
         console.log(e)
         return []
