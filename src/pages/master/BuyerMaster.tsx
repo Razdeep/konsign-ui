@@ -1,5 +1,5 @@
-import { Delete, Refresh } from '@mui/icons-material';
-import { Alert, Button, Slide, Snackbar, Table, TableCell, TableHead, TableRow } from '@mui/material';
+import { Delete, Edit, Refresh } from '@mui/icons-material';
+import { Alert, Box, Button, ButtonGroup, Slide, Snackbar, Stack, Table, TableCell, TableHead, TableRow, Typography } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthProvider';
 import Buyer from '../../model/Buyer';
@@ -68,11 +68,15 @@ const BuyerMaster: React.FC = () => {
     }, [syncBuyers])
 
     return (
-        <>
-            <BuyerMasterInput></BuyerMasterInput>
-            <Button onClick={syncBuyers}><Refresh/>Sync</Button>
+        <Stack spacing={2}>
+            <Box justifyContent="center" alignItems="center" sx={{display: 'flex'}}>
+                <Typography align='center' variant='h4'>Buyer master</Typography>
+            </Box>
+            <BuyerMasterInput syncBuyers={syncBuyers}></BuyerMasterInput>
             {isLoading ?
-                <KonsignSpinner></KonsignSpinner> :
+                <Box justifyContent="center" alignItems="center" sx={{display: 'flex'}}>
+                    <KonsignSpinner />
+                </Box> :
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -86,7 +90,12 @@ const BuyerMaster: React.FC = () => {
                             <TableRow>
                                 <TableCell>{buyer.buyerId}</TableCell>
                                 <TableCell>{buyer.buyerName}</TableCell>
-                                <TableCell><Button onClick={() => { deleteBuyer(buyer.buyerId) }}><Delete></Delete></Button></TableCell>
+                                <TableCell>
+                                    <ButtonGroup>
+                                        <Button><Edit></Edit></Button>
+                                        <Button onClick={() => { deleteBuyer(buyer.buyerId) }} color={'error'}><Delete/></Button>
+                                    </ButtonGroup>
+                                </TableCell>
                             </TableRow>
                         ))
                     }
@@ -104,7 +113,7 @@ const BuyerMaster: React.FC = () => {
                     {snackbarMessage}
                 </Alert>
             </Snackbar>
-        </>
+        </Stack>
     )
 
 }

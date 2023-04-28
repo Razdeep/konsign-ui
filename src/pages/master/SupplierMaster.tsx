@@ -74,7 +74,9 @@ const SupplierMaster: React.FC = () => {
             </Box>
             <SupplierMasterInput syncSuppliers={syncSuppliers}></SupplierMasterInput>
             {isLoading ?
-                <KonsignSpinner/> :
+                <Box justifyContent="center" alignItems="center" sx={{display: 'flex'}}>
+                    <KonsignSpinner />
+                </Box> :
                 <Table>
                     <TableHead>
                         <TableRow>

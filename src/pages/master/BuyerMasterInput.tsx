@@ -1,12 +1,16 @@
-import { Add } from "@mui/icons-material"
-import { Alert, Button, FormControl, Snackbar, TextField } from "@mui/material"
+import { Add, Refresh } from "@mui/icons-material"
+import { Alert, Button, ButtonGroup, FormControl, Snackbar, Stack, TextField } from "@mui/material"
 import { ChangeEvent, useState } from "react"
 import Buyer from "../../model/Buyer"
 import { useAuth } from "../../context/AuthProvider"
 import Config from "../../util/config"
 import React from 'react';
 
-const BuyerMasterInput: React.FC = () => {
+interface ParentProps {
+    syncBuyers: () => void
+}
+
+const BuyerMasterInput: React.FC<ParentProps> = ({ syncBuyers }: any) => {
 
     const auth = useAuth()
     const [buyer, setBuyer] = useState<Buyer>({
@@ -47,11 +51,14 @@ const BuyerMasterInput: React.FC = () => {
     }
 
     return <>
-        <FormControl>
+        <Stack direction={'row'} spacing={2}>
             <TextField value={buyer.buyerId} type="text" name="buyerId" label="Buyer ID" size="small" onChange={handleBuyerMasterInputChange}></TextField>
             <TextField value={buyer.buyerName} type="text" name="buyerName" label="Buyer Name" size="small" onChange={handleBuyerMasterInputChange}></TextField>
-        </FormControl>
-        <Button onClick={addBuyer}><Add></Add>Add Buyer</Button>
+            <ButtonGroup>
+                <Button color={'success'} variant={'contained'} onClick={addBuyer} startIcon={<Add/>}>Add Buyer</Button>
+                <Button color={'info'} variant={'contained'} onClick={syncBuyers} startIcon={<Refresh/>}>Sync</Button>
+            </ButtonGroup>
+        </Stack>
         <Snackbar open={snackbarVisibility === 2} autoHideDuration={6000} onClose={()=>setSnackbarVisibility(0)}
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
             <Alert onClose={()=>setSnackbarVisibility(0)} severity='success' sx={{ width: '100%' }}>
