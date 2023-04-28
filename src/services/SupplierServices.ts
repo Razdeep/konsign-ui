@@ -1,8 +1,9 @@
+import ResponseVerdict from "../model/ResponseVerdict";
 import Supplier from "../model/Supplier";
 import Config from "../util/config";
 
 interface Master {
-    suppliers: Supplier[];
+    data: Supplier[];
 }
 
 export const fetchAllSuppliersFromApi = async (auth: any) => {
@@ -24,5 +25,22 @@ export const fetchAllSuppliersFromApi = async (auth: any) => {
     }
     
     const master: Master = JSON.parse(await response?.text())
-    return master?.suppliers
+    return master?.data
+}
+
+export const addSupplierToApi = async (supplier: Supplier, auth: any): Promise<ResponseVerdict> => {
+    const serializedData = JSON.stringify(supplier);
+    const requestOptions = {
+        method: 'POST',
+        headers: new Headers({
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${auth?.user?.accessToken}`
+        }),
+        body: serializedData,
+        json: true
+    }
+
+    const response = await fetch(Config.ADD_SUPPLIER, requestOptions)
+
+    return response.json()
 }

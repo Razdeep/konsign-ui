@@ -49,7 +49,7 @@ export const deleteBillFromApi = async (auth: any, billNo: string) => {
         console.error('Something went wrong while trying to delete the bill')
     }
 
-    return await response
+    return response
 }
 
 export const fetchAllBillsFromApi = async (auth: any, offset: number, pageSize: number): Promise<any> => {

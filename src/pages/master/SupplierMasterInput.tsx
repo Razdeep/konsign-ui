@@ -5,6 +5,7 @@ import Supplier from "../../model/Supplier"
 import { useAuth } from "../../context/AuthProvider"
 import Config from "../../util/config"
 import React from 'react';
+import { addSupplierToApi } from "../../services/SupplierServices"
 
 interface ParentProps {
     syncSuppliers: () => void
@@ -27,27 +28,14 @@ const SupplierMasterInput: React.FC<ParentProps> = ({ syncSuppliers }: any) => {
     }
 
     const addSupplier = async () => {
-        const serializedData = JSON.stringify(supplier);
-        const requestOptions = {
-            method: 'POST',
-            headers: new Headers({
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${auth?.user?.jwt}`
-            }),
-            body: serializedData,
-            json: true
-        }
-
-        const response = await fetch(Config.ADD_SUPPLIER, requestOptions)
-
-        if (response.status !== 200) {
+        addSupplierToApi(supplier, auth).then(data => {
+            setSnackbarMessage(data?.message)
+            setSnackbarVisibility(2)
+        }).catch(err => {
+            console.error(err)
             setSnackbarMessage('Failed to add supplier')
             setSnackbarVisibility(1)
-            return
-        }
-
-        setSnackbarMessage((await response?.json())?.message)
-        setSnackbarVisibility(2)
+        })        
     }
 
     return <>
