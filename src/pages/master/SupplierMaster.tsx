@@ -1,12 +1,12 @@
-import { Delete, Edit, Refresh } from '@mui/icons-material';
-import { Alert, Box, Button, ButtonGroup, Container, Slide, Snackbar, Stack, Table, TableCell, TableHead, TableRow, Typography } from '@mui/material';
+import { Delete, Edit } from '@mui/icons-material';
+import { Alert, Box, Button, ButtonGroup, Slide, Snackbar, Stack, Table, TableCell, TableHead, TableRow, Typography } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
-import { useAuth } from '../../context/AuthProvider';
-import Supplier from '../../model/Supplier';
-import { fetchAllSuppliersFromApi } from '../../services/SupplierServices';
-import Config from '../../util/config';
-import SupplierMasterInput from './SupplierMasterInput';
 import { KonsignSpinner } from '../../components/KonsignSpinner';
+import { useAuth } from '../../context/AuthProvider';
+import ResponseVerdict from '../../model/ResponseVerdict';
+import Supplier from '../../model/Supplier';
+import { deleteSupplierFromApi, fetchAllSuppliersFromApi } from '../../services/SupplierServices';
+import SupplierMasterInput from './SupplierMasterInput';
 
 const SupplierMaster: React.FC = () => {
 
@@ -31,30 +31,13 @@ const SupplierMaster: React.FC = () => {
     }, [auth])
 
     const deleteSupplier = async(supplierId: string) => {
-        const requestOptions = {
-            method: 'DELETE',
-            headers: new Headers({
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${auth?.user?.jwt}`
-            }),
-            json: true
-        }
-
-        const response = await fetch(`${Config.DELETE_SUPPLIER}/${supplierId}`, requestOptions).catch(e => {
-            setSnackbarMessage('Something went wrong while trying to delete the suppliers')
-            setSnackbarVisibility(1)
-            return
-        })
-        
-        if (response == null || response?.status !== 200) {
+        deleteSupplierFromApi(supplierId, auth).then((response: ResponseVerdict) => {
+            setSnackbarMessage(response.message)
+            setSnackbarVisibility(2)
+        }).catch((err: Error) => {
             setSnackbarMessage('Something went wrong while trying to fetch the suppliers')
             setSnackbarVisibility(1)
-            return
-        }
-
-        const responseJson = await response.json()
-        setSnackbarMessage(responseJson?.message)
-        setSnackbarVisibility(2)
+        })
     }
 
     function TransitionDown(props: any) {

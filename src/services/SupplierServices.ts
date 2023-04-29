@@ -44,3 +44,26 @@ export const addSupplierToApi = async (supplier: Supplier, auth: any): Promise<R
 
     return response.json()
 }
+
+export const deleteSupplierFromApi = async (supplierId: String, auth: any): Promise<ResponseVerdict> => {
+    const requestOptions = {
+        method: 'DELETE',
+        headers: new Headers({
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${auth?.user?.accessToken}`
+        }),
+        json: true
+    }
+
+    const response = await fetch(`${Config.DELETE_SUPPLIER}/${supplierId}`, requestOptions).catch(e => {
+        throw e
+    })
+
+    if (response.status !== 200) {
+        const errorMessage = 'Something went wrong while deleting supplier'
+        console.error(errorMessage)
+        throw new Error(errorMessage)
+    }
+
+    return response.json()
+}
