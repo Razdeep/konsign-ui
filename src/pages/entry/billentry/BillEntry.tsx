@@ -8,7 +8,8 @@ import { useAuth } from '../../../context/AuthProvider';
 import { fetchAllSuppliersFromApi } from '../../../services/SupplierServices';
 import { fetchAllBuyersFromApi } from '../../../services/BuyerServices';
 import { fetchAllTransportsFromApi } from '../../../services/TransportServices';
-import { deleteBillFromApi, fetchBillFromApi } from '../../../services/BillServices';
+import { deleteBillFromApi, fetchBillFromApi, saveBillToApi } from '../../../services/BillServices';
+import ResponseVerdict from '../../../model/ResponseVerdict';
 
 const BillEntry: React.FC = () => {
 
@@ -143,37 +144,14 @@ const BillEntry: React.FC = () => {
     }
 
     const submitBill = async () => {
-        const serializedData = JSON.stringify(bill);
-        const requestOptions = {
-            method: 'POST',
-            headers: new Headers({
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${auth?.user?.jwt}`
-            }),
-            body: serializedData,
-            json: true
-        };
-        const response: Response | void = await fetch(Config.BILL_ENTRY_URL, requestOptions)
-                                                    .catch(e => {
-                                                        console.log(e);
-                                                        setSnackbarMessage('Error while fetching response')
-                                                        setSnackbarVisibility(1)
-                                                        return
-                                                    })
-        
-        if (!response) {
-            setSnackbarMessage('No response found')
-            setSnackbarVisibility(1)
-            return
-        }
-
-        if (response.status === 200) {
-            const responseJson = await response.json()
-            const message = responseJson.message;
+        saveBillToApi(bill, auth).then((response: ResponseVerdict) => {
+            const message = response.message;
             setSnackbarMessage(message)
             setSnackbarVisibility(2)
-            return
-        }
+        }).catch((err: any) => {
+            setSnackbarMessage('Internal server error')
+            setSnackbarVisibility(1)
+        })
     }
 
     const clearBill = () => {

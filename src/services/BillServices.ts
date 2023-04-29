@@ -79,3 +79,31 @@ export const fetchAllBillsFromApi = async (auth: any, offset: number, pageSize: 
 
     console.error('Something went wrong')
 }
+
+export const saveBillToApi = async (bill: Bill, auth: any): Promise<ResponseVerdict> => {
+    const serializedData = JSON.stringify(bill);
+        const requestOptions = {
+            method: 'POST',
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${auth?.user?.accessToken}`
+            }),
+            body: serializedData,
+            json: true
+        };
+        const response: Response | void = await fetch(Config.BILL_ENTRY_URL, requestOptions)
+                                                    .catch(e => {
+                                                        console.log(e);
+                                                        throw e;
+                                                    })
+        
+        if (!response) {
+            throw new Error('No response found')
+        }
+
+        if (response.status !== 200) {
+            throw new Error('Internal server error')
+        }
+
+        return response.json()
+}
