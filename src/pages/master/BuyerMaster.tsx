@@ -3,10 +3,11 @@ import { Alert, Box, Button, ButtonGroup, Slide, Snackbar, Stack, Table, TableCe
 import React, { useCallback, useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthProvider';
 import Buyer from '../../model/Buyer';
-import { fetchAllBuyersFromApi } from '../../services/BuyerServices';
+import { deleteBuyerFromApi, fetchAllBuyersFromApi } from '../../services/BuyerServices';
 import Config from '../../util/config';
 import BuyerMasterInput from './BuyerMasterInput';
 import { KonsignSpinner } from '../../components/KonsignSpinner';
+import ResponseVerdict from '../../model/ResponseVerdict';
 
 const BuyerMaster: React.FC = () => {
 
@@ -31,30 +32,13 @@ const BuyerMaster: React.FC = () => {
     }, [auth])
 
     const deleteBuyer = async(buyerId: string) => {
-        const requestOptions = {
-            method: 'DELETE',
-            headers: new Headers({
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${auth?.user?.jwt}`
-            }),
-            json: true
-        }
-
-        const response = await fetch(`${Config.DELETE_BUYER}/${buyerId}`, requestOptions).catch(e => {
+        deleteBuyerFromApi(buyerId, auth).then((response: ResponseVerdict) => {
+            setSnackbarMessage(response.message)
+            setSnackbarVisibility(2)
+        }).catch((err: Error) => {
             setSnackbarMessage('Something went wrong while trying to delete the buyer')
             setSnackbarVisibility(1)
-            return
         })
-        
-        if (response == null || response?.status !== 200) {
-            setSnackbarMessage('Something went wrong while trying to fetch the buyer')
-            setSnackbarVisibility(1)
-            return
-        }
-
-        const responseJson = await response.json()
-        setSnackbarMessage(responseJson?.message)
-        setSnackbarVisibility(2)
     }
 
     function TransitionDown(props: any) {
