@@ -3,10 +3,11 @@ import { Alert, Box, Button, ButtonGroup, Slide, Snackbar, Stack, Table, TableCe
 import React, { useCallback, useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthProvider';
 import Transport from '../../model/Transport';
-import { fetchAllTransportsFromApi } from '../../services/TransportServices';
+import { deleteTransportFromApi, fetchAllTransportsFromApi } from '../../services/TransportServices';
 import Config from '../../util/config';
 import TransportMasterInput from './TransportMasterInput';
 import { KonsignSpinner } from '../../components/KonsignSpinner';
+import ResponseVerdict from '../../model/ResponseVerdict';
 
 const TransportMaster: React.FC = () => {
 
@@ -31,30 +32,13 @@ const TransportMaster: React.FC = () => {
     }, [auth])
 
     const deleteTransport = async(transportId: string) => {
-        const requestOptions = {
-            method: 'DELETE',
-            headers: new Headers({
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${auth?.user?.jwt}`
-            }),
-            json: true
-        }
-
-        const response = await fetch(`${Config.DELETE_TRANSPORT}/${transportId}`, requestOptions).catch(e => {
-            setSnackbarMessage('Something went wrong while trying to delete the transport')
+        deleteTransportFromApi(transportId, auth).then((response: ResponseVerdict) => {
+            setSnackbarMessage(response.message)
+            setSnackbarVisibility(2)
+        }).catch((err: Error) => {
+            setSnackbarMessage('Something went wrong while trying to delete transport')
             setSnackbarVisibility(1)
-            return
         })
-        
-        if (response == null || response?.status !== 200) {
-            setSnackbarMessage('Something went wrong while trying to delete the transport')
-            setSnackbarVisibility(1)
-            return
-        }
-
-        const responseJson = await response.json()
-        setSnackbarMessage(responseJson?.message)
-        setSnackbarVisibility(2)
     }
 
     function TransitionDown(props: any) {

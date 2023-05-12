@@ -1,4 +1,5 @@
 import Buyer from "../model/Buyer";
+import ResponseVerdict from "../model/ResponseVerdict";
 import Config from "../util/config";
 
 interface Master {

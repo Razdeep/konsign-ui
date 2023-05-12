@@ -1,5 +1,6 @@
 import Transport from "../model/Transport";
 import Config from "../util/config";
+import ResponseVerdict from "../model/ResponseVerdict";
 
 interface Master {
     data: Transport[];
@@ -31,4 +32,27 @@ export const fetchAllTransportsFromApi = async (auth: any): Promise<Transport[] 
         return []
     }
     
+}
+
+export const deleteTransportFromApi = async (transport: String, auth: any): Promise<ResponseVerdict> => {
+    const requestOptions = {
+        method: 'DELETE',
+        headers: new Headers({
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${auth?.user?.accessToken}`
+        }),
+        json: true
+    }
+
+    const response = await fetch(`${Config.DELETE_TRANSPORT}/${transport}`, requestOptions).catch(e => {
+        throw e
+    })
+
+    if (response.status !== 200) {
+        const errorMessage = 'Something went wrong while deleting transport'
+        console.error(errorMessage)
+        throw new Error(errorMessage)
+    }
+
+    return response.json()
 }
