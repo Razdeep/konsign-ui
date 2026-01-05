@@ -1,0 +1,28 @@
+# This workflow will do a clean install of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Build
+
+on:
+  push:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    env:
+      CI: false
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Docker Login
+      # You may pin to the exact commit or the version.
+      # uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+      uses: docker/login-action@v1.10.0
+      with:
+        # Username used to log against the Docker registry
+        username: razdeep
+        # Password or personal access token used to log against the Docker registry
+        password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
+    - run: docker build -t razdeep/konsign-ui:${{ github.ref_name }}.${{ github.sha }} .

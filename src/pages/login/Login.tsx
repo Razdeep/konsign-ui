@@ -73,7 +73,7 @@ const Login: React.FC = () => {
     };
 
     const paperStyle = {
-        height: '30vh', width: '35vh', margin: "auto", textalign: "center",
+        height: '40vh', width: '45vh', margin: "auto", textalign: "center",
         background: theme.palette.secondary.main, display: "flex", padding: '3vh', center: 1
     }
 
