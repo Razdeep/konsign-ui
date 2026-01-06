@@ -78,7 +78,7 @@ export const deleteCollectionFromApi = async (auth: any, voucherNo: string) => {
         json: true
     }
 
-    const response = await fetch(`${Config.DELETE_COLLECTION}/${voucherNo}`, requestOptions).catch(e => {
+    const response = await fetch(`${Config.COLLECTIONS_ENDPOINT}/${voucherNo}`, requestOptions).catch(e => {
         console.error('Something went wrong while trying to delete the collection voucher')
     })
     
@@ -100,7 +100,7 @@ export const fetchCollectionVoucherFromApi = async (auth: any, voucherNo: string
         json: true
     };
 
-    const response = await fetch(Config.GET_COLLECTION_URL + `?voucherNo=${voucherNo}`, requestOptions).catch(e => {
+    const response = await fetch(`${Config.COLLECTIONS_ENDPOINT}/${voucherNo}`, requestOptions).catch(e => {
         return null
     })
 

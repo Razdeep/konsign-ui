@@ -44,7 +44,7 @@ export const deleteBuyerFromApi = async (buyerId: String, auth: any): Promise<Re
         json: true
     }
 
-    const response = await fetch(`${Config.DELETE_BUYER}/${buyerId}`, requestOptions).catch(e => {
+    const response = await fetch(`${Config.BUYERS_ENDPOINT}/${buyerId}`, requestOptions).catch(e => {
         throw e
     })
 

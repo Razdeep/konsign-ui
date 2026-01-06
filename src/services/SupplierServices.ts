@@ -40,7 +40,7 @@ export const addSupplierToApi = async (supplier: Supplier, auth: any): Promise<R
         json: true
     }
 
-    const response = await fetch(Config.ADD_SUPPLIER, requestOptions)
+    const response = await fetch(Config.SUPPLIERS_ENDPOINT, requestOptions)
 
     return response.json()
 }
@@ -55,7 +55,7 @@ export const deleteSupplierFromApi = async (supplierId: String, auth: any): Prom
         json: true
     }
 
-    const response = await fetch(`${Config.DELETE_SUPPLIER}/${supplierId}`, requestOptions).catch(e => {
+    const response = await fetch(`${Config.SUPPLIERS_ENDPOINT}/${supplierId}`, requestOptions).catch(e => {
         throw e
     })
 
