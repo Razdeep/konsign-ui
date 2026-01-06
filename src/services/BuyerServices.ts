@@ -16,7 +16,7 @@ export const fetchAllBuyersFromApi = async (auth: any): Promise<Buyer[] | null> 
         json: true
     };
 
-    const response = await fetch(Config.GET_ALL_BUYERS, requestOptions).catch(e => {
+    const response = await fetch(Config.BUYERS_ENDPOINT, requestOptions).catch(e => {
         return null
     })
 

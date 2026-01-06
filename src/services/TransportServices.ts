@@ -16,7 +16,7 @@ export const fetchAllTransportsFromApi = async (auth: any): Promise<Transport[] 
         json: true
     };
 
-    const response = await fetch(Config.GET_ALL_TRANSPORTS, requestOptions).catch(e => {
+    const response = await fetch(Config.TRANSPORTS_ENDPOINT, requestOptions).catch(e => {
         return null
     })
 
@@ -44,7 +44,7 @@ export const deleteTransportFromApi = async (transport: String, auth: any): Prom
         json: true
     }
 
-    const response = await fetch(`${Config.DELETE_TRANSPORT}/${transport}`, requestOptions).catch(e => {
+    const response = await fetch(`${Config.TRANSPORTS_ENDPOINT}/${transport}`, requestOptions).catch(e => {
         throw e
     })
 

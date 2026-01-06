@@ -18,7 +18,7 @@ export const fetchAllPendingBillNumbersFromApi = async (auth: any, buyerName: st
         json: true
     };
 
-    const response = await fetch(Config.GET_PENDING_BILLS_FOR_COLLECTION + `?buyerName=${buyerName}`, requestOptions).catch(e => {
+    const response = await fetch(Config.COLLECTIONS_PENDING_BILLS_ENDPOINT + `?buyerName=${buyerName}`, requestOptions).catch(e => {
         return null
     })
 
@@ -60,7 +60,7 @@ export const submitCollectionToApi = async (auth: any,
         json: true
     };
 
-    const response = await fetch(Config.ADD_COLLECTION, requestOptions).catch(e => {
+    const response = await fetch(Config.COLLECTIONS_ENDPOINT, requestOptions).catch(e => {
         console.error(e)
         return null
     })

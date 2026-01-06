@@ -16,7 +16,7 @@ export const fetchAllSuppliersFromApi = async (auth: any) => {
         json: true
     };
 
-    const response = await fetch(Config.GET_ALL_SUPPLIERS, requestOptions).catch(e => {
+    const response = await fetch(Config.SUPPLIERS_ENDPOINT, requestOptions).catch(e => {
         return null
     })
 

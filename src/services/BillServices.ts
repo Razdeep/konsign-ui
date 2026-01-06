@@ -12,7 +12,7 @@ export const fetchBillFromApi = async (auth: any, billNo: String): Promise<Bill|
         json: true
     };
 
-    const response: Response | null = await fetch(`${Config.GET_BILL_URL}?billNo=${billNo}`, requestOptions)
+    const response: Response | null = await fetch(`${Config.BILLS_ENDPOINT}/${billNo}`, requestOptions)
                                                 .catch(e => {
                                                     console.error(e);
                                                     throw new Error('Error while fetching bill')
@@ -41,7 +41,7 @@ export const deleteBillFromApi = async (auth: any, billNo: string) => {
         json: true
     }
 
-    const response = await fetch(`${Config.DELETE_BILL_URL}?billNo=${billNo}`, requestOptions).catch(e => {
+    const response = await fetch(`${Config.BILLS_ENDPOINT}?billNo=${billNo}`, requestOptions).catch(e => {
         console.error('Something went wrong while trying to delete the bill')
     })
     
@@ -62,7 +62,7 @@ export const fetchAllBillsFromApi = async (auth: any, offset: number, pageSize: 
         json: true
     };
 
-    const response: Response | null = await fetch(`${Config.GET_ALL_BILLS_URL}/${offset}/${pageSize}`, requestOptions)
+    const response: Response | null = await fetch(`${Config.BILLS_ENDPOINT}/${offset}/${pageSize}`, requestOptions)
                                                 .catch(e => {
                                                     console.error(e);
                                                     throw new Error('Error while fetching all bills')
@@ -91,7 +91,7 @@ export const saveBillToApi = async (bill: Bill, auth: any): Promise<ResponseVerd
             body: serializedData,
             json: true
         };
-        const response: Response | void = await fetch(Config.BILL_ENTRY_URL, requestOptions)
+        const response: Response | void = await fetch(Config.BILLS_ENDPOINT, requestOptions)
                                                     .catch(e => {
                                                         console.log(e);
                                                         throw e;
