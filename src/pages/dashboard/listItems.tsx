@@ -46,7 +46,7 @@ export default function MainListItems() {
           </ListItemIcon>
           <ListItemText primary="Collection Entry" />
         </ListItemButton>
-        <ListItemButton sx={{ pl: 4 }}>
+        <ListItemButton sx={{ pl: 4 }} disabled>
           <ListItemIcon>
             <CurrencyRupee />
           </ListItemIcon>
@@ -70,13 +70,13 @@ export default function MainListItems() {
           </ListItemIcon>
           <ListItemText primary="Bill View" />
         </ListItemButton>
-        <ListItemButton sx={{ pl: 4 }} component={Link} to="collectionview">
+        <ListItemButton sx={{ pl: 4 }} component={Link} to="collectionview" disabled>
           <ListItemIcon>
             <PlaylistAddCheckCircle />
           </ListItemIcon>
           <ListItemText primary="Collection View" />
         </ListItemButton>
-        <ListItemButton sx={{ pl: 4 }} component={Link} to="paymentview">
+        <ListItemButton sx={{ pl: 4 }} component={Link} to="paymentview" disabled>
           <ListItemIcon>
             <CurrencyRupee />
           </ListItemIcon>
@@ -93,19 +93,19 @@ export default function MainListItems() {
     </ListItem>
     <Collapse in={expandedIndex === 3} timeout="auto" unmountOnExit>
       <List component="div" disablePadding>
-        <ListItemButton sx={{ pl: 4 }}>
+        <ListItemButton sx={{ pl: 4 }} disabled>
           <ListItemIcon>
             <Inventory />
           </ListItemIcon>
           <ListItemText primary="Supplier Ledger" />
         </ListItemButton>
-        <ListItemButton sx={{ pl: 4 }}>
+        <ListItemButton sx={{ pl: 4 }} disabled>
           <ListItemIcon>
             <ShoppingCartIcon />
           </ListItemIcon>
           <ListItemText primary="Buyer Ledger" />
         </ListItemButton>
-        <ListItemButton sx={{ pl: 4 }}>
+        <ListItemButton sx={{ pl: 4 }} disabled>
           <ListItemIcon>
             <LocalShipping />
           </ListItemIcon>
