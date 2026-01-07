@@ -63,9 +63,9 @@ const SupplierMaster: React.FC = () => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>Supplier ID</TableCell>
-                            <TableCell>Supplier name</TableCell>
-                            <TableCell>Actions</TableCell>
+                            <TableCell sx={{backgroundColor: (theme) => theme.palette.primary.main, color: (theme) => theme.palette.secondary.main }} variant="head" align="center">Supplier ID</TableCell>
+                            <TableCell sx={{backgroundColor: (theme) => theme.palette.primary.main, color: (theme) => theme.palette.secondary.main }} variant="head" align="center">Supplier name</TableCell>
+                            <TableCell sx={{backgroundColor: (theme) => theme.palette.primary.main, color: (theme) => theme.palette.secondary.main }} variant="head" align="center">Actions</TableCell>
                         </TableRow>
                     </TableHead>
                     {

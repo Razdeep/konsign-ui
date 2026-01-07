@@ -64,9 +64,9 @@ const TransportMaster: React.FC = () => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>Transport ID</TableCell>
-                            <TableCell>Transport name</TableCell>
-                            <TableCell>Actions</TableCell>
+                            <TableCell sx={{backgroundColor: (theme) => theme.palette.primary.main, color: (theme) => theme.palette.secondary.main }} variant="head" align="center">Transport ID</TableCell>
+                            <TableCell sx={{backgroundColor: (theme) => theme.palette.primary.main, color: (theme) => theme.palette.secondary.main }} variant="head" align="center">Transport name</TableCell>
+                            <TableCell sx={{backgroundColor: (theme) => theme.palette.primary.main, color: (theme) => theme.palette.secondary.main }} variant="head" align="center">Actions</TableCell>
                         </TableRow>
                     </TableHead>
                     {

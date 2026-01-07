@@ -64,9 +64,9 @@ const BuyerMaster: React.FC = () => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>Buyer ID</TableCell>
-                            <TableCell>Buyer name</TableCell>
-                            <TableCell>Actions</TableCell>
+                            <TableCell sx={{backgroundColor: (theme) => theme.palette.primary.main, color: (theme) => theme.palette.secondary.main }} variant="head" align="center">Buyer ID</TableCell>
+                            <TableCell sx={{backgroundColor: (theme) => theme.palette.primary.main, color: (theme) => theme.palette.secondary.main }} variant="head" align="center">Buyer name</TableCell>
+                            <TableCell sx={{backgroundColor: (theme) => theme.palette.primary.main, color: (theme) => theme.palette.secondary.main }} variant="head" align="center">Actions</TableCell>
                         </TableRow>
                     </TableHead>
                     {
