@@ -2,6 +2,10 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import PeopleIcon from '@mui/icons-material/People';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import EventNoteIcon from '@mui/icons-material/EventNote';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import GroupIcon from '@mui/icons-material/Group';
+import GroupsIcon from '@mui/icons-material/Groups';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -31,32 +35,26 @@ export default function MainListItems() {
     </ListItem>
     <Collapse in={expandedIndex === 1} timeout="auto" unmountOnExit>
       <List component="div" disablePadding>
-        <Link to="billentry">
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="Bill Entry" />
-          </ListItemButton>
-        </Link>
-        <Link to="billview">
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="Bill View" />
-          </ListItemButton>
-        </Link>
+        <ListItemButton sx={{ pl: 4 }} component={Link} to="billentry">
+          <ListItemIcon>
+            <EventNoteIcon />
+          </ListItemIcon>
+          <ListItemText primary="Bill Entry" />
+        </ListItemButton>
+        <ListItemButton sx={{ pl: 4 }} component={Link} to="billview">
+          <ListItemIcon>
+            <StarBorder />
+          </ListItemIcon>
+          <ListItemText primary="Bill View" />
+        </ListItemButton>
       </List>
       <List component="div" disablePadding>
-        <Link to="collectionentry">
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <PlaylistAddCheckCircle />
-            </ListItemIcon>
-            <ListItemText primary="Collection Entry" />
-          </ListItemButton>
-        </Link>
+        <ListItemButton sx={{ pl: 4 }} component={Link} to="collectionentry">
+          <ListItemIcon>
+            <PlaylistAddCheckCircle />
+          </ListItemIcon>
+          <ListItemText primary="Collection Entry" />
+        </ListItemButton>
       </List>
       <List component="div" disablePadding>
         <ListItemButton sx={{ pl: 4 }}>
@@ -110,34 +108,28 @@ export default function MainListItems() {
     </ListItem>
     <Collapse in={expandedIndex === 3} timeout="auto" unmountOnExit>
       <List component="div" disablePadding>
-        <Link to="suppliermaster">
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="Supplier Master" />
-          </ListItemButton>
-        </Link>
+        <ListItemButton sx={{ pl: 4 }} component={Link} to="suppliermaster">
+          <ListItemIcon>
+            <GroupIcon />
+          </ListItemIcon>
+          <ListItemText primary="Supplier Master" />
+        </ListItemButton>
       </List>
       <List component="div" disablePadding>
-        <Link to="buyermaster">
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <ShoppingCartIcon />
-            </ListItemIcon>
-            <ListItemText primary="Buyer Master" />
-          </ListItemButton>
-        </Link>
+        <ListItemButton sx={{ pl: 4 }} component={Link} to="buyermaster">
+          <ListItemIcon>
+            <ShoppingCartIcon />
+          </ListItemIcon>
+          <ListItemText primary="Buyer Master" />
+        </ListItemButton>
       </List>
       <List component="div" disablePadding>
-        <Link to="transportmaster">
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="Transport Master" />
-          </ListItemButton>
-        </Link>
+        <ListItemButton sx={{ pl: 4 }} component={Link} to="transportmaster">
+          <ListItemIcon>
+            <LocalShippingIcon />
+          </ListItemIcon>
+          <ListItemText primary="Transport Master" />
+        </ListItemButton>
       </List>
     </Collapse>
     <Divider />
