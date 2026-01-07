@@ -4,14 +4,13 @@ import PeopleIcon from '@mui/icons-material/People';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
-import GroupIcon from '@mui/icons-material/Group';
-import GroupsIcon from '@mui/icons-material/Groups';
+import SearchIcon from '@mui/icons-material/Search';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import * as React from 'react';
 
-import { CurrencyRupee, Inventory, LocalShipping, PlaylistAddCheckCircle, StarBorder } from '@mui/icons-material';
+import { CurrencyRupee, Inventory, LocalShipping, PlaylistAddCheckCircle } from '@mui/icons-material';
 import { Collapse, Divider, List, ListItemButton } from '@mui/material';
 import { Link } from 'react-router-dom';
 
@@ -41,22 +40,12 @@ export default function MainListItems() {
           </ListItemIcon>
           <ListItemText primary="Bill Entry" />
         </ListItemButton>
-        <ListItemButton sx={{ pl: 4 }} component={Link} to="billview">
-          <ListItemIcon>
-            <StarBorder />
-          </ListItemIcon>
-          <ListItemText primary="Bill View" />
-        </ListItemButton>
-      </List>
-      <List component="div" disablePadding>
         <ListItemButton sx={{ pl: 4 }} component={Link} to="collectionentry">
           <ListItemIcon>
             <PlaylistAddCheckCircle />
           </ListItemIcon>
           <ListItemText primary="Collection Entry" />
         </ListItemButton>
-      </List>
-      <List component="div" disablePadding>
         <ListItemButton sx={{ pl: 4 }}>
           <ListItemIcon>
             <CurrencyRupee />
@@ -66,13 +55,43 @@ export default function MainListItems() {
       </List>
     </Collapse>
     <Divider />
+
     <ListItem button onClick={() => toggleExpandedIndex(2)}>
+      <ListItemIcon>
+        <SearchIcon />
+      </ListItemIcon>
+      <ListItemText primary="View Entry" />
+    </ListItem>
+    <Collapse in={expandedIndex === 2} timeout="auto" unmountOnExit>
+      <List component="div" disablePadding>
+        <ListItemButton sx={{ pl: 4 }} component={Link} to="billview">
+          <ListItemIcon>
+            <EventNoteIcon />
+          </ListItemIcon>
+          <ListItemText primary="Bill View" />
+        </ListItemButton>
+        <ListItemButton sx={{ pl: 4 }} component={Link} to="collectionview">
+          <ListItemIcon>
+            <PlaylistAddCheckCircle />
+          </ListItemIcon>
+          <ListItemText primary="Collection View" />
+        </ListItemButton>
+        <ListItemButton sx={{ pl: 4 }} component={Link} to="paymentview">
+          <ListItemIcon>
+            <CurrencyRupee />
+          </ListItemIcon>
+          <ListItemText primary="Payment View" />
+        </ListItemButton>
+      </List>
+    </Collapse>
+    <Divider />
+    <ListItem button onClick={() => toggleExpandedIndex(3)}>
       <ListItemIcon>
         <BarChartIcon />
       </ListItemIcon>
       <ListItemText primary="Report" />
     </ListItem>
-    <Collapse in={expandedIndex === 2} timeout="auto" unmountOnExit>
+    <Collapse in={expandedIndex === 3} timeout="auto" unmountOnExit>
       <List component="div" disablePadding>
         <ListItemButton sx={{ pl: 4 }}>
           <ListItemIcon>
@@ -80,16 +99,12 @@ export default function MainListItems() {
           </ListItemIcon>
           <ListItemText primary="Supplier Ledger" />
         </ListItemButton>
-      </List>
-      <List component="div" disablePadding>
         <ListItemButton sx={{ pl: 4 }}>
           <ListItemIcon>
             <ShoppingCartIcon />
           </ListItemIcon>
           <ListItemText primary="Buyer Ledger" />
         </ListItemButton>
-      </List>
-      <List component="div" disablePadding>
         <ListItemButton sx={{ pl: 4 }}>
           <ListItemIcon>
             <LocalShipping />
@@ -100,30 +115,26 @@ export default function MainListItems() {
     </Collapse>
     <Divider />
 
-    <ListItem button onClick={() => toggleExpandedIndex(3)}>
+    <ListItem button onClick={() => toggleExpandedIndex(4)}>
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
       <ListItemText primary="Master" />
     </ListItem>
-    <Collapse in={expandedIndex === 3} timeout="auto" unmountOnExit>
+    <Collapse in={expandedIndex === 4} timeout="auto" unmountOnExit>
       <List component="div" disablePadding>
         <ListItemButton sx={{ pl: 4 }} component={Link} to="suppliermaster">
           <ListItemIcon>
-            <GroupIcon />
+            <Inventory />
           </ListItemIcon>
           <ListItemText primary="Supplier Master" />
         </ListItemButton>
-      </List>
-      <List component="div" disablePadding>
         <ListItemButton sx={{ pl: 4 }} component={Link} to="buyermaster">
           <ListItemIcon>
             <ShoppingCartIcon />
           </ListItemIcon>
           <ListItemText primary="Buyer Master" />
         </ListItemButton>
-      </List>
-      <List component="div" disablePadding>
         <ListItemButton sx={{ pl: 4 }} component={Link} to="transportmaster">
           <ListItemIcon>
             <LocalShippingIcon />
