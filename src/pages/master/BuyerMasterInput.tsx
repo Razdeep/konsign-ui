@@ -5,6 +5,7 @@ import Buyer from "../../model/Buyer"
 import { useAuth } from "../../context/AuthProvider"
 import Config from "../../util/config"
 import React from 'react';
+import { addBuyer } from "../../services/BuyerServices"
 
 interface ParentProps {
     syncBuyers: () => void
@@ -26,36 +27,14 @@ const BuyerMasterInput: React.FC<ParentProps> = ({ syncBuyers }: any) => {
         setBuyer({ ...buyer, [e.target.name]: e.target.value })
     }
 
-    const addBuyer = async () => {
-        const serializedData = JSON.stringify(buyer);
-        const requestOptions = {
-            method: 'POST',
-            headers: new Headers({
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${auth?.user?.accessToken}`
-            }),
-            body: serializedData,
-            json: true
-        }
-
-        const response = await fetch(Config.BUYERS_ENDPOINT, requestOptions)
-
-        if (response.status !== 200) {
-            setSnackbarMessage('Failed to add buyer')
-            setSnackbarVisibility(1)
-            return
-        }
-
-        setSnackbarMessage((await response?.json())?.message)
-        setSnackbarVisibility(2)
-    }
+    
 
     return <>
         <Stack direction={'row'} spacing={2}>
             <TextField value={buyer.buyerId} type="text" name="buyerId" label="Buyer ID" size="small" onChange={handleBuyerMasterInputChange}></TextField>
             <TextField value={buyer.buyerName} type="text" name="buyerName" label="Buyer Name" size="small" onChange={handleBuyerMasterInputChange}></TextField>
             <ButtonGroup>
-                <Button color={'success'} variant={'contained'} onClick={addBuyer} startIcon={<Add/>}>Add Buyer</Button>
+                <Button color={'success'} variant={'contained'} onClick={() => addBuyer(buyer, auth, setSnackbarMessage, setSnackbarVisibility)} startIcon={<Add/>}>Add Buyer</Button>
                 <Button color={'info'} variant={'contained'} onClick={syncBuyers} startIcon={<Refresh/>}>Sync</Button>
             </ButtonGroup>
         </Stack>
