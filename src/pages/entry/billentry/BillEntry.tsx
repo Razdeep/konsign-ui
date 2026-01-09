@@ -259,10 +259,10 @@ const BillEntry: React.FC = () => {
                         <TableContainer component={Paper}>
                             <Table sx={{ minWidth: '50vw' }} aria-label="simple table">
                                 <TableHead>
-                                    <TableRow>
-                                        <TableCell sx={{ minWidth: 250}} variant="head" align="center">LR</TableCell>
-                                        <TableCell sx={{ minWidth: 250}} variant="head" align="center">PM</TableCell>
-                                        <TableCell sx={{ minWidth: 150}} variant="head" align="center">Operations</TableCell>
+                                    <TableRow sx={{bgcolor: "primary.main"}}>
+                                        <TableCell sx={{ minWidth: 250, color: "secondary.main" }} variant="head" align="center">LR</TableCell>
+                                        <TableCell sx={{ minWidth: 250, color: "secondary.main"}} variant="head" align="center">PM</TableCell>
+                                        <TableCell sx={{ minWidth: 150, color: "secondary.main"}} variant="head" align="center">Operations</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>

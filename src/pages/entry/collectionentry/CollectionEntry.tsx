@@ -239,7 +239,11 @@ const CollectionEntry: React.FC = () => {
         
     }, [auth]);
 
-    const tableCellStyle = { minWidth: 70, padding: 0.5 }
+    const tableCellStyle = (isHeading: boolean = false) => ({ 
+        minWidth: 70, 
+        padding: 0.5, 
+        ...(isHeading && {color: "secondary.main", bgcolor: "primary.main"})
+    })
 
     return <div>
         <form>
@@ -266,22 +270,22 @@ const CollectionEntry: React.FC = () => {
                         <Table sx={{ minWidth: 650 }} aria-label="simple table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell sx={tableCellStyle} variant="head" align="center">Bill No.</TableCell>
-                                    <TableCell sx={tableCellStyle} variant="head" align="center">Supplier name</TableCell>
-                                    <TableCell sx={tableCellStyle} variant="head" align="center">Bill Amount</TableCell>
-                                    <TableCell sx={tableCellStyle} variant="head" align="center">Pending Amount</TableCell>
-                                    <TableCell sx={tableCellStyle} variant="head" align="center">Amount Collected</TableCell>
-                                    <TableCell sx={tableCellStyle} variant="head" align="center">DD No.</TableCell>
-                                    <TableCell sx={tableCellStyle} variant="head" align="center">DD Date</TableCell>
-                                    <TableCell sx={tableCellStyle} variant="head" align="center">Bank</TableCell>
-                                    <TableCell sx={tableCellStyle} variant="head" align="center">Operations</TableCell>
+                                    <TableCell sx={tableCellStyle(true)} variant="head" align="center">Bill No.</TableCell>
+                                    <TableCell sx={tableCellStyle(true)} variant="head" align="center">Supplier name</TableCell>
+                                    <TableCell sx={tableCellStyle(true)} variant="head" align="center">Bill Amount</TableCell>
+                                    <TableCell sx={tableCellStyle(true)} variant="head" align="center">Pending Amount</TableCell>
+                                    <TableCell sx={tableCellStyle(true)} variant="head" align="center">Amount Collected</TableCell>
+                                    <TableCell sx={tableCellStyle(true)} variant="head" align="center">DD No.</TableCell>
+                                    <TableCell sx={tableCellStyle(true)} variant="head" align="center">DD Date</TableCell>
+                                    <TableCell sx={tableCellStyle(true)} variant="head" align="center">Bank</TableCell>
+                                    <TableCell sx={tableCellStyle(true)} variant="head" align="center">Operations</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 {
                                     collectionVoucherItemList && collectionVoucherItemList.map((collectionVoucherItem, i) => 
                                         <TableRow>
-                                            <TableCell sx={tableCellStyle} align="center">
+                                            <TableCell sx={tableCellStyle(true)} align="center">
                                                 {idxAtEditMode === i ?
                                                 <Autocomplete
                                                     disablePortal
@@ -294,46 +298,46 @@ const CollectionEntry: React.FC = () => {
                                                 />
                                                 : collectionVoucherItem.billNo} 
                                             </TableCell>
-                                            <TableCell sx={tableCellStyle} align="center">
+                                            <TableCell sx={tableCellStyle(true)} align="center">
                                                 {idxAtEditMode === i ?
                                                 <Typography color={'green'}>{curCollectionVoucherItem.supplierName}</Typography>
                                                 : collectionVoucherItem.supplierName} 
                                             </TableCell>
-                                            <TableCell sx={tableCellStyle} align="center">
+                                            <TableCell sx={tableCellStyle(true)} align="center">
                                                 {idxAtEditMode === i ?
                                                 <Typography color={'green'}>{curCollectionVoucherItem.billAmount}</Typography>
                                                 : collectionVoucherItem.billAmount} 
                                             </TableCell>
-                                            <TableCell sx={tableCellStyle} align="center">
+                                            <TableCell sx={tableCellStyle(true)} align="center">
                                                 {idxAtEditMode === i ?
                                                 <Typography color={'green'}>{curCollectionVoucherItem.pendingAmount}</Typography>
                                                 : collectionVoucherItem.pendingAmount} 
                                             </TableCell>
-                                            <TableCell sx={tableCellStyle} align="center">
+                                            <TableCell sx={tableCellStyle(true)} align="center">
                                                 {idxAtEditMode === i ?
                                                     <TextField size="small" name="amountCollected" value={curCollectionVoucherItem.amountCollected} onChange={handleCollectionVoucherItemChange}></TextField>
                                                     : collectionVoucherItem.amountCollected
                                                 }
                                             </TableCell>
-                                            <TableCell sx={tableCellStyle} align="center">
+                                            <TableCell sx={tableCellStyle(true)} align="center">
                                                 {idxAtEditMode === i ?
                                                     <TextField size="small" name="ddNo" value={curCollectionVoucherItem.ddNo} onChange={handleCollectionVoucherItemChange}></TextField>
                                                     : collectionVoucherItem.ddNo
                                                 }
                                             </TableCell>
-                                            <TableCell sx={tableCellStyle} align="center">
+                                            <TableCell sx={tableCellStyle(true)} align="center">
                                                 {idxAtEditMode === i ?
                                                     <TextField size="small" type="date" name="ddDate" value={curCollectionVoucherItem.ddDate} onChange={handleCollectionVoucherItemChange}></TextField>
                                                     : collectionVoucherItem.ddDate
                                                 }
                                             </TableCell>
-                                            <TableCell sx={tableCellStyle} align="center">
+                                            <TableCell sx={tableCellStyle(true)} align="center">
                                                 {idxAtEditMode === i ?
                                                     <TextField size="small" name="bank" value={curCollectionVoucherItem.bank} onChange={handleCollectionVoucherItemChange}></TextField>
                                                     : collectionVoucherItem.bank
                                                 }
                                             </TableCell>
-                                            <TableCell sx={tableCellStyle} align="center">
+                                            <TableCell sx={tableCellStyle(true)} align="center">
                                                 <ButtonGroup>
                                                     {idxAtEditMode === i ? <Button onClick={() => updateCollectionVoucherItemRow(i)} startIcon={<Done />} /> :
                                                         <Button onClick={() => startEditingCollectionVoucherRow(i)} startIcon={<Edit />} />}
