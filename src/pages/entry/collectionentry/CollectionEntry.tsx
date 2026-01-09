@@ -252,7 +252,7 @@ const CollectionEntry: React.FC = () => {
                     <TextField name="voucherNo" label="Voucher no." size="small" value={collectionVoucher.voucherNo} onChange={handleVoucherChange} fullWidth></TextField>
                 </Grid>
                 <Grid item lg={3}>
-                    <TextField name="voucherDate" type="date" defaultValue={(new Date()).toISOString().substring(0, 10)} label="Voucher Date" size="small" onChange={handleVoucherChange} fullWidth></TextField>
+                    <TextField name="voucherDate" type="date" defaultValue={(new Date()).toISOString().substring(0, 10)} label="Voucher Date" value={collectionVoucher.voucherDate} size="small" onChange={handleVoucherChange} fullWidth></TextField>
                 </Grid>
                 <Grid item lg={7}>
                     <Autocomplete
@@ -285,7 +285,7 @@ const CollectionEntry: React.FC = () => {
                                 {
                                     collectionVoucherItemList && collectionVoucherItemList.map((collectionVoucherItem, i) => 
                                         <TableRow>
-                                            <TableCell sx={tableCellStyle(true)} align="center">
+                                            <TableCell sx={tableCellStyle()} align="center">
                                                 {idxAtEditMode === i ?
                                                 <Autocomplete
                                                     disablePortal
@@ -298,46 +298,46 @@ const CollectionEntry: React.FC = () => {
                                                 />
                                                 : collectionVoucherItem.billNo} 
                                             </TableCell>
-                                            <TableCell sx={tableCellStyle(true)} align="center">
+                                            <TableCell sx={tableCellStyle()} align="center">
                                                 {idxAtEditMode === i ?
                                                 <Typography color={'green'}>{curCollectionVoucherItem.supplierName}</Typography>
                                                 : collectionVoucherItem.supplierName} 
                                             </TableCell>
-                                            <TableCell sx={tableCellStyle(true)} align="center">
+                                            <TableCell sx={tableCellStyle()} align="center">
                                                 {idxAtEditMode === i ?
                                                 <Typography color={'green'}>{curCollectionVoucherItem.billAmount}</Typography>
                                                 : collectionVoucherItem.billAmount} 
                                             </TableCell>
-                                            <TableCell sx={tableCellStyle(true)} align="center">
+                                            <TableCell sx={tableCellStyle()} align="center">
                                                 {idxAtEditMode === i ?
                                                 <Typography color={'green'}>{curCollectionVoucherItem.pendingAmount}</Typography>
                                                 : collectionVoucherItem.pendingAmount} 
                                             </TableCell>
-                                            <TableCell sx={tableCellStyle(true)} align="center">
+                                            <TableCell sx={tableCellStyle()} align="center">
                                                 {idxAtEditMode === i ?
                                                     <TextField size="small" name="amountCollected" value={curCollectionVoucherItem.amountCollected} onChange={handleCollectionVoucherItemChange}></TextField>
                                                     : collectionVoucherItem.amountCollected
                                                 }
                                             </TableCell>
-                                            <TableCell sx={tableCellStyle(true)} align="center">
+                                            <TableCell sx={tableCellStyle()} align="center">
                                                 {idxAtEditMode === i ?
                                                     <TextField size="small" name="ddNo" value={curCollectionVoucherItem.ddNo} onChange={handleCollectionVoucherItemChange}></TextField>
                                                     : collectionVoucherItem.ddNo
                                                 }
                                             </TableCell>
-                                            <TableCell sx={tableCellStyle(true)} align="center">
+                                            <TableCell sx={tableCellStyle()} align="center">
                                                 {idxAtEditMode === i ?
                                                     <TextField size="small" type="date" name="ddDate" value={curCollectionVoucherItem.ddDate} onChange={handleCollectionVoucherItemChange}></TextField>
                                                     : collectionVoucherItem.ddDate
                                                 }
                                             </TableCell>
-                                            <TableCell sx={tableCellStyle(true)} align="center">
+                                            <TableCell sx={tableCellStyle()} align="center">
                                                 {idxAtEditMode === i ?
                                                     <TextField size="small" name="bank" value={curCollectionVoucherItem.bank} onChange={handleCollectionVoucherItemChange}></TextField>
                                                     : collectionVoucherItem.bank
                                                 }
                                             </TableCell>
-                                            <TableCell sx={tableCellStyle(true)} align="center">
+                                            <TableCell sx={tableCellStyle()} align="center">
                                                 <ButtonGroup>
                                                     {idxAtEditMode === i ? <Button onClick={() => updateCollectionVoucherItemRow(i)} startIcon={<Done />} /> :
                                                         <Button onClick={() => startEditingCollectionVoucherRow(i)} startIcon={<Edit />} />}
