@@ -53,9 +53,6 @@ const TransportMaster: React.FC = () => {
 
     return (
         <Stack spacing={2}>
-            <Box justifyContent="center" alignItems="center" sx={{display: 'flex'}}>
-                <Typography align='center' variant='h4'>Transport master</Typography>
-            </Box>
             <TransportMasterInput syncTransports={syncTransports}></TransportMasterInput>
             {isLoading ?
                 <Box justifyContent="center" alignItems="center" sx={{display: 'flex'}}>

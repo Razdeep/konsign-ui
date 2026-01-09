@@ -1,10 +1,10 @@
 import { Add, Refresh } from "@mui/icons-material"
-import { Alert, Button, ButtonGroup, FormControl, Snackbar, Stack, TextField } from "@mui/material"
+import { Alert, Button, ButtonGroup, Snackbar, Stack, TextField } from "@mui/material"
 import { ChangeEvent, useState } from "react"
 import Transport from "../../model/Transport"
 import { useAuth } from "../../context/AuthProvider"
-import Config from "../../util/config"
 import React from 'react';
+import { addTransport } from "../../services/TransportServices"
 
 interface ParentProps {
     syncTransports: () => void
@@ -26,36 +26,14 @@ const TransportMasterInput: React.FC<ParentProps> = ({ syncTransports } : any) =
         setTransport({ ...transport, [e.target.name]: e.target.value })
     }
 
-    const addTransport = async () => {
-        const serializedData = JSON.stringify(transport);
-        const requestOptions = {
-            method: 'POST',
-            headers: new Headers({
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${auth?.user?.accessToken}`
-            }),
-            body: serializedData,
-            json: true
-        }
-
-        const response = await fetch(Config.ADD_TRANSPORT, requestOptions)
-
-        if (response.status !== 200) {
-            setSnackbarMessage('Failed to add transport')
-            setSnackbarVisibility(1)
-            return
-        }
-
-        setSnackbarMessage((await response?.json())?.message)
-        setSnackbarVisibility(2)
-    }
+    
 
     return <>
         <Stack direction={'row'} spacing={2}>
             <TextField value={transport.transportId} type="text" name="transportId" label="Transport ID" size="small" onChange={handleTransportMasterInputChange}></TextField>
             <TextField value={transport.transportName} type="text" name="transportName" label="Transport Name" size="small" onChange={handleTransportMasterInputChange}></TextField>
             <ButtonGroup>
-                <Button variant={'contained'} onClick={addTransport} startIcon={<Add/>} color={"success"}>Add Transport</Button>
+                <Button variant={'contained'} onClick={() => addTransport(transport, auth, setSnackbarMessage, setSnackbarVisibility)} startIcon={<Add/>} color={"success"}>Add Transport</Button>
                 <Button color={'info'} variant={'contained'} onClick={syncTransports} startIcon={<Refresh/>}>Sync</Button>
             </ButtonGroup>
         </Stack>

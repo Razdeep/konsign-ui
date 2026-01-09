@@ -34,6 +34,32 @@ export const fetchAllTransportsFromApi = async (auth: any): Promise<Transport[] 
     
 }
 
+export const addTransport = async (transport: Transport, auth: any, 
+    // remove below args somehow
+    setSnackbarMessage: any, setSnackbarVisibility: any) => {
+    const serializedData = JSON.stringify(transport);
+    const requestOptions = {
+        method: 'POST',
+        headers: new Headers({
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${auth?.user?.accessToken}`
+        }),
+        body: serializedData,
+        json: true
+    }
+
+    const response = await fetch(Config.TRANSPORTS_ENDPOINT, requestOptions)
+
+    if (response.status !== 200) {
+        setSnackbarMessage('Failed to add transport')
+        setSnackbarVisibility(1)
+        return
+    }
+
+    setSnackbarMessage((await response?.json())?.message)
+    setSnackbarVisibility(2)
+}
+
 export const deleteTransportFromApi = async (transport: String, auth: any): Promise<ResponseVerdict> => {
     const requestOptions = {
         method: 'DELETE',

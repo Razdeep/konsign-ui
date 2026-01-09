@@ -52,9 +52,6 @@ const SupplierMaster: React.FC = () => {
 
     return (
         <Stack spacing={2}>
-            <Box justifyContent="center" alignItems="center" sx={{display: 'flex'}}>
-                <Typography align='center' variant='h4'>Supplier master</Typography>
-            </Box>
             <SupplierMasterInput syncSuppliers={syncSuppliers}></SupplierMasterInput>
             {isLoading ?
                 <Box justifyContent="center" alignItems="center" sx={{display: 'flex'}}>

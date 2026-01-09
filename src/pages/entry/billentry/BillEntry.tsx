@@ -224,9 +224,6 @@ const BillEntry: React.FC = () => {
         <Box>
             <FormControl>
                 <Grid container spacing={2}>
-                    <Grid item lg={12} md={12} sm={12} xs={12}>
-                        <Typography variant="h4" align="center">Bill Entry</Typography>
-                    </Grid>
                     <Grid item lg={4} md={6}>
                         <Stack spacing={2}>
                             <TextField name="billNo" label="Bill Number" size="small" value={bill.billNo} onChange={handleBillChange} fullWidth></TextField>
@@ -262,10 +259,10 @@ const BillEntry: React.FC = () => {
                         <TableContainer component={Paper}>
                             <Table sx={{ minWidth: '50vw' }} aria-label="simple table">
                                 <TableHead>
-                                    <TableRow>
-                                        <TableCell sx={{ minWidth: 250}} variant="head" align="center">LR</TableCell>
-                                        <TableCell sx={{ minWidth: 250}} variant="head" align="center">PM</TableCell>
-                                        <TableCell sx={{ minWidth: 150}} variant="head" align="center">Operations</TableCell>
+                                    <TableRow sx={{bgcolor: "primary.main"}}>
+                                        <TableCell sx={{ minWidth: 250, color: "secondary.main" }} variant="head" align="center">LR</TableCell>
+                                        <TableCell sx={{ minWidth: 250, color: "secondary.main"}} variant="head" align="center">PM</TableCell>
+                                        <TableCell sx={{ minWidth: 150, color: "secondary.main"}} variant="head" align="center">Operations</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>

@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Dashboard from './pages/dashboard/Dashboard';
