@@ -16,14 +16,20 @@ import { Link } from 'react-router-dom';
 
 export default function MainListItems() {
   const [expandedIndex, setExpandedIndex] = React.useState<Number>(-1);
+  const [selectedSubMenu, setSelectedSubMenu] = React.useState<Number>(-1);
 
   const toggleExpandedIndex = (index: Number) => {
-    if (expandedIndex === index) {
-      setExpandedIndex(-1);
-    } else {
-      setExpandedIndex(index);
-    }
+    setSelectedSubMenu(-1)
+    setExpandedIndex(expandedIndex === index ? -1 : index)
   }
+
+  const getListItemSx = (active: boolean) => ({
+    pl: 4,
+    ...(active && {
+      bgcolor: "primary.main",
+      color: "white",
+    }),
+  });
 
   return (<List>
     <ListItem button onClick={() => toggleExpandedIndex(1)}>
@@ -34,19 +40,22 @@ export default function MainListItems() {
     </ListItem>
     <Collapse in={expandedIndex === 1} timeout="auto" unmountOnExit>
       <List component="div" disablePadding>
-        <ListItemButton sx={{ pl: 4 }} component={Link} to="billentry">
+        <ListItemButton sx={getListItemSx(selectedSubMenu === 1)} component={Link} to="billentry" 
+        onClick={() => setSelectedSubMenu(1)}>
           <ListItemIcon>
             <EventNoteIcon />
           </ListItemIcon>
           <ListItemText primary="Bill Entry" />
         </ListItemButton>
-        <ListItemButton sx={{ pl: 4 }} component={Link} to="collectionentry">
+        <ListItemButton sx={getListItemSx(selectedSubMenu === 2)} component={Link} to="collectionentry"
+        onClick={() => setSelectedSubMenu(2)}>
           <ListItemIcon>
             <PlaylistAddCheckCircle />
           </ListItemIcon>
           <ListItemText primary="Collection Entry" />
         </ListItemButton>
-        <ListItemButton sx={{ pl: 4 }} disabled>
+        <ListItemButton sx={getListItemSx(selectedSubMenu === 3)} disabled
+        onClick={() => setSelectedSubMenu(3)}>
           <ListItemIcon>
             <CurrencyRupee />
           </ListItemIcon>
@@ -64,19 +73,19 @@ export default function MainListItems() {
     </ListItem>
     <Collapse in={expandedIndex === 2} timeout="auto" unmountOnExit>
       <List component="div" disablePadding>
-        <ListItemButton sx={{ pl: 4 }} component={Link} to="billview">
+        <ListItemButton sx={getListItemSx(selectedSubMenu === 1)} component={Link} to="billview" onClick={() => setSelectedSubMenu(1)}>
           <ListItemIcon>
             <EventNoteIcon />
           </ListItemIcon>
           <ListItemText primary="Bill View" />
         </ListItemButton>
-        <ListItemButton sx={{ pl: 4 }} component={Link} to="collectionview" disabled>
+        <ListItemButton sx={getListItemSx(selectedSubMenu === 2)} component={Link} to="collectionview" onClick={() => setSelectedSubMenu(2)} disabled>
           <ListItemIcon>
             <PlaylistAddCheckCircle />
           </ListItemIcon>
           <ListItemText primary="Collection View" />
         </ListItemButton>
-        <ListItemButton sx={{ pl: 4 }} component={Link} to="paymentview" disabled>
+        <ListItemButton sx={getListItemSx(selectedSubMenu === 3)} component={Link} to="paymentview" onClick={() => setSelectedSubMenu(3)} disabled>
           <ListItemIcon>
             <CurrencyRupee />
           </ListItemIcon>
@@ -93,19 +102,19 @@ export default function MainListItems() {
     </ListItem>
     <Collapse in={expandedIndex === 3} timeout="auto" unmountOnExit>
       <List component="div" disablePadding>
-        <ListItemButton sx={{ pl: 4 }} disabled>
+        <ListItemButton sx={getListItemSx(selectedSubMenu === 1)} onClick={() => setSelectedSubMenu(1)} disabled>
           <ListItemIcon>
             <Inventory />
           </ListItemIcon>
           <ListItemText primary="Supplier Ledger" />
         </ListItemButton>
-        <ListItemButton sx={{ pl: 4 }} disabled>
+        <ListItemButton sx={getListItemSx(selectedSubMenu === 2)} onClick={() => setSelectedSubMenu(2)} disabled>
           <ListItemIcon>
             <ShoppingCartIcon />
           </ListItemIcon>
           <ListItemText primary="Buyer Ledger" />
         </ListItemButton>
-        <ListItemButton sx={{ pl: 4 }} disabled>
+        <ListItemButton sx={getListItemSx(selectedSubMenu === 3)} onClick={() => setSelectedSubMenu(3)} disabled>
           <ListItemIcon>
             <LocalShipping />
           </ListItemIcon>
@@ -123,19 +132,19 @@ export default function MainListItems() {
     </ListItem>
     <Collapse in={expandedIndex === 4} timeout="auto" unmountOnExit>
       <List component="div" disablePadding>
-        <ListItemButton sx={{ pl: 4 }} component={Link} to="suppliermaster">
+        <ListItemButton sx={getListItemSx(selectedSubMenu === 1)} onClick={() => setSelectedSubMenu(1)} component={Link} to="suppliermaster">
           <ListItemIcon>
             <Inventory />
           </ListItemIcon>
           <ListItemText primary="Supplier Master" />
         </ListItemButton>
-        <ListItemButton sx={{ pl: 4 }} component={Link} to="buyermaster">
+        <ListItemButton sx={getListItemSx(selectedSubMenu === 2)} onClick={() => setSelectedSubMenu(2)} component={Link} to="buyermaster">
           <ListItemIcon>
             <ShoppingCartIcon />
           </ListItemIcon>
           <ListItemText primary="Buyer Master" />
         </ListItemButton>
-        <ListItemButton sx={{ pl: 4 }} component={Link} to="transportmaster">
+        <ListItemButton sx={getListItemSx(selectedSubMenu === 3)} onClick={() => setSelectedSubMenu(3)} component={Link} to="transportmaster">
           <ListItemIcon>
             <LocalShippingIcon />
           </ListItemIcon>

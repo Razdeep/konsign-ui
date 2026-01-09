@@ -38,7 +38,7 @@ const TransportMasterInput: React.FC<ParentProps> = ({ syncTransports } : any) =
             json: true
         }
 
-        const response = await fetch(Config.ADD_TRANSPORT, requestOptions)
+        const response = await fetch(Config.TRANSPORTS_ENDPOINT, requestOptions)
 
         if (response.status !== 200) {
             setSnackbarMessage('Failed to add transport')

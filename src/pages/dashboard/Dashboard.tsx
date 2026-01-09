@@ -166,7 +166,7 @@ function DashboardContent() {
         }}
       >
         <Toolbar />
-        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+        <Container maxWidth="lg" sx={{ mt: 8, mb: 0 }}>
           <Routes>
             <Route path="billentry" element={<BillEntry />} />
           </Routes>

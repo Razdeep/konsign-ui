@@ -244,9 +244,6 @@ const CollectionEntry: React.FC = () => {
     return <div>
         <form>
             <Grid container spacing={3}>
-                <Grid item lg={12}>
-                <Typography variant="h4" align="center">Collection Entry</Typography>
-                </Grid>
                 <Grid item lg={2}>
                     <TextField name="voucherNo" label="Voucher no." size="small" value={collectionVoucher.voucherNo} onChange={handleVoucherChange} fullWidth></TextField>
                 </Grid>

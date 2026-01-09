@@ -53,9 +53,6 @@ const BuyerMaster: React.FC = () => {
 
     return (
         <Stack spacing={2}>
-            <Box justifyContent="center" alignItems="center" sx={{display: 'flex'}}>
-                <Typography align='center' variant='h4'>Buyer master</Typography>
-            </Box>
             <BuyerMasterInput syncBuyers={syncBuyers}></BuyerMasterInput>
             {isLoading ?
                 <Box justifyContent="center" alignItems="center" sx={{display: 'flex'}}>

@@ -79,7 +79,6 @@ export const BillView: React.FC = () => {
     const tableCellStyle = { minWidth: 100, padding: 0.5 }
 
     return <Stack spacing={1}>
-        <Typography variant="h4" align="center">Bill View</Typography>
         <>
             <Stack direction="row">
                 <Container sx={{display: 'flex'}}>

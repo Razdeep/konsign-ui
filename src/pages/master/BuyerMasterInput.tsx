@@ -38,7 +38,7 @@ const BuyerMasterInput: React.FC<ParentProps> = ({ syncBuyers }: any) => {
             json: true
         }
 
-        const response = await fetch(Config.ADD_BUYER, requestOptions)
+        const response = await fetch(Config.BUYERS_ENDPOINT, requestOptions)
 
         if (response.status !== 200) {
             setSnackbarMessage('Failed to add buyer')
