@@ -108,7 +108,7 @@ export default function MainListItems() {
           </ListItemIcon>
           <ListItemText primary="Supplier Ledger" />
         </ListItemButton>
-        <ListItemButton sx={getListItemSx(selectedSubMenu === 2)} onClick={() => setSelectedSubMenu(2)} disabled>
+        <ListItemButton sx={getListItemSx(selectedSubMenu === 2)} onClick={() => setSelectedSubMenu(2)} component={Link} to="buyerledger">
           <ListItemIcon>
             <ShoppingCartIcon />
           </ListItemIcon>

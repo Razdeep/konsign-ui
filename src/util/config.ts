@@ -9,6 +9,7 @@ class Config {
     static TRANSPORTS_ENDPOINT: string = `${this.BACKEND_BASE_URL}/transports`;
     static COLLECTIONS_PENDING_BILLS_ENDPOINT: string = `${this.BACKEND_BASE_URL}/collection-vouchers/pending-bills`;
     static COLLECTIONS_ENDPOINT: string = `${this.BACKEND_BASE_URL}/collection-vouchers`;
+    static REPORTS_ENDPOINT: string = `${this.BACKEND_BASE_URL}/report/buyer`;
 };
 
 export default Config;

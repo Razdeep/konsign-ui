@@ -83,3 +83,42 @@ export const deleteBuyerFromApi = async (buyerId: String, auth: any): Promise<Re
 
     return response.json()
 }
+
+export const generateBuyerLedger = async (buyerId: String, auth: any) => {
+    const requestOptions = {
+        method: 'GET',
+        headers: new Headers({
+            'Content-Type': 'application/pdf',
+            'Authorization': `Bearer ${auth?.user?.accessToken}`
+        }),
+        json: true
+    };
+
+    const url = new URL(Config.REPORTS_ENDPOINT);
+    url.search = new URLSearchParams({
+        buyerId: String(buyerId),
+    }).toString();
+
+    const response = await fetch(url, requestOptions).catch(e => {
+        return null
+    })
+
+    if (response == null || response?.status !== 200) {
+        return null
+    }
+    
+    try {
+        const blob = await response?.blob()
+
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "report.pdf";
+        a.click();
+
+        window.URL.revokeObjectURL(url);
+    } catch (e) {
+        console.log(e)
+        return []
+    }
+}
