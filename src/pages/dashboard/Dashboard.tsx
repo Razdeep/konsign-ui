@@ -22,6 +22,7 @@ import BuyerMaster from '../master/BuyerMaster';
 import TransportMaster from '../master/TransportMaster';
 import CollectionEntry from '../entry/collectionentry/CollectionEntry';
 import { BillView } from '../entry/billentry/BillView';
+import { BuyerLedger } from '../report/BuyerLedger';
 
 function Copyright(props: any) {
   return (
@@ -184,6 +185,9 @@ function DashboardContent() {
           </Routes>
           <Routes>
             <Route path="collectionentry" element={<CollectionEntry />} />
+          </Routes>
+          <Routes>
+            <Route path="buyerledger" element={<BuyerLedger />} />
           </Routes>
         </Container>
         <Copyright />
