@@ -16,7 +16,7 @@ export const fetchAllTransportsFromApi = async (auth: any): Promise<Transport[] 
     json: true,
   }
 
-  const response = await fetch(Config.TRANSPORTS_ENDPOINT, requestOptions).catch((e) => {
+  const response = await fetch(Config.TRANSPORTS_ENDPOINT, requestOptions).catch(() => {
     return null
   })
 

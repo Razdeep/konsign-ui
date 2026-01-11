@@ -87,8 +87,8 @@ const BillEntry: React.FC = () => {
 
   const startEditingLrPmRow = (targetIndex: number) => {
     setIdxAtEditMode(targetIndex)
-    currentLrPm.lr = lrPmList[targetIndex].lr
-    currentLrPm.pm = lrPmList[targetIndex].pm
+    currentLrPm.lr = lrPmList[targetIndex]?.lr ?? ''
+    currentLrPm.pm = lrPmList[targetIndex]?.pm ?? ''
     setCurrentLrPm(currentLrPm)
   }
 
@@ -134,7 +134,7 @@ const BillEntry: React.FC = () => {
       return
     }
 
-    const responseMessage = (await response?.json()).message
+    const responseMessage = (await response.json()).message
 
     if (response.status === 200) {
       setSnackbarMessage(responseMessage ?? `Successfully deleted bill ${bill.billNo}`)
@@ -175,7 +175,7 @@ const BillEntry: React.FC = () => {
         setSnackbarMessage(message)
         setSnackbarVisibility(2)
       })
-      .catch((err: any) => {
+      .catch(() => {
         setSnackbarMessage('Internal server error')
         setSnackbarVisibility(1)
       })
@@ -252,7 +252,7 @@ const BillEntry: React.FC = () => {
     <Box>
       <FormControl>
         <Grid container spacing={2}>
-          <Grid item lg={4} md={6}>
+          <Grid size={{ lg: 4, md: 6 }}>
             <Stack spacing={2}>
               <TextField
                 name="billNo"
@@ -314,7 +314,7 @@ const BillEntry: React.FC = () => {
               ></TextField>
             </Stack>
           </Grid>
-          <Grid item lg={8}>
+          <Grid size={{ lg: 8 }}>
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: '50vw' }} aria-label="simple table">
                 <TableHead>
@@ -395,7 +395,7 @@ const BillEntry: React.FC = () => {
               </Table>
             </TableContainer>
           </Grid>
-          <Grid item lg={4}>
+          <Grid size={{ lg: 4 }}>
             <FilledInput
               name="billAmount"
               value={bill.billAmount}
@@ -409,12 +409,12 @@ const BillEntry: React.FC = () => {
               inputProps={{ min: 0, style: { textAlign: 'right' } }}
             ></FilledInput>
           </Grid>
-          <Grid item lg={2}>
+          <Grid size={{ lg: 2 }}>
             <Button onClick={addRow} startIcon={<Add />}>
               Add row
             </Button>
           </Grid>
-          <Grid item lg={6}>
+          <Grid size={{ lg: 6 }}>
             <ButtonGroup size="large">
               <Button
                 onClick={clearBill}
@@ -436,7 +436,7 @@ const BillEntry: React.FC = () => {
                 Save
               </Button>
               <Button
-                onClick={(e) => deleteBill()}
+                onClick={() => deleteBill()}
                 variant="contained"
                 type="button"
                 color="error"

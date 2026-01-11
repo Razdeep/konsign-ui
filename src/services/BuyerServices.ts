@@ -16,7 +16,7 @@ export const fetchAllBuyersFromApi = async (auth: any): Promise<Buyer[] | null> 
     json: true,
   }
 
-  const response = await fetch(Config.BUYERS_ENDPOINT, requestOptions).catch((e) => {
+  const response = await fetch(Config.BUYERS_ENDPOINT, requestOptions).catch(() => {
     return null
   })
 
@@ -103,7 +103,7 @@ export const generateBuyerLedger = async (buyerId: String, auth: any) => {
     buyerId: String(buyerId),
   }).toString()
 
-  const response = await fetch(url, requestOptions).catch((e) => {
+  const response = await fetch(url, requestOptions).catch(() => {
     return null
   })
 

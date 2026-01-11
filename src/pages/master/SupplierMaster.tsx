@@ -48,7 +48,7 @@ const SupplierMaster: React.FC = () => {
         setSnackbarMessage(response.message)
         setSnackbarVisibility(2)
       })
-      .catch((err: Error) => {
+      .catch(() => {
         setSnackbarMessage('Something went wrong while trying to fetch the suppliers')
         setSnackbarVisibility(1)
       })

@@ -1,4 +1,5 @@
 import { TailSpin } from 'react-loader-spinner'
+import React from 'react'
 
 export const KonsignSpinner: React.FC = () => {
   return (

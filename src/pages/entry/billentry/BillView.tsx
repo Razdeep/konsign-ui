@@ -1,4 +1,4 @@
-import type { ChangeEvent } from 'react'
+import type { ChangeEvent, FC } from 'react'
 import { useEffect, useState } from 'react'
 import type { SelectChangeEvent } from '@mui/material'
 import {
@@ -28,7 +28,7 @@ import type Bill from '../../../model/Bill'
 import { deleteBillFromApi, fetchAllBillsFromApi } from '../../../services/BillServices'
 import { KonsignSpinner } from '../../../components/KonsignSpinner'
 
-export const BillView: React.FC = () => {
+export const BillView: FC = () => {
   const auth = useAuth()
 
   const [snackbarVisibility, setSnackbarVisibility] = useState<number>(0)
@@ -71,7 +71,7 @@ export const BillView: React.FC = () => {
       return
     }
 
-    const responseMessage = (await response?.json()).message
+    const responseMessage = (await response.json()).message
 
     if (response.status === 200) {
       setSnackbarMessage(responseMessage ?? `Successfully deleted bill ${billNo}`)

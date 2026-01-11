@@ -68,4 +68,8 @@ export default [
   },
 
   prettierConfig,
+
+  {
+    ignores: ['dist/**', 'node_modules/**', 'bin/**'],
+  },
 ]
