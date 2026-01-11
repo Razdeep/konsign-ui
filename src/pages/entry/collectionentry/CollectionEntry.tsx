@@ -18,7 +18,9 @@ import {
   TextField,
 } from '@mui/material'
 import Typography from '@mui/material/Typography'
-import { ChangeEvent, useEffect, useState } from 'react'
+import type { ChangeEvent } from 'react'
+import { useEffect, useState } from 'react'
+
 import { useAuth } from '../../../context/AuthProvider'
 import CollectionVoucher from '../../../model/CollectionVoucher'
 import { fetchAllBuyersFromApi } from '../../../services/BuyerServices'
@@ -29,8 +31,8 @@ import {
   submitCollectionToApi,
 } from '../../../services/CollectionServices'
 import { fetchBillFromApi } from '../../../services/BillServices'
-import Bill from '../../../model/Bill'
-import PendingBill from '../../../model/PendingBill'
+import type Bill from '../../../model/Bill'
+import type PendingBill from '../../../model/PendingBill'
 import { PresentableCollectionVoucherItem } from '../../../model/PresentableVoucherItem'
 
 const CollectionEntry: React.FC = () => {

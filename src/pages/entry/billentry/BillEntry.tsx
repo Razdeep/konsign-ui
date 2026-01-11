@@ -23,16 +23,18 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
+import type { ChangeEvent } from 'react'
+import React, { useState, useEffect } from 'react'
+
 import LrPm from '../../../model/LrPm'
-import React, { ChangeEvent, useState, useEffect } from 'react'
-import Bill from '../../../model/Bill'
+import type Bill from '../../../model/Bill'
 import Config from '../../../util/config'
 import { useAuth } from '../../../context/AuthProvider'
 import { fetchAllSuppliersFromApi } from '../../../services/SupplierServices'
 import { fetchAllBuyersFromApi } from '../../../services/BuyerServices'
 import { fetchAllTransportsFromApi } from '../../../services/TransportServices'
 import { deleteBillFromApi, fetchBillFromApi, saveBillToApi } from '../../../services/BillServices'
-import ResponseVerdict from '../../../model/ResponseVerdict'
+import type ResponseVerdict from '../../../model/ResponseVerdict'
 
 const BillEntry: React.FC = () => {
   const auth = useAuth()

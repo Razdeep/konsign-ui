@@ -14,13 +14,14 @@ import {
   Typography,
 } from '@mui/material'
 import React, { useCallback, useEffect, useState } from 'react'
+
 import { useAuth } from '../../context/AuthProvider'
-import Buyer from '../../model/Buyer'
+import type Buyer from '../../model/Buyer'
 import { deleteBuyerFromApi, fetchAllBuyersFromApi } from '../../services/BuyerServices'
 import Config from '../../util/config'
 import BuyerMasterInput from './BuyerMasterInput'
 import { KonsignSpinner } from '../../components/KonsignSpinner'
-import ResponseVerdict from '../../model/ResponseVerdict'
+import type ResponseVerdict from '../../model/ResponseVerdict'
 
 const BuyerMaster: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true)

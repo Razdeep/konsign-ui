@@ -1,6 +1,8 @@
-import { createContext, FC, ReactNode, useContext, useState } from 'react'
+import type { FC, ReactNode } from 'react'
+import { createContext, useContext, useState } from 'react'
 import React from 'react'
-import User from '../model/User'
+
+import type User from '../model/User'
 
 const AuthContext = createContext<any>(null)
 

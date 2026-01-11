@@ -1,4 +1,4 @@
-import CollectionVoucherItem from './CollectionVoucherItem'
+import type CollectionVoucherItem from './CollectionVoucherItem'
 
 class CollectionVoucher {
   voucherNo: string = ''

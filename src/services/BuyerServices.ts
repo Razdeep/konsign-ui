@@ -1,5 +1,5 @@
-import Buyer from '../model/Buyer'
-import ResponseVerdict from '../model/ResponseVerdict'
+import type Buyer from '../model/Buyer'
+import type ResponseVerdict from '../model/ResponseVerdict'
 import Config from '../util/config'
 
 interface Master {

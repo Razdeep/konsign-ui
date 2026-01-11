@@ -1,5 +1,5 @@
-import Bill from '../model/Bill'
-import ResponseVerdict from '../model/ResponseVerdict'
+import type Bill from '../model/Bill'
+import type ResponseVerdict from '../model/ResponseVerdict'
 import Config from '../util/config'
 
 export const fetchBillFromApi = async (auth: any, billNo: String): Promise<Bill | undefined> => {
