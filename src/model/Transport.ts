@@ -1,6 +1,6 @@
 class Transport {
-    transportId: string = '';
-    transportName: string = '';
+  transportId: string = ''
+  transportName: string = ''
 }
 
-export default Transport;
+export default Transport

@@ -1,69 +1,74 @@
-import ResponseVerdict from "../model/ResponseVerdict";
-import Supplier from "../model/Supplier";
-import Config from "../util/config";
+import ResponseVerdict from '../model/ResponseVerdict'
+import Supplier from '../model/Supplier'
+import Config from '../util/config'
 
 interface Master {
-    data: Supplier[];
+  data: Supplier[]
 }
 
 export const fetchAllSuppliersFromApi = async (auth: any) => {
-    const requestOptions = {
-        method: 'GET',
-        headers: new Headers({
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${auth?.user?.accessToken}`
-        }),
-        json: true
-    };
+  const requestOptions = {
+    method: 'GET',
+    headers: new Headers({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${auth?.user?.accessToken}`,
+    }),
+    json: true,
+  }
 
-    const response = await fetch(Config.SUPPLIERS_ENDPOINT, requestOptions).catch(e => {
-        return null
-    })
+  const response = await fetch(Config.SUPPLIERS_ENDPOINT, requestOptions).catch((e) => {
+    return null
+  })
 
-    if (response == null || response?.status !== 200) {
-        return null
-    }
-    
-    const master: Master = JSON.parse(await response?.text())
-    return master?.data
+  if (response == null || response?.status !== 200) {
+    return null
+  }
+
+  const master: Master = JSON.parse(await response?.text())
+  return master?.data
 }
 
 export const addSupplierToApi = async (supplier: Supplier, auth: any): Promise<ResponseVerdict> => {
-    const serializedData = JSON.stringify(supplier);
-    const requestOptions = {
-        method: 'POST',
-        headers: new Headers({
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${auth?.user?.accessToken}`
-        }),
-        body: serializedData,
-        json: true
-    }
+  const serializedData = JSON.stringify(supplier)
+  const requestOptions = {
+    method: 'POST',
+    headers: new Headers({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${auth?.user?.accessToken}`,
+    }),
+    body: serializedData,
+    json: true,
+  }
 
-    const response = await fetch(Config.SUPPLIERS_ENDPOINT, requestOptions)
+  const response = await fetch(Config.SUPPLIERS_ENDPOINT, requestOptions)
 
-    return response.json()
+  return response.json()
 }
 
-export const deleteSupplierFromApi = async (supplierId: String, auth: any): Promise<ResponseVerdict> => {
-    const requestOptions = {
-        method: 'DELETE',
-        headers: new Headers({
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${auth?.user?.accessToken}`
-        }),
-        json: true
-    }
+export const deleteSupplierFromApi = async (
+  supplierId: String,
+  auth: any,
+): Promise<ResponseVerdict> => {
+  const requestOptions = {
+    method: 'DELETE',
+    headers: new Headers({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${auth?.user?.accessToken}`,
+    }),
+    json: true,
+  }
 
-    const response = await fetch(`${Config.SUPPLIERS_ENDPOINT}/${supplierId}`, requestOptions).catch(e => {
-        throw e
-    })
+  const response = await fetch(`${Config.SUPPLIERS_ENDPOINT}/${supplierId}`, requestOptions).catch(
+    (e) => {
+      throw e
+    },
+  )
 
-    if (response.status !== 200) {
-        const errorMessage = 'Something went wrong while deleting supplier'
-        console.error(errorMessage)
-        throw new Error(errorMessage)
-    }
+  if (response.status !== 200) {
+    const errorMessage = 'Something went wrong while deleting supplier'
+    console.error(errorMessage)
+    throw new Error(errorMessage)
+  }
 
-    return response.json()
+  return response.json()
 }

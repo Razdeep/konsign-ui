@@ -1,5 +1,5 @@
 class User {
-    accessToken: String = '';
+  accessToken: String = ''
 }
 
-export default User;
+export default User

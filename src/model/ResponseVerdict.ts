@@ -1,7 +1,6 @@
-
 class ResponseVerdict {
-    message: string = '';
-    data: any = '';
+  message: string = ''
+  data: any = ''
 }
 
-export default ResponseVerdict;
+export default ResponseVerdict

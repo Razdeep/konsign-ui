@@ -1,28 +1,28 @@
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import MuiDrawer from '@mui/material/Drawer';
-import Box from '@mui/material/Box';
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import Link from '@mui/material/Link';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import MainListItems from './listItems';
-import { Routes, Route, useNavigate } from "react-router-dom";
-import BillEntry from '../../pages/entry/billentry/BillEntry';
-import { Logout } from '@mui/icons-material';
-import { useAuth } from '../../context/AuthProvider';
-import Container from '@mui/material/Container';
-import SupplierMaster from '../master/SupplierMaster';
-import BuyerMaster from '../master/BuyerMaster';
-import TransportMaster from '../master/TransportMaster';
-import CollectionEntry from '../entry/collectionentry/CollectionEntry';
-import { BillView } from '../entry/billentry/BillView';
-import { BuyerLedger } from '../report/BuyerLedger';
+import * as React from 'react'
+import { styled } from '@mui/material/styles'
+import CssBaseline from '@mui/material/CssBaseline'
+import MuiDrawer from '@mui/material/Drawer'
+import Box from '@mui/material/Box'
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
+import Divider from '@mui/material/Divider'
+import IconButton from '@mui/material/IconButton'
+import Link from '@mui/material/Link'
+import MenuIcon from '@mui/icons-material/Menu'
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import MainListItems from './listItems'
+import { Routes, Route, useNavigate } from 'react-router-dom'
+import BillEntry from '../../pages/entry/billentry/BillEntry'
+import { Logout } from '@mui/icons-material'
+import { useAuth } from '../../context/AuthProvider'
+import Container from '@mui/material/Container'
+import SupplierMaster from '../master/SupplierMaster'
+import BuyerMaster from '../master/BuyerMaster'
+import TransportMaster from '../master/TransportMaster'
+import CollectionEntry from '../entry/collectionentry/CollectionEntry'
+import { BillView } from '../entry/billentry/BillView'
+import { BuyerLedger } from '../report/BuyerLedger'
 
 function Copyright(props: any) {
   return (
@@ -34,13 +34,13 @@ function Copyright(props: any) {
       {new Date().getFullYear()}
       {'.'}
     </Typography>
-  );
+  )
 }
 
-const drawerWidth: number = 240;
+const drawerWidth: number = 240
 
 interface AppBarProps extends MuiAppBarProps {
-  open?: boolean;
+  open?: boolean
 }
 
 const AppBar = styled(MuiAppBar, {
@@ -59,7 +59,7 @@ const AppBar = styled(MuiAppBar, {
       duration: theme.transitions.duration.enteringScreen,
     }),
   }),
-}));
+}))
 
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
@@ -85,18 +85,18 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
       }),
     },
   }),
-);
+)
 
 function DashboardContent() {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(true)
   const toggleDrawer = () => {
-    setOpen(!open);
-  };
+    setOpen(!open)
+  }
 
   const navigate = useNavigate()
 
   const logout = () => {
-    navigate("/login")
+    navigate('/login')
   }
 
   const auth = useAuth()
@@ -123,21 +123,17 @@ function DashboardContent() {
             <MenuIcon />
           </IconButton>
           <img src="/konsign_icon.png" alt="logo"></img>
-          <Typography
-            component="h1"
-            variant="h6"
-            color="inherit"
-            noWrap
-            sx={{ flexGrow: 1 }}
-          >
+          <Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
             Konsign
           </Typography>
-          {
-            auth.user ?
-              <IconButton color="inherit" onClick={logout}>
-                <Logout /><Typography>Logout</Typography>
-              </IconButton> : <></>
-          }
+          {auth.user ? (
+            <IconButton color="inherit" onClick={logout}>
+              <Logout />
+              <Typography>Logout</Typography>
+            </IconButton>
+          ) : (
+            <></>
+          )}
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
@@ -159,8 +155,7 @@ function DashboardContent() {
       <Box
         component="main"
         sx={{
-          backgroundColor: (theme) =>
-            theme.palette.secondary.light,
+          backgroundColor: (theme) => theme.palette.secondary.light,
           flexGrow: 1,
           height: '100vh',
           overflow: 'auto',
@@ -193,9 +188,9 @@ function DashboardContent() {
         <Copyright />
       </Box>
     </Box>
-  );
+  )
 }
 
 export default function Dashboard() {
-  return <DashboardContent />;
+  return <DashboardContent />
 }

@@ -1,6 +1,6 @@
 class Supplier {
-    supplierId: string = '';
-    supplierName: string = '';
+  supplierId: string = ''
+  supplierName: string = ''
 }
 
-export default Supplier;
+export default Supplier
