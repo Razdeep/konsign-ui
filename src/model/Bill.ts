@@ -1,4 +1,4 @@
-import LrPm from './LrPm'
+import type LrPm from './LrPm'
 
 class Bill {
   supplierName: string = ''

@@ -1,4 +1,4 @@
-import { Delete, Edit, Refresh } from '@mui/icons-material'
+import { Delete, Edit } from '@mui/icons-material'
 import {
   Alert,
   Box,
@@ -11,16 +11,15 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Typography,
 } from '@mui/material'
 import React, { useCallback, useEffect, useState } from 'react'
+
 import { useAuth } from '../../context/AuthProvider'
-import Transport from '../../model/Transport'
+import type Transport from '../../model/Transport'
 import { deleteTransportFromApi, fetchAllTransportsFromApi } from '../../services/TransportServices'
-import Config from '../../util/config'
 import TransportMasterInput from './TransportMasterInput'
 import { KonsignSpinner } from '../../components/KonsignSpinner'
-import ResponseVerdict from '../../model/ResponseVerdict'
+import type ResponseVerdict from '../../model/ResponseVerdict'
 
 const TransportMaster: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true)

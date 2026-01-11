@@ -6,6 +6,8 @@ import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import importPlugin from 'eslint-plugin-import'
 import prettierConfig from 'eslint-config-prettier'
+import unusedImports from 'eslint-plugin-unused-imports'
+import globals from 'globals'
 
 export default [
   js.configs.recommended,
@@ -19,12 +21,17 @@ export default [
         sourceType: 'module',
         project: './tsconfig.json',
       },
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
     },
     plugins: {
       '@typescript-eslint': tseslint,
       react,
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
+      'unused-imports': unusedImports,
       import: importPlugin,
     },
     settings: {
@@ -56,6 +63,7 @@ export default [
           'newlines-between': 'always',
         },
       ],
+      'unused-imports/no-unused-imports': 'error',
     },
   },
 

@@ -1,4 +1,5 @@
 import { Add, Clear, CurrencyRupeeSharp, Delete, Done, Edit, Save } from '@mui/icons-material'
+import type { AutocompleteRenderInputParams } from '@mui/material'
 import {
   Alert,
   Autocomplete,
@@ -9,7 +10,6 @@ import {
   FormControl,
   Grid,
   InputAdornment,
-  InputLabel,
   Paper,
   Slide,
   Snackbar,
@@ -21,18 +21,18 @@ import {
   TableHead,
   TableRow,
   TextField,
-  Typography,
 } from '@mui/material'
+import type { ChangeEvent } from 'react'
+import React, { useState, useEffect } from 'react'
+
 import LrPm from '../../../model/LrPm'
-import React, { ChangeEvent, useState, useEffect } from 'react'
-import Bill from '../../../model/Bill'
-import Config from '../../../util/config'
+import type Bill from '../../../model/Bill'
 import { useAuth } from '../../../context/AuthProvider'
 import { fetchAllSuppliersFromApi } from '../../../services/SupplierServices'
 import { fetchAllBuyersFromApi } from '../../../services/BuyerServices'
 import { fetchAllTransportsFromApi } from '../../../services/TransportServices'
 import { deleteBillFromApi, fetchBillFromApi, saveBillToApi } from '../../../services/BillServices'
-import ResponseVerdict from '../../../model/ResponseVerdict'
+import type ResponseVerdict from '../../../model/ResponseVerdict'
 
 const BillEntry: React.FC = () => {
   const auth = useAuth()
@@ -298,7 +298,7 @@ const BillEntry: React.FC = () => {
                 options={transports}
                 value={bill.transportName}
                 onChange={handleTransportNameChange}
-                renderInput={(params) => (
+                renderInput={(params: AutocompleteRenderInputParams) => (
                   <TextField {...params} name="transportName" size="small" label="Transport name" />
                 )}
               />

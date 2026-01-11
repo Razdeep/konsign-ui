@@ -1,7 +1,6 @@
-import { ChangeEvent, useEffect, useState } from 'react'
-import { useAuth } from '../../../context/AuthProvider'
-import Bill from '../../../model/Bill'
-import { deleteBillFromApi, fetchAllBillsFromApi } from '../../../services/BillServices'
+import type { ChangeEvent } from 'react'
+import { useEffect, useState } from 'react'
+import type { SelectChangeEvent } from '@mui/material'
 import {
   Alert,
   Button,
@@ -12,7 +11,6 @@ import {
   Pagination,
   Paper,
   Select,
-  SelectChangeEvent,
   Slide,
   Snackbar,
   Stack,
@@ -22,11 +20,13 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TextField,
-  Typography,
 } from '@mui/material'
-import { KonsignSpinner } from '../../../components/KonsignSpinner'
 import { Delete, Edit, Refresh } from '@mui/icons-material'
+
+import { useAuth } from '../../../context/AuthProvider'
+import type Bill from '../../../model/Bill'
+import { deleteBillFromApi, fetchAllBillsFromApi } from '../../../services/BillServices'
+import { KonsignSpinner } from '../../../components/KonsignSpinner'
 
 export const BillView: React.FC = () => {
   const auth = useAuth()

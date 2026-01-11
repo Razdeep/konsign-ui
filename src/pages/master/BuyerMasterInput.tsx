@@ -1,10 +1,11 @@
 import { Add, Refresh } from '@mui/icons-material'
-import { Alert, Button, ButtonGroup, FormControl, Snackbar, Stack, TextField } from '@mui/material'
-import { ChangeEvent, useState } from 'react'
-import Buyer from '../../model/Buyer'
-import { useAuth } from '../../context/AuthProvider'
-import Config from '../../util/config'
+import { Alert, Button, ButtonGroup, Snackbar, Stack, TextField } from '@mui/material'
+import type { ChangeEvent } from 'react'
+import { useState } from 'react'
 import React from 'react'
+
+import type Buyer from '../../model/Buyer'
+import { useAuth } from '../../context/AuthProvider'
 import { addBuyer } from '../../services/BuyerServices'
 
 interface ParentProps {

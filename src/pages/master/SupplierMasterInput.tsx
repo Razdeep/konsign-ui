@@ -1,8 +1,10 @@
 import { Add, Refresh } from '@mui/icons-material'
 import { Alert, Button, ButtonGroup, Snackbar, Stack, TextField } from '@mui/material'
-import React, { ChangeEvent, useState } from 'react'
+import type { ChangeEvent } from 'react'
+import React, { useState } from 'react'
+
 import { useAuth } from '../../context/AuthProvider'
-import Supplier from '../../model/Supplier'
+import type Supplier from '../../model/Supplier'
 import { addSupplierToApi } from '../../services/SupplierServices'
 
 interface ParentProps {

@@ -11,13 +11,13 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Typography,
 } from '@mui/material'
 import React, { useCallback, useEffect, useState } from 'react'
+
 import { KonsignSpinner } from '../../components/KonsignSpinner'
 import { useAuth } from '../../context/AuthProvider'
-import ResponseVerdict from '../../model/ResponseVerdict'
-import Supplier from '../../model/Supplier'
+import type ResponseVerdict from '../../model/ResponseVerdict'
+import type Supplier from '../../model/Supplier'
 import { deleteSupplierFromApi, fetchAllSuppliersFromApi } from '../../services/SupplierServices'
 import SupplierMasterInput from './SupplierMasterInput'
 

@@ -1,9 +1,11 @@
 import { Add, Refresh } from '@mui/icons-material'
 import { Alert, Button, ButtonGroup, Snackbar, Stack, TextField } from '@mui/material'
-import { ChangeEvent, useState } from 'react'
-import Transport from '../../model/Transport'
-import { useAuth } from '../../context/AuthProvider'
+import type { ChangeEvent } from 'react'
+import { useState } from 'react'
 import React from 'react'
+
+import type Transport from '../../model/Transport'
+import { useAuth } from '../../context/AuthProvider'
 import { addTransport } from '../../services/TransportServices'
 
 interface ParentProps {

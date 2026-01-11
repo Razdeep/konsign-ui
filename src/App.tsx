@@ -1,11 +1,12 @@
 import React from 'react'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { colors } from '@mui/material'
+
 import Dashboard from './pages/dashboard/Dashboard'
 import Login from './pages/login/Login'
 import AuthProvider from './context/AuthProvider'
 import RequireAuth from './components/RequireAuth'
-import { colors } from '@mui/material'
 
 const konsignTheme = createTheme({
   palette: {

@@ -1,6 +1,6 @@
-import Transport from '../model/Transport'
+import type Transport from '../model/Transport'
 import Config from '../util/config'
-import ResponseVerdict from '../model/ResponseVerdict'
+import type ResponseVerdict from '../model/ResponseVerdict'
 
 interface Master {
   data: Transport[]

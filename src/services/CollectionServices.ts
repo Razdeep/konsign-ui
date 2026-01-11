@@ -1,6 +1,6 @@
-import CollectionVoucher from '../model/CollectionVoucher'
-import CollectionVoucherItem from '../model/CollectionVoucherItem'
-import PendingBill from '../model/PendingBill'
+import type CollectionVoucher from '../model/CollectionVoucher'
+import type CollectionVoucherItem from '../model/CollectionVoucherItem'
+import type PendingBill from '../model/PendingBill'
 import Config from '../util/config'
 
 export const fetchAllPendingBillNumbersFromApi = async (auth: any, buyerName: string) => {

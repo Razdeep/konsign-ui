@@ -1,5 +1,5 @@
-import Bill from '../model/Bill'
-import ResponseVerdict from '../model/ResponseVerdict'
+import type Bill from '../model/Bill'
+import type ResponseVerdict from '../model/ResponseVerdict'
 import Config from '../util/config'
 
 export const fetchBillFromApi = async (auth: any, billNo: String): Promise<Bill | undefined> => {
@@ -43,7 +43,7 @@ export const deleteBillFromApi = async (auth: any, billNo: string) => {
   }
 
   const response = await fetch(`${Config.BILLS_ENDPOINT}/${billNo}`, requestOptions).catch((e) => {
-    console.error('Something went wrong while trying to delete the bill')
+    console.error('Something went wrong while trying to delete the bill ' + e)
   })
 
   if (response == null || response?.status !== 200) {

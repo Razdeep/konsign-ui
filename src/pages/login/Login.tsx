@@ -1,6 +1,5 @@
-import { ChangeEvent, useState } from 'react'
-import Config from '../../util/config'
-import { useAuth } from '../../context/AuthProvider'
+import type { ChangeEvent } from 'react'
+import { useState } from 'react'
 import DialogTitle from '@mui/material/DialogTitle'
 import Dialog from '@mui/material/Dialog'
 import React from 'react'
@@ -18,8 +17,11 @@ import {
 } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { LoginSharp } from '@mui/icons-material'
-import { KonsignSpinner } from '../../components/KonsignSpinner'
 import { useTheme } from '@mui/material/styles'
+
+import { KonsignSpinner } from '../../components/KonsignSpinner'
+import { useAuth } from '../../context/AuthProvider'
+import Config from '../../util/config'
 
 const Login: React.FC = () => {
   const auth = useAuth()
