@@ -1,6 +1,6 @@
 class Buyer {
-    buyerId: string = '';
-    buyerName: string = '';
+  buyerId: string = ''
+  buyerName: string = ''
 }
 
-export default Buyer;
+export default Buyer
