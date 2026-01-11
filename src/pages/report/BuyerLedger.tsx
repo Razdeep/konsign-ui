@@ -1,4 +1,5 @@
 import { Autocomplete, Box, Button, TextField } from '@mui/material'
+import type { FC, SyntheticEvent } from 'react'
 import { useEffect, useState } from 'react'
 
 import { fetchAllBuyersFromApi, generateBuyerLedger } from '../../services/BuyerServices'
@@ -14,7 +15,7 @@ class AutocompleteOption {
   }
 }
 
-export const BuyerLedger: React.FC = () => {
+export const BuyerLedger: FC = () => {
   const auth = useAuth()
   const [buyers, setBuyers] = useState<AutocompleteOption[]>([])
   const [buyer, setBuyer] = useState<AutocompleteOption | null>(null)
@@ -26,7 +27,7 @@ export const BuyerLedger: React.FC = () => {
     }
   }
 
-  const handleBuyerNameChange = (event: React.SyntheticEvent<Element, Event>, newValue: any) => {
+  const handleBuyerNameChange = (event: SyntheticEvent<Element, Event>, newValue: any) => {
     event.preventDefault()
     setBuyer(newValue)
   }
