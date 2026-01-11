@@ -43,7 +43,7 @@ export const deleteBillFromApi = async (auth: any, billNo: string) => {
   }
 
   const response = await fetch(`${Config.BILLS_ENDPOINT}/${billNo}`, requestOptions).catch((e) => {
-    console.error('Something went wrong while trying to delete the bill')
+    console.error('Something went wrong while trying to delete the bill ' + e)
   })
 
   if (response == null || response?.status !== 200) {

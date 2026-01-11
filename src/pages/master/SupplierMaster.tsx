@@ -11,7 +11,6 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Typography,
 } from '@mui/material'
 import React, { useCallback, useEffect, useState } from 'react'
 

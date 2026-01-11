@@ -8,7 +8,6 @@ import {
   Paper,
   Slide,
   Snackbar,
-  Stack,
   Table,
   TableBody,
   TableCell,

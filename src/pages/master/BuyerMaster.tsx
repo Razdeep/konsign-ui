@@ -1,4 +1,4 @@
-import { Delete, Edit, Refresh } from '@mui/icons-material'
+import { Delete, Edit } from '@mui/icons-material'
 import {
   Alert,
   Box,
@@ -11,14 +11,12 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Typography,
 } from '@mui/material'
 import React, { useCallback, useEffect, useState } from 'react'
 
 import { useAuth } from '../../context/AuthProvider'
 import type Buyer from '../../model/Buyer'
 import { deleteBuyerFromApi, fetchAllBuyersFromApi } from '../../services/BuyerServices'
-import Config from '../../util/config'
 import BuyerMasterInput from './BuyerMasterInput'
 import { KonsignSpinner } from '../../components/KonsignSpinner'
 import type ResponseVerdict from '../../model/ResponseVerdict'
@@ -50,8 +48,8 @@ const BuyerMaster: React.FC = () => {
         setSnackbarMessage(response.message)
         setSnackbarVisibility(2)
       })
-      .catch((err: Error) => {
-        setSnackbarMessage('Something went wrong while trying to delete the buyer')
+      .catch((ex) => {
+        setSnackbarMessage('Something went wrong while trying to delete the buyer' + ex)
         setSnackbarVisibility(1)
       })
   }
