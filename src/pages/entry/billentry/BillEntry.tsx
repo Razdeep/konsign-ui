@@ -134,7 +134,7 @@ const BillEntry: React.FC = () => {
       return
     }
 
-    const responseMessage = (await response?.json()).message
+    const responseMessage = (await response.json()).message
 
     if (response.status === 200) {
       setSnackbarMessage(responseMessage ?? `Successfully deleted bill ${bill.billNo}`)
@@ -175,7 +175,7 @@ const BillEntry: React.FC = () => {
         setSnackbarMessage(message)
         setSnackbarVisibility(2)
       })
-      .catch((err: any) => {
+      .catch(() => {
         setSnackbarMessage('Internal server error')
         setSnackbarVisibility(1)
       })
@@ -436,7 +436,7 @@ const BillEntry: React.FC = () => {
                 Save
               </Button>
               <Button
-                onClick={(e) => deleteBill()}
+                onClick={() => deleteBill()}
                 variant="contained"
                 type="button"
                 color="error"

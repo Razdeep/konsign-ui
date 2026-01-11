@@ -64,7 +64,7 @@ const Login: React.FC = () => {
       headers: myHeaders,
       body: jsonified_credential,
     }
-    const response: Response | void = await fetch(Config.LOGIN_URL, requestOptions).catch((e) => {
+    const response: Response | void = await fetch(Config.LOGIN_URL, requestOptions).catch(() => {
       console.log('Error authenticating')
       setIsLoading(false)
       return

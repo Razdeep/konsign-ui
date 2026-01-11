@@ -17,7 +17,7 @@ import {
   TextField,
 } from '@mui/material'
 import Typography from '@mui/material/Typography'
-import type { ChangeEvent } from 'react'
+import type { ChangeEvent, FC, SyntheticEvent } from 'react'
 import { useEffect, useState } from 'react'
 
 import { useAuth } from '../../../context/AuthProvider'
@@ -34,7 +34,7 @@ import type Bill from '../../../model/Bill'
 import type PendingBill from '../../../model/PendingBill'
 import { PresentableCollectionVoucherItem } from '../../../model/PresentableVoucherItem'
 
-const CollectionEntry: React.FC = () => {
+const CollectionEntry: FC = () => {
   const auth = useAuth()
   const [buyers, setBuyers] = useState<String[]>([])
 
@@ -61,7 +61,7 @@ const CollectionEntry: React.FC = () => {
   const [pendingBillNos, setPendingBillNos] = useState<string[]>([])
 
   const handleBuyerNameChange = async (
-    event: React.SyntheticEvent<Element, Event>,
+    event: SyntheticEvent<Element, Event>,
     newValue: String | null,
   ) => {
     event.preventDefault()
@@ -89,7 +89,7 @@ const CollectionEntry: React.FC = () => {
 
     if (pendingBills === null || pendingBills === undefined) return
 
-    pendingBills.forEach((pendingBill: PendingBill, idx: number) => {
+    pendingBills.forEach((pendingBill: PendingBill) => {
       if (pendingBill.billNo === selectedBillNo) {
         targetSupplierName = pendingBill.supplierName
         targetBillAmount = pendingBill.billAmount
@@ -135,8 +135,6 @@ const CollectionEntry: React.FC = () => {
     const fetchedCollectionVoucher: CollectionVoucher | null = await fetchCollectionVoucherFromApi(
       auth,
       voucherNo,
-      setSnackbarMessage,
-      setSnackbarVisibility,
     )
 
     if (fetchedCollectionVoucher === null) return
@@ -178,14 +176,15 @@ const CollectionEntry: React.FC = () => {
 
   const startEditingCollectionVoucherRow = (index: number) => {
     setIdxAtEditMode(index)
-    curCollectionVoucherItem.billNo = collectionVoucherItemList[index].billNo
-    curCollectionVoucherItem.supplierName = collectionVoucherItemList[index].supplierName
-    curCollectionVoucherItem.billAmount = collectionVoucherItemList[index].billAmount
-    curCollectionVoucherItem.pendingAmount = collectionVoucherItemList[index].pendingAmount
-    curCollectionVoucherItem.amountCollected = collectionVoucherItemList[index].amountCollected
-    curCollectionVoucherItem.ddNo = collectionVoucherItemList[index].ddNo
-    curCollectionVoucherItem.ddDate = collectionVoucherItemList[index].ddDate
-    curCollectionVoucherItem.bank = collectionVoucherItemList[index].bank
+    curCollectionVoucherItem.billNo = collectionVoucherItemList[index]?.billNo ?? ''
+    curCollectionVoucherItem.supplierName = collectionVoucherItemList[index]?.supplierName ?? ''
+    curCollectionVoucherItem.billAmount = collectionVoucherItemList[index]?.billAmount ?? 0
+    curCollectionVoucherItem.pendingAmount = collectionVoucherItemList[index]?.pendingAmount ?? 0
+    curCollectionVoucherItem.amountCollected =
+      collectionVoucherItemList[index]?.amountCollected ?? 0
+    curCollectionVoucherItem.ddNo = collectionVoucherItemList[index]?.ddNo ?? ''
+    curCollectionVoucherItem.ddDate = collectionVoucherItemList[index]?.ddDate ?? ''
+    curCollectionVoucherItem.bank = collectionVoucherItemList[index]?.bank ?? ''
     setCurCollectionVoucherItem(curCollectionVoucherItem)
   }
 
@@ -251,7 +250,7 @@ const CollectionEntry: React.FC = () => {
       return
     }
 
-    const responseMessage = (await response?.json()).message
+    const responseMessage = (await response.json()).message
 
     if (response.status === 200) {
       setSnackbarMessage(responseMessage ?? `Successfully deleted collection voucher`)
@@ -296,7 +295,8 @@ const CollectionEntry: React.FC = () => {
     <div>
       <form>
         <Grid container spacing={3}>
-          <Grid item lg={2}>
+          {/* <Grid item lg={2}> */}
+          <Grid size={{ lg: 2 }}>
             <TextField
               name="voucherNo"
               label="Voucher no."
@@ -306,7 +306,8 @@ const CollectionEntry: React.FC = () => {
               fullWidth
             ></TextField>
           </Grid>
-          <Grid item lg={3}>
+          {/* <Grid item lg={3}> */}
+          <Grid size={{ lg: 3 }}>
             <TextField
               name="voucherDate"
               type="date"
@@ -318,7 +319,8 @@ const CollectionEntry: React.FC = () => {
               fullWidth
             ></TextField>
           </Grid>
-          <Grid item lg={7}>
+          {/* <Grid item lg={7}> */}
+          <Grid size={{ lg: 7 }}>
             <Autocomplete
               disablePortal
               id="buyerNameAutocomplete"
@@ -331,7 +333,8 @@ const CollectionEntry: React.FC = () => {
               )}
             />
           </Grid>
-          <Grid item lg={12}>
+          {/* <Grid item lg={12}> */}
+          <Grid size={{ lg: 12 }}>
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
@@ -488,12 +491,14 @@ const CollectionEntry: React.FC = () => {
               </Table>
             </TableContainer>
           </Grid>
-          <Grid item lg={2}>
+          {/* <Grid item lg={2}> */}
+          <Grid size={{ lg: 2 }}>
             <Button onClick={addNewCollectionVoucherItem} startIcon={<Add />}>
               Add row
             </Button>
           </Grid>
-          <Grid item lg={8}>
+          {/* <Grid item lg={8}> */}
+          <Grid size={{ lg: 8 }}>
             <ButtonGroup>
               <Button
                 onClick={clearCollection}

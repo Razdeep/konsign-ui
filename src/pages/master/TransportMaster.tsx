@@ -48,7 +48,7 @@ const TransportMaster: React.FC = () => {
         setSnackbarMessage(response.message)
         setSnackbarVisibility(2)
       })
-      .catch((err: Error) => {
+      .catch(() => {
         setSnackbarMessage('Something went wrong while trying to delete transport')
         setSnackbarVisibility(1)
       })

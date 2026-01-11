@@ -20,7 +20,7 @@ export const fetchAllPendingBillNumbersFromApi = async (auth: any, buyerName: st
   const response = await fetch(
     Config.COLLECTIONS_PENDING_BILLS_ENDPOINT + `?buyerName=${buyerName}`,
     requestOptions,
-  ).catch((e) => {
+  ).catch(() => {
     return null
   })
 
@@ -82,7 +82,7 @@ export const deleteCollectionFromApi = async (auth: any, voucherNo: string) => {
   }
 
   const response = await fetch(`${Config.COLLECTIONS_ENDPOINT}/${voucherNo}`, requestOptions).catch(
-    (e) => {
+    () => {
       console.error('Something went wrong while trying to delete the collection voucher')
     },
   )
@@ -94,12 +94,7 @@ export const deleteCollectionFromApi = async (auth: any, voucherNo: string) => {
   return await response
 }
 
-export const fetchCollectionVoucherFromApi = async (
-  auth: any,
-  voucherNo: string,
-  setSnackbarMessage: any,
-  setSnackbarVisibility: any,
-) => {
+export const fetchCollectionVoucherFromApi = async (auth: any, voucherNo: string) => {
   const requestOptions = {
     method: 'GET',
     headers: new Headers({
@@ -110,7 +105,7 @@ export const fetchCollectionVoucherFromApi = async (
   }
 
   const response = await fetch(`${Config.COLLECTIONS_ENDPOINT}/${voucherNo}`, requestOptions).catch(
-    (e) => {
+    () => {
       return null
     },
   )
