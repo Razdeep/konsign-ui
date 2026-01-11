@@ -4,15 +4,25 @@ import { useEffect, useState } from 'react'
 import { fetchAllBuyersFromApi, generateBuyerLedger } from '../../services/BuyerServices'
 import { useAuth } from '../../context/AuthProvider'
 
+class AutocompleteOption {
+  id: string = ''
+  label: string = ''
+
+  constructor(id: string, label: string) {
+    this.id = id
+    this.label = label
+  }
+}
+
 export const BuyerLedger: React.FC = () => {
   const auth = useAuth()
-  const [buyers, setBuyers] = useState<String[]>([])
-  const [buyer, setBuyer] = useState<String>('')
+  const [buyers, setBuyers] = useState<AutocompleteOption[]>([])
+  const [buyer, setBuyer] = useState<AutocompleteOption | null>(null)
 
   const loadBuyers = async () => {
     const buyers = await fetchAllBuyersFromApi(auth)
     if (buyers !== null) {
-      setBuyers(buyers.map((it) => it.buyerId))
+      setBuyers(buyers.map((it) => new AutocompleteOption(it.buyerId, it.buyerName)))
     }
   }
 
@@ -23,7 +33,7 @@ export const BuyerLedger: React.FC = () => {
 
   useEffect(() => {
     loadBuyers()
-  })
+  }, [auth])
 
   return (
     <Box>
@@ -33,11 +43,11 @@ export const BuyerLedger: React.FC = () => {
         options={buyers}
         value={buyer}
         onChange={handleBuyerNameChange}
-        renderInput={(params) => (
-          <TextField {...params} name="buyerName" size="small" label="Buyer name" />
-        )}
+        getOptionLabel={(option) => option.label}
+        isOptionEqualToValue={(option, value) => option.id === value.id}
+        renderInput={(params) => <TextField {...params} size="small" label="Buyer name" />}
       />
-      <Button onClick={() => generateBuyerLedger(buyer, auth)}>Generate Report</Button>
+      <Button onClick={() => generateBuyerLedger(buyer?.id ?? '', auth)}>Generate Report</Button>
     </Box>
   )
 }
