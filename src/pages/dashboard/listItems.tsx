@@ -37,11 +37,13 @@ export default function MainListItems() {
 
   return (
     <List>
-      <ListItem button onClick={() => toggleExpandedIndex(1)}>
-        <ListItemIcon>
-          <DashboardIcon />
-        </ListItemIcon>
-        <ListItemText primary="Input Entry" />
+      <ListItem disablePadding>
+        <ListItemButton onClick={() => toggleExpandedIndex(1)}>
+          <ListItemIcon>
+            <DashboardIcon />
+          </ListItemIcon>
+          <ListItemText primary="Input Entry" />
+        </ListItemButton>
       </ListItem>
       <Collapse in={expandedIndex === 1} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
@@ -81,11 +83,13 @@ export default function MainListItems() {
       </Collapse>
       <Divider />
 
-      <ListItem button onClick={() => toggleExpandedIndex(2)}>
-        <ListItemIcon>
-          <SearchIcon />
-        </ListItemIcon>
-        <ListItemText primary="View Entry" />
+      <ListItem disablePadding>
+        <ListItemButton onClick={() => toggleExpandedIndex(2)}>
+          <ListItemIcon>
+            <SearchIcon />
+          </ListItemIcon>
+          <ListItemText primary="View Entry" />
+        </ListItemButton>
       </ListItem>
       <Collapse in={expandedIndex === 2} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
@@ -127,11 +131,13 @@ export default function MainListItems() {
         </List>
       </Collapse>
       <Divider />
-      <ListItem button onClick={() => toggleExpandedIndex(3)}>
-        <ListItemIcon>
-          <BarChartIcon />
-        </ListItemIcon>
-        <ListItemText primary="Report" />
+      <ListItem disablePadding>
+        <ListItemButton onClick={() => toggleExpandedIndex(3)}>
+          <ListItemIcon>
+            <BarChartIcon />
+          </ListItemIcon>
+          <ListItemText primary="Report" />
+        </ListItemButton>
       </ListItem>
       <Collapse in={expandedIndex === 3} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
@@ -170,11 +176,13 @@ export default function MainListItems() {
       </Collapse>
       <Divider />
 
-      <ListItem button onClick={() => toggleExpandedIndex(4)}>
-        <ListItemIcon>
-          <PeopleIcon />
-        </ListItemIcon>
-        <ListItemText primary="Master" />
+      <ListItem disablePadding>
+        <ListItemButton onClick={() => toggleExpandedIndex(4)}>
+          <ListItemIcon>
+            <PeopleIcon />
+          </ListItemIcon>
+          <ListItemText primary="Master" />
+        </ListItemButton>
       </ListItem>
       <Collapse in={expandedIndex === 4} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>

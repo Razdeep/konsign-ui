@@ -167,23 +167,11 @@ function DashboardContent() {
         <Container maxWidth="lg" sx={{ mt: 8, mb: 0 }}>
           <Routes>
             <Route path="billentry" element={<BillEntry />} />
-          </Routes>
-          <Routes>
             <Route path="billview" element={<BillView />} />
-          </Routes>
-          <Routes>
             <Route path="suppliermaster" element={<SupplierMaster />} />
-          </Routes>
-          <Routes>
             <Route path="buyermaster" element={<BuyerMaster />} />
-          </Routes>
-          <Routes>
             <Route path="transportmaster" element={<TransportMaster />} />
-          </Routes>
-          <Routes>
             <Route path="collectionentry" element={<CollectionEntry />} />
-          </Routes>
-          <Routes>
             <Route path="buyerledger" element={<BuyerLedger />} />
           </Routes>
         </Container>
