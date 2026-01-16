@@ -1,5 +1,5 @@
 import type Buyer from '../model/Buyer'
-import type ResponseVerdict from '../model/ResponseVerdict'
+import type KonsignResponse from '../model/KonsignResponse'
 import Config from '../util/config'
 
 interface Master {
@@ -63,7 +63,7 @@ export const addBuyer = async (
   setSnackbarVisibility(2)
 }
 
-export const deleteBuyerFromApi = async (buyerId: String, auth: any): Promise<ResponseVerdict> => {
+export const deleteBuyerFromApi = async (buyerId: String, auth: any): Promise<KonsignResponse> => {
   const requestOptions = {
     method: 'DELETE',
     headers: new Headers({

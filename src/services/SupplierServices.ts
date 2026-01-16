@@ -1,4 +1,4 @@
-import type ResponseVerdict from '../model/ResponseVerdict'
+import type KonsignResponse from '../model/KonsignResponse'
 import type Supplier from '../model/Supplier'
 import Config from '../util/config'
 
@@ -28,7 +28,7 @@ export const fetchAllSuppliersFromApi = async (auth: any) => {
   return master?.data
 }
 
-export const addSupplierToApi = async (supplier: Supplier, auth: any): Promise<ResponseVerdict> => {
+export const addSupplierToApi = async (supplier: Supplier, auth: any): Promise<KonsignResponse> => {
   const serializedData = JSON.stringify(supplier)
   const requestOptions = {
     method: 'POST',
@@ -48,7 +48,7 @@ export const addSupplierToApi = async (supplier: Supplier, auth: any): Promise<R
 export const deleteSupplierFromApi = async (
   supplierId: String,
   auth: any,
-): Promise<ResponseVerdict> => {
+): Promise<KonsignResponse> => {
   const requestOptions = {
     method: 'DELETE',
     headers: new Headers({

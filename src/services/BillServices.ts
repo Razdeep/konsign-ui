@@ -1,5 +1,6 @@
 import type Bill from '../model/Bill'
-import type ResponseVerdict from '../model/ResponseVerdict'
+import type KonsignResponse from '../model/KonsignResponse'
+import type PaginatedResponse from '../model/PaginatedResponse'
 import Config from '../util/config'
 import { ToastService } from './toast.service'
 
@@ -18,16 +19,15 @@ export const fetchBillFromApi = async (auth: any, billNo: String): Promise<Bill 
     requestOptions,
   ).catch((e) => {
     console.error(e)
-    ToastService.error(e.message)
     return null
   })
 
   if (response == null || response?.status !== 200) {
-    ToastService.error('Getting bill failed')
+    console.error(`Getting bill failed ${billNo}`)
     return null
   }
 
-  const responseJson: ResponseVerdict = await response.json()
+  const responseJson: KonsignResponse<Bill> = await response.json()
   ToastService.success(`Successfully fetched ${billNo}`)
   return responseJson.data
 }
@@ -48,7 +48,7 @@ export const deleteBillFromApi = async (auth: any, billNo: string) => {
   })
 
   if (response == null || response?.status !== 200) {
-    ToastService.error('Something went wrong while trying to delete the bill')
+    ToastService.error(`Error delete the bill ${billNo}`)
   }
 
   ToastService.success(`Successfully deleted ${billNo}`)
@@ -59,7 +59,7 @@ export const fetchAllBillsFromApi = async (
   auth: any,
   offset: number,
   pageSize: number,
-): Promise<any> => {
+): Promise<PaginatedResponse<Bill> | null> => {
   const requestOptions = {
     method: 'GET',
     headers: new Headers({
@@ -81,11 +81,11 @@ export const fetchAllBillsFromApi = async (
   })
 
   if (response == null || response?.status !== 200) {
-    ToastService.error('Getting all bills failed')
+    ToastService.error('Fetching all bills failed')
     return null
   }
 
-  const responseJson: ResponseVerdict = await response.json()
+  const responseJson: KonsignResponse = await response.json()
   ToastService.success('Successfully fetched all bills')
   return responseJson.data
 }

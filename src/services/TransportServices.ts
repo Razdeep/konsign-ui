@@ -1,6 +1,6 @@
 import type Transport from '../model/Transport'
 import Config from '../util/config'
-import type ResponseVerdict from '../model/ResponseVerdict'
+import type KonsignResponse from '../model/KonsignResponse'
 
 interface Master {
   data: Transport[]
@@ -66,7 +66,7 @@ export const addTransport = async (
 export const deleteTransportFromApi = async (
   transport: String,
   auth: any,
-): Promise<ResponseVerdict> => {
+): Promise<KonsignResponse> => {
   const requestOptions = {
     method: 'DELETE',
     headers: new Headers({

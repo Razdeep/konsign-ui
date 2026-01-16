@@ -19,7 +19,7 @@ import type Buyer from '../../model/Buyer'
 import { deleteBuyerFromApi, fetchAllBuyersFromApi } from '../../services/BuyerServices'
 import BuyerMasterInput from './BuyerMasterInput'
 import { KonsignSpinner } from '../../components/KonsignSpinner'
-import type ResponseVerdict from '../../model/ResponseVerdict'
+import type KonsignResponse from '../../model/KonsignResponse'
 
 const BuyerMaster: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -44,7 +44,7 @@ const BuyerMaster: React.FC = () => {
 
   const deleteBuyer = async (buyerId: string) => {
     deleteBuyerFromApi(buyerId, auth)
-      .then((response: ResponseVerdict) => {
+      .then((response: KonsignResponse) => {
         setSnackbarMessage(response.message)
         setSnackbarVisibility(2)
       })

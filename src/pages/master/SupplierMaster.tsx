@@ -16,7 +16,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 
 import { KonsignSpinner } from '../../components/KonsignSpinner'
 import { useAuth } from '../../context/AuthProvider'
-import type ResponseVerdict from '../../model/ResponseVerdict'
+import type KonsignResponse from '../../model/KonsignResponse'
 import type Supplier from '../../model/Supplier'
 import { deleteSupplierFromApi, fetchAllSuppliersFromApi } from '../../services/SupplierServices'
 import SupplierMasterInput from './SupplierMasterInput'
@@ -44,7 +44,7 @@ const SupplierMaster: React.FC = () => {
 
   const deleteSupplier = async (supplierId: string) => {
     deleteSupplierFromApi(supplierId, auth)
-      .then((response: ResponseVerdict) => {
+      .then((response: KonsignResponse) => {
         setSnackbarMessage(response.message)
         setSnackbarVisibility(2)
       })

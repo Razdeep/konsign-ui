@@ -40,7 +40,7 @@ export const BillView: FC = () => {
     setIsLoading(true)
     const fetchedPage = await fetchAllBillsFromApi(auth, pageOffset, billsPerPage)
 
-    if (fetchedPage === undefined || fetchedPage === null) return
+    if (fetchedPage === null) return
 
     setBills(fetchedPage.content)
     setTotalPages(fetchedPage.totalPages)

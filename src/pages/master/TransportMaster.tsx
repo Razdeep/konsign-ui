@@ -19,7 +19,7 @@ import type Transport from '../../model/Transport'
 import { deleteTransportFromApi, fetchAllTransportsFromApi } from '../../services/TransportServices'
 import TransportMasterInput from './TransportMasterInput'
 import { KonsignSpinner } from '../../components/KonsignSpinner'
-import type ResponseVerdict from '../../model/ResponseVerdict'
+import type KonsignResponse from '../../model/KonsignResponse'
 
 const TransportMaster: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -44,7 +44,7 @@ const TransportMaster: React.FC = () => {
 
   const deleteTransport = async (transportId: string) => {
     deleteTransportFromApi(transportId, auth)
-      .then((response: ResponseVerdict) => {
+      .then((response: KonsignResponse) => {
         setSnackbarMessage(response.message)
         setSnackbarVisibility(2)
       })
