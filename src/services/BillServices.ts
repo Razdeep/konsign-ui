@@ -1,8 +1,9 @@
 import type Bill from '../model/Bill'
 import type ResponseVerdict from '../model/ResponseVerdict'
 import Config from '../util/config'
+import { ToastService } from './toast.service'
 
-export const fetchBillFromApi = async (auth: any, billNo: String): Promise<Bill | undefined> => {
+export const fetchBillFromApi = async (auth: any, billNo: String): Promise<Bill | null> => {
   const requestOptions = {
     method: 'GET',
     headers: new Headers({
@@ -17,19 +18,18 @@ export const fetchBillFromApi = async (auth: any, billNo: String): Promise<Bill 
     requestOptions,
   ).catch((e) => {
     console.error(e)
-    throw new Error('Error while fetching bill')
+    ToastService.error(e.message)
+    return null
   })
 
-  if (!response) {
-    throw new Error('Getting bill failed')
+  if (response == null || response?.status !== 200) {
+    ToastService.error('Getting bill failed')
+    return null
   }
 
-  if (response.status === 200) {
-    const responseJson: ResponseVerdict = await response.json()
-    return responseJson.data
-  }
-
-  console.error('Something went wrong')
+  const responseJson: ResponseVerdict = await response.json()
+  ToastService.success(`Successfully fetched ${billNo}`)
+  return responseJson.data
 }
 
 export const deleteBillFromApi = async (auth: any, billNo: string) => {
@@ -43,13 +43,15 @@ export const deleteBillFromApi = async (auth: any, billNo: string) => {
   }
 
   const response = await fetch(`${Config.BILLS_ENDPOINT}/${billNo}`, requestOptions).catch((e) => {
-    console.error('Something went wrong while trying to delete the bill ' + e)
+    console.error(e)
+    ToastService.error(e.message)
   })
 
   if (response == null || response?.status !== 200) {
-    console.error('Something went wrong while trying to delete the bill')
+    ToastService.error('Something went wrong while trying to delete the bill')
   }
 
+  ToastService.success(`Successfully deleted ${billNo}`)
   return response
 }
 
@@ -73,24 +75,22 @@ export const fetchAllBillsFromApi = async (
     pageSize: String(pageSize),
   }).toString()
 
-  const response: Response | null = await fetch(url.toString(), requestOptions).catch((e) => {
+  const response: Response | void = await fetch(url.toString(), requestOptions).catch((e) => {
     console.error(e)
-    throw new Error('Error while fetching all bills')
+    ToastService.error(e)
   })
 
-  if (!response) {
-    throw new Error('Getting bills failed')
+  if (response == null || response?.status !== 200) {
+    ToastService.error('Getting all bills failed')
+    return null
   }
 
-  if (response.status === 200) {
-    const responseJson: ResponseVerdict = await response.json()
-    return responseJson.data
-  }
-
-  console.error('Something went wrong')
+  const responseJson: ResponseVerdict = await response.json()
+  ToastService.success('Successfully fetched all bills')
+  return responseJson.data
 }
 
-export const saveBillToApi = async (bill: Bill, auth: any): Promise<ResponseVerdict> => {
+export const saveBillToApi = async (bill: Bill, auth: any): Promise<void> => {
   const serializedData = JSON.stringify(bill)
   const requestOptions = {
     method: 'POST',
@@ -103,18 +103,15 @@ export const saveBillToApi = async (bill: Bill, auth: any): Promise<ResponseVerd
   }
   const response: Response | void = await fetch(Config.BILLS_ENDPOINT, requestOptions).catch(
     (e) => {
-      console.log(e)
-      throw e
+      console.error(e)
+      ToastService.error(e.message)
     },
   )
 
-  if (!response) {
-    throw new Error('No response found')
+  if (response == null || response?.status !== 200) {
+    ToastService.error('Saving bill failed')
+    return
   }
 
-  if (response.status !== 200) {
-    throw new Error('Internal server error')
-  }
-
-  return response.json()
+  ToastService.success(`Successfully saved ${bill.billNo}`)
 }
