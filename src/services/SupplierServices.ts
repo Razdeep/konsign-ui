@@ -1,12 +1,9 @@
 import type KonsignResponse from '../model/KonsignResponse'
 import type Supplier from '../model/Supplier'
 import Config from '../util/config'
+import { ToastService } from './toast.service'
 
-interface Master {
-  data: Supplier[]
-}
-
-export const fetchAllSuppliersFromApi = async (auth: any) => {
+export const fetchAllSuppliersFromApi = async (auth: any): Promise<Supplier[] | null> => {
   const requestOptions = {
     method: 'GET',
     headers: new Headers({
@@ -16,19 +13,22 @@ export const fetchAllSuppliersFromApi = async (auth: any) => {
     json: true,
   }
 
-  const response = await fetch(Config.SUPPLIERS_ENDPOINT, requestOptions).catch(() => {
+  const response = await fetch(Config.SUPPLIERS_ENDPOINT, requestOptions).catch((err) => {
+    console.error(err)
+    ToastService.error(err)
     return null
   })
 
   if (response == null || response?.status !== 200) {
+    ToastService.error('Error fetching all suppliers')
     return null
   }
 
-  const master: Master = JSON.parse(await response?.text())
+  const master: KonsignResponse<Supplier[]> = await response.json()
   return master?.data
 }
 
-export const addSupplierToApi = async (supplier: Supplier, auth: any): Promise<KonsignResponse> => {
+export const addSupplierToApi = async (supplier: Supplier, auth: any): Promise<void> => {
   const serializedData = JSON.stringify(supplier)
   const requestOptions = {
     method: 'POST',
@@ -40,15 +40,20 @@ export const addSupplierToApi = async (supplier: Supplier, auth: any): Promise<K
     json: true,
   }
 
-  const response = await fetch(Config.SUPPLIERS_ENDPOINT, requestOptions)
+  const response = await fetch(Config.SUPPLIERS_ENDPOINT, requestOptions).catch((err) => {
+    console.error(err)
+    ToastService.error(err)
+    return null
+  })
 
-  return response.json()
+  if (response === null || response?.status !== 200) {
+    ToastService.error(`Error saving supplier ${supplier.supplierName}`)
+  }
+
+  ToastService.success(`Successfully saved supplier ${supplier.supplierName}`)
 }
 
-export const deleteSupplierFromApi = async (
-  supplierId: String,
-  auth: any,
-): Promise<KonsignResponse> => {
+export const deleteSupplierFromApi = async (supplierId: String, auth: any): Promise<void> => {
   const requestOptions = {
     method: 'DELETE',
     headers: new Headers({
@@ -59,16 +64,17 @@ export const deleteSupplierFromApi = async (
   }
 
   const response = await fetch(`${Config.SUPPLIERS_ENDPOINT}/${supplierId}`, requestOptions).catch(
-    (e) => {
-      throw e
+    (err) => {
+      console.error(err)
+      ToastService.error(err)
+      return null
     },
   )
 
-  if (response.status !== 200) {
-    const errorMessage = 'Something went wrong while deleting supplier'
-    console.error(errorMessage)
-    throw new Error(errorMessage)
+  if (response === null || response?.status !== 200) {
+    ToastService.error(`Failed deleting the supplier ${supplierId}`)
+    return
   }
 
-  return response.json()
+  ToastService.success(`Successfully delete supplier ${supplierId}`)
 }
