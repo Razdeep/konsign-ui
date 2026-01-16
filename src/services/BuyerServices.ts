@@ -1,10 +1,7 @@
 import type Buyer from '../model/Buyer'
 import type KonsignResponse from '../model/KonsignResponse'
 import Config from '../util/config'
-
-interface Master {
-  data: Buyer[]
-}
+import { ToastService } from './toast.service'
 
 export const fetchAllBuyersFromApi = async (auth: any): Promise<Buyer[] | null> => {
   const requestOptions = {
@@ -16,30 +13,29 @@ export const fetchAllBuyersFromApi = async (auth: any): Promise<Buyer[] | null> 
     json: true,
   }
 
-  const response = await fetch(Config.BUYERS_ENDPOINT, requestOptions).catch(() => {
+  const response = await fetch(Config.BUYERS_ENDPOINT, requestOptions).catch((err) => {
+    console.error(err)
+    ToastService.error(err)
     return null
   })
 
   if (response == null || response?.status !== 200) {
+    ToastService.error('error fetching all buyers')
     return null
   }
 
   try {
-    const master: Master = JSON.parse(await response?.text())
+    const master: KonsignResponse<Buyer[]> = await response?.json()
+    ToastService.success('Successfully fetched all buyers')
     return master?.data
   } catch (e) {
     console.log(e)
+    ToastService.error('Failed to fetch all buyers')
     return []
   }
 }
 
-export const addBuyer = async (
-  buyer: Buyer,
-  auth: any,
-  // TODO remove below args somehow
-  setSnackbarMessage: any,
-  setSnackbarVisibility: any,
-) => {
+export const addBuyer = async (buyer: Buyer, auth: any): Promise<void> => {
   const serializedData = JSON.stringify(buyer)
   const requestOptions = {
     method: 'POST',
@@ -54,16 +50,14 @@ export const addBuyer = async (
   const response = await fetch(Config.BUYERS_ENDPOINT, requestOptions)
 
   if (response.status !== 200) {
-    setSnackbarMessage('Failed to add buyer')
-    setSnackbarVisibility(1)
+    ToastService.error(`Failed to add buyer ${buyer.buyerName}`)
     return
   }
 
-  setSnackbarMessage((await response?.json())?.message)
-  setSnackbarVisibility(2)
+  ToastService.success(`Successfully added buyer ${buyer.buyerName}`)
 }
 
-export const deleteBuyerFromApi = async (buyerId: String, auth: any): Promise<KonsignResponse> => {
+export const deleteBuyerFromApi = async (buyerId: String, auth: any): Promise<void> => {
   const requestOptions = {
     method: 'DELETE',
     headers: new Headers({
@@ -74,21 +68,22 @@ export const deleteBuyerFromApi = async (buyerId: String, auth: any): Promise<Ko
   }
 
   const response = await fetch(`${Config.BUYERS_ENDPOINT}/${buyerId}`, requestOptions).catch(
-    (e) => {
-      throw e
+    (err) => {
+      console.error(err)
+      ToastService.error(`Failed to delete buyer ${buyerId}`)
+      return null
     },
   )
 
-  if (response.status !== 200) {
-    const errorMessage = 'Something went wrong while deleting buyer'
-    console.error(errorMessage)
-    throw new Error(errorMessage)
+  if (response === null || response?.status !== 200) {
+    ToastService.error(`Failed to delete buyer ${buyerId}`)
   }
 
-  return response.json()
+  ToastService.success(`Successfully deleted buyer ${buyerId}`)
 }
 
-export const generateBuyerLedger = async (buyerId: String, auth: any) => {
+export const generateBuyerLedger = async (buyerId: String, auth: any): Promise<void> => {
+  ToastService.info(`Generating buyer ledger for ${buyerId}`)
   const requestOptions = {
     method: 'GET',
     headers: new Headers({
@@ -103,12 +98,14 @@ export const generateBuyerLedger = async (buyerId: String, auth: any) => {
     buyerId: String(buyerId),
   }).toString()
 
-  const response = await fetch(url, requestOptions).catch(() => {
+  const response = await fetch(url, requestOptions).catch((err) => {
+    ToastService.error(err)
     return null
   })
 
   if (response == null || response?.status !== 200) {
-    return null
+    ToastService.error(`Failed to generate buyer ledger for ${buyerId}`)
+    return
   }
 
   try {
@@ -117,12 +114,14 @@ export const generateBuyerLedger = async (buyerId: String, auth: any) => {
     const url = window.URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = 'report.pdf'
+    a.download = `${buyerId}.pdf`
     a.click()
 
     window.URL.revokeObjectURL(url)
+    ToastService.success(`Successfully generated buyer ledger for ${buyerId}`)
   } catch (e) {
-    console.log(e)
-    return []
+    console.error(e)
+    ToastService.error(`Failed to generate buyer ledger for ${buyerId}`)
+    return
   }
 }

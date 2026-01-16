@@ -1,11 +1,8 @@
 import { Delete, Edit } from '@mui/icons-material'
 import {
-  Alert,
   Box,
   Button,
   ButtonGroup,
-  Slide,
-  Snackbar,
   Stack,
   Table,
   TableCell,
@@ -19,12 +16,9 @@ import type Buyer from '../../model/Buyer'
 import { deleteBuyerFromApi, fetchAllBuyersFromApi } from '../../services/BuyerServices'
 import BuyerMasterInput from './BuyerMasterInput'
 import { KonsignSpinner } from '../../components/KonsignSpinner'
-import type KonsignResponse from '../../model/KonsignResponse'
 
 const BuyerMaster: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [snackbarMessage, setSnackbarMessage] = useState<string>('')
-  const [snackbarVisibility, setSnackbarVisibility] = useState<number>(0)
   const [buyers, setBuyers] = useState<Buyer[]>([])
   const auth = useAuth()
 
@@ -33,8 +27,6 @@ const BuyerMaster: React.FC = () => {
     const fetchedBuyers = await fetchAllBuyersFromApi(auth)
 
     if (fetchedBuyers === null) {
-      setSnackbarMessage('Something went wrong while trying to fetch the buyers')
-      setSnackbarVisibility(1)
       return
     }
 
@@ -43,19 +35,7 @@ const BuyerMaster: React.FC = () => {
   }, [auth])
 
   const deleteBuyer = async (buyerId: string) => {
-    deleteBuyerFromApi(buyerId, auth)
-      .then((response: KonsignResponse) => {
-        setSnackbarMessage(response.message)
-        setSnackbarVisibility(2)
-      })
-      .catch((ex) => {
-        setSnackbarMessage('Something went wrong while trying to delete the buyer' + ex)
-        setSnackbarVisibility(1)
-      })
-  }
-
-  function TransitionDown(props: any) {
-    return <Slide {...props} direction="right" />
+    await deleteBuyerFromApi(buyerId, auth)
   }
 
   useEffect(() => {
@@ -130,27 +110,6 @@ const BuyerMaster: React.FC = () => {
           ))}
         </Table>
       )}
-      <Snackbar
-        open={snackbarVisibility === 2}
-        autoHideDuration={6000}
-        onClose={() => setSnackbarVisibility(0)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        TransitionComponent={TransitionDown}
-      >
-        <Alert onClose={() => setSnackbarVisibility(0)} severity="success" sx={{ width: '100%' }}>
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
-      <Snackbar
-        open={snackbarVisibility === 1}
-        autoHideDuration={6000}
-        onClose={() => setSnackbarVisibility(0)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      >
-        <Alert onClose={() => setSnackbarVisibility(0)} severity="error" sx={{ width: '100%' }}>
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
     </Stack>
   )
 }

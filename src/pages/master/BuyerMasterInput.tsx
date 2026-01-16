@@ -1,5 +1,5 @@
 import { Add, Refresh } from '@mui/icons-material'
-import { Alert, Button, ButtonGroup, Snackbar, Stack, TextField } from '@mui/material'
+import { Button, ButtonGroup, Stack, TextField } from '@mui/material'
 import type { ChangeEvent } from 'react'
 import { useState } from 'react'
 import React from 'react'
@@ -18,9 +18,6 @@ const BuyerMasterInput: React.FC<ParentProps> = ({ syncBuyers }: any) => {
     buyerId: '',
     buyerName: '',
   })
-
-  const [snackbarMessage, setSnackbarMessage] = useState<string>('')
-  const [snackbarVisibility, setSnackbarVisibility] = useState<number>(0)
 
   const handleBuyerMasterInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     e.preventDefault()
@@ -50,7 +47,7 @@ const BuyerMasterInput: React.FC<ParentProps> = ({ syncBuyers }: any) => {
           <Button
             color={'success'}
             variant={'contained'}
-            onClick={() => addBuyer(buyer, auth, setSnackbarMessage, setSnackbarVisibility)}
+            onClick={() => addBuyer(buyer, auth)}
             startIcon={<Add />}
           >
             Add Buyer
@@ -60,26 +57,6 @@ const BuyerMasterInput: React.FC<ParentProps> = ({ syncBuyers }: any) => {
           </Button>
         </ButtonGroup>
       </Stack>
-      <Snackbar
-        open={snackbarVisibility === 2}
-        autoHideDuration={6000}
-        onClose={() => setSnackbarVisibility(0)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      >
-        <Alert onClose={() => setSnackbarVisibility(0)} severity="success" sx={{ width: '100%' }}>
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
-      <Snackbar
-        open={snackbarVisibility === 1}
-        autoHideDuration={6000}
-        onClose={() => setSnackbarVisibility(0)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      >
-        <Alert onClose={() => setSnackbarVisibility(0)} severity="error" sx={{ width: '100%' }}>
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
     </>
   )
 }
