@@ -1,7 +1,6 @@
 import { Add, Clear, CurrencyRupeeSharp, Delete, Done, Edit, Save } from '@mui/icons-material'
 import type { AutocompleteRenderInputParams } from '@mui/material'
 import {
-  Alert,
   Autocomplete,
   Box,
   Button,
@@ -11,8 +10,6 @@ import {
   Grid,
   InputAdornment,
   Paper,
-  Slide,
-  Snackbar,
   Stack,
   Table,
   TableBody,
@@ -32,7 +29,6 @@ import { fetchAllSuppliersFromApi } from '../../../services/SupplierServices'
 import { fetchAllBuyersFromApi } from '../../../services/BuyerServices'
 import { fetchAllTransportsFromApi } from '../../../services/TransportServices'
 import { deleteBillFromApi, fetchBillFromApi, saveBillToApi } from '../../../services/BillServices'
-import type ResponseVerdict from '../../../model/ResponseVerdict'
 
 const BillEntry: React.FC = () => {
   const auth = useAuth()
@@ -54,9 +50,6 @@ const BillEntry: React.FC = () => {
     lr: '',
     pm: '',
   })
-
-  const [snackbarVisibility, setSnackbarVisibility] = useState<number>(0)
-  const [snackbarMessage, setSnackbarMessage] = useState<string>('')
 
   const addRow = () => {
     let lrpm = new LrPm()
@@ -106,43 +99,16 @@ const BillEntry: React.FC = () => {
   }
 
   const getBill = async (billNo: String) => {
-    try {
-      const responseBill: Bill | undefined = await fetchBillFromApi(auth, billNo)
-      if (responseBill !== undefined) {
-        setBill(responseBill)
-        setLrPmList(responseBill.lrPmList)
-        const message = `Autofilled values for ${billNo} as it already exists in database`
-        setSnackbarMessage(message)
-        setSnackbarVisibility(2)
-      }
-    } catch (e) {
-      console.error(e)
-      if (e instanceof Error) {
-        setSnackbarMessage(e.message)
-      } else {
-        setSnackbarMessage('Error while getting bill')
-      }
-      setSnackbarVisibility(1)
+    const responseBill: Bill | null = await fetchBillFromApi(auth, billNo)
+    if (responseBill === null) {
+      return
     }
+    setBill(responseBill)
+    setLrPmList(responseBill.lrPmList)
   }
 
   const deleteBill = async () => {
-    const response = await deleteBillFromApi(auth, bill.billNo)
-    if (response === null || response === undefined) {
-      setSnackbarMessage('Could not delete bill. Please try again')
-      setSnackbarVisibility(1)
-      return
-    }
-
-    const responseMessage = (await response.json()).message
-
-    if (response.status === 200) {
-      setSnackbarMessage(responseMessage ?? `Successfully deleted bill ${bill.billNo}`)
-      setSnackbarVisibility(2)
-    } else {
-      setSnackbarMessage(responseMessage ?? `Could not delete bill ${bill.billNo}`)
-      setSnackbarVisibility(1)
-    }
+    await deleteBillFromApi(auth, bill.billNo)
   }
 
   const handleSupplierNameChange = (event: React.SyntheticEvent<Element, Event>, newValue: any) => {
@@ -170,15 +136,6 @@ const BillEntry: React.FC = () => {
 
   const submitBill = async () => {
     saveBillToApi(bill, auth)
-      .then((response: ResponseVerdict) => {
-        const message = response.message
-        setSnackbarMessage(message)
-        setSnackbarVisibility(2)
-      })
-      .catch(() => {
-        setSnackbarMessage('Internal server error')
-        setSnackbarVisibility(1)
-      })
   }
 
   const clearBill = () => {
@@ -192,10 +149,6 @@ const BillEntry: React.FC = () => {
       lrPmList: [],
       billAmount: 0,
     })
-  }
-
-  function TransitionDown(props: any) {
-    return <Slide {...props} direction="right" />
   }
 
   useEffect(() => {
@@ -449,27 +402,6 @@ const BillEntry: React.FC = () => {
           </Grid>
         </Grid>
       </FormControl>
-      <Snackbar
-        open={snackbarVisibility === 2}
-        autoHideDuration={6000}
-        onClose={() => setSnackbarVisibility(0)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        TransitionComponent={TransitionDown}
-      >
-        <Alert onClose={() => setSnackbarVisibility(0)} severity="success" sx={{ width: '100%' }}>
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
-      <Snackbar
-        open={snackbarVisibility === 1}
-        autoHideDuration={6000}
-        onClose={() => setSnackbarVisibility(0)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      >
-        <Alert onClose={() => setSnackbarVisibility(0)} severity="error" sx={{ width: '100%' }}>
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
     </Box>
   )
 }

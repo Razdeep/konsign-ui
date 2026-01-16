@@ -2,7 +2,6 @@ import type { ChangeEvent, FC } from 'react'
 import { useEffect, useState } from 'react'
 import type { SelectChangeEvent } from '@mui/material'
 import {
-  Alert,
   Button,
   ButtonGroup,
   Container,
@@ -11,8 +10,6 @@ import {
   Pagination,
   Paper,
   Select,
-  Slide,
-  Snackbar,
   Stack,
   Table,
   TableBody,
@@ -27,12 +24,10 @@ import { useAuth } from '../../../context/AuthProvider'
 import type Bill from '../../../model/Bill'
 import { deleteBillFromApi, fetchAllBillsFromApi } from '../../../services/BillServices'
 import { KonsignSpinner } from '../../../components/KonsignSpinner'
+import { ToastService } from '../../../services/toast.service'
 
 export const BillView: FC = () => {
   const auth = useAuth()
-
-  const [snackbarVisibility, setSnackbarVisibility] = useState<number>(0)
-  const [snackbarMessage, setSnackbarMessage] = useState<string>('')
 
   const [bills, setBills] = useState<Bill[]>([])
   const [totalPages, setTotalPages] = useState<number>(0)
@@ -45,7 +40,7 @@ export const BillView: FC = () => {
     setIsLoading(true)
     const fetchedPage = await fetchAllBillsFromApi(auth, pageOffset, billsPerPage)
 
-    if (fetchedPage === undefined || fetchedPage === null) return
+    if (fetchedPage === null) return
 
     setBills(fetchedPage.content)
     setTotalPages(fetchedPage.totalPages)
@@ -64,22 +59,7 @@ export const BillView: FC = () => {
   }
 
   const deleteBill = async (billNo: string) => {
-    const response = await deleteBillFromApi(auth, billNo)
-    if (response === null || response === undefined) {
-      setSnackbarMessage('Could not delete bill. Please try again')
-      setSnackbarVisibility(1)
-      return
-    }
-
-    const responseMessage = (await response.json()).message
-
-    if (response.status === 200) {
-      setSnackbarMessage(responseMessage ?? `Successfully deleted bill ${billNo}`)
-      setSnackbarVisibility(2)
-    } else {
-      setSnackbarMessage(responseMessage ?? `Could not delete bill ${billNo}`)
-      setSnackbarVisibility(1)
-    }
+    await deleteBillFromApi(auth, billNo)
   }
 
   useEffect(() => {
@@ -89,13 +69,8 @@ export const BillView: FC = () => {
     fetchDataWrapperFunc()
   }, [billsPerPage])
 
-  function TransitionDown(props: any) {
-    return <Slide {...props} direction="right" />
-  }
-
   function showNotYetImplemented(): void {
-    setSnackbarMessage('Not yet implemented')
-    setSnackbarVisibility(1)
+    ToastService.error('Not yet implemented')
   }
 
   const tableCellStyle = { minWidth: 100, padding: 0.5 }
@@ -272,27 +247,6 @@ export const BillView: FC = () => {
           />
         </>
       )}
-      <Snackbar
-        open={snackbarVisibility === 2}
-        autoHideDuration={6000}
-        onClose={() => setSnackbarVisibility(0)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        TransitionComponent={TransitionDown}
-      >
-        <Alert onClose={() => setSnackbarVisibility(0)} severity="success" sx={{ width: '100%' }}>
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
-      <Snackbar
-        open={snackbarVisibility === 1}
-        autoHideDuration={6000}
-        onClose={() => setSnackbarVisibility(0)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      >
-        <Alert onClose={() => setSnackbarVisibility(0)} severity="error" sx={{ width: '100%' }}>
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
     </Stack>
   )
 }

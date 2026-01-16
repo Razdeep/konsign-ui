@@ -1,11 +1,8 @@
 import { Delete, Edit } from '@mui/icons-material'
 import {
-  Alert,
   Box,
   Button,
   ButtonGroup,
-  Slide,
-  Snackbar,
   Stack,
   Table,
   TableCell,
@@ -16,15 +13,12 @@ import React, { useCallback, useEffect, useState } from 'react'
 
 import { KonsignSpinner } from '../../components/KonsignSpinner'
 import { useAuth } from '../../context/AuthProvider'
-import type ResponseVerdict from '../../model/ResponseVerdict'
 import type Supplier from '../../model/Supplier'
 import { deleteSupplierFromApi, fetchAllSuppliersFromApi } from '../../services/SupplierServices'
 import SupplierMasterInput from './SupplierMasterInput'
 
 const SupplierMaster: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [snackbarMessage, setSnackbarMessage] = useState<string>('')
-  const [snackbarVisibility, setSnackbarVisibility] = useState<number>(0)
   const [suppliers, setSuppliers] = useState<Supplier[]>([])
   const auth = useAuth()
 
@@ -33,8 +27,6 @@ const SupplierMaster: React.FC = () => {
     const fetchedSuppliers = await fetchAllSuppliersFromApi(auth)
 
     if (fetchedSuppliers === null) {
-      setSnackbarMessage('Something went wrong while trying to fetch the suppliers')
-      setSnackbarVisibility(1)
       return
     }
 
@@ -43,19 +35,7 @@ const SupplierMaster: React.FC = () => {
   }, [auth])
 
   const deleteSupplier = async (supplierId: string) => {
-    deleteSupplierFromApi(supplierId, auth)
-      .then((response: ResponseVerdict) => {
-        setSnackbarMessage(response.message)
-        setSnackbarVisibility(2)
-      })
-      .catch(() => {
-        setSnackbarMessage('Something went wrong while trying to fetch the suppliers')
-        setSnackbarVisibility(1)
-      })
-  }
-
-  function TransitionDown(props: any) {
-    return <Slide {...props} direction="right" />
+    await deleteSupplierFromApi(supplierId, auth)
   }
 
   useEffect(() => {
@@ -130,27 +110,6 @@ const SupplierMaster: React.FC = () => {
           ))}
         </Table>
       )}
-      <Snackbar
-        open={snackbarVisibility === 2}
-        autoHideDuration={6000}
-        onClose={() => setSnackbarVisibility(0)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        TransitionComponent={TransitionDown}
-      >
-        <Alert onClose={() => setSnackbarVisibility(0)} severity="success" sx={{ width: '100%' }}>
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
-      <Snackbar
-        open={snackbarVisibility === 1}
-        autoHideDuration={6000}
-        onClose={() => setSnackbarVisibility(0)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      >
-        <Alert onClose={() => setSnackbarVisibility(0)} severity="error" sx={{ width: '100%' }}>
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
     </Stack>
   )
 }

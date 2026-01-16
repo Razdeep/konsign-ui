@@ -2,6 +2,8 @@ import React from 'react'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { colors } from '@mui/material'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import Dashboard from './pages/dashboard/Dashboard'
 import Login from './pages/login/Login'
@@ -40,6 +42,19 @@ function App() {
             />
             <Route path="/" element={<Login />} />
           </Routes>
+          <ToastContainer
+            position="bottom-right"
+            autoClose={3000}
+            newestOnTop
+            closeOnClick
+            pauseOnHover
+            draggable
+            toastStyle={{
+              background: 'transparent',
+              boxShadow: 'none',
+              padding: 0,
+            }}
+          />
         </BrowserRouter>
       </AuthProvider>
     </ThemeProvider>

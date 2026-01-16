@@ -1,11 +1,8 @@
 import { Delete, Edit } from '@mui/icons-material'
 import {
-  Alert,
   Box,
   Button,
   ButtonGroup,
-  Slide,
-  Snackbar,
   Stack,
   Table,
   TableCell,
@@ -19,12 +16,9 @@ import type Transport from '../../model/Transport'
 import { deleteTransportFromApi, fetchAllTransportsFromApi } from '../../services/TransportServices'
 import TransportMasterInput from './TransportMasterInput'
 import { KonsignSpinner } from '../../components/KonsignSpinner'
-import type ResponseVerdict from '../../model/ResponseVerdict'
 
 const TransportMaster: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [snackbarMessage, setSnackbarMessage] = useState<string>('')
-  const [snackbarVisibility, setSnackbarVisibility] = useState<number>(0)
   const [transports, setTransports] = useState<Transport[]>([])
   const auth = useAuth()
 
@@ -33,8 +27,6 @@ const TransportMaster: React.FC = () => {
     const fetchedTransports = await fetchAllTransportsFromApi(auth)
 
     if (fetchedTransports === null) {
-      setSnackbarMessage('Something went wrong while trying to fetch the transports')
-      setSnackbarVisibility(1)
       return
     }
 
@@ -43,19 +35,7 @@ const TransportMaster: React.FC = () => {
   }, [auth])
 
   const deleteTransport = async (transportId: string) => {
-    deleteTransportFromApi(transportId, auth)
-      .then((response: ResponseVerdict) => {
-        setSnackbarMessage(response.message)
-        setSnackbarVisibility(2)
-      })
-      .catch(() => {
-        setSnackbarMessage('Something went wrong while trying to delete transport')
-        setSnackbarVisibility(1)
-      })
-  }
-
-  function TransitionDown(props: any) {
-    return <Slide {...props} direction="right" />
+    await deleteTransportFromApi(transportId, auth)
   }
 
   useEffect(() => {
@@ -130,27 +110,6 @@ const TransportMaster: React.FC = () => {
           ))}
         </Table>
       )}
-      <Snackbar
-        open={snackbarVisibility === 2}
-        autoHideDuration={6000}
-        onClose={() => setSnackbarVisibility(0)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        TransitionComponent={TransitionDown}
-      >
-        <Alert onClose={() => setSnackbarVisibility(0)} severity="success" sx={{ width: '100%' }}>
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
-      <Snackbar
-        open={snackbarVisibility === 1}
-        autoHideDuration={6000}
-        onClose={() => setSnackbarVisibility(0)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      >
-        <Alert onClose={() => setSnackbarVisibility(0)} severity="error" sx={{ width: '100%' }}>
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
     </Stack>
   )
 }

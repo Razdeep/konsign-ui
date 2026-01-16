@@ -17,6 +17,7 @@
     "react-dom": "^18.2.0",
     "react-loader-spinner": "^8.0.0",
     "react-router-dom": "^6.10.0",
+    "react-toastify": "^11.0.5",
     "recharts": "^2.5.0",
     "typescript": "^5.0.4",
     "web-vitals": "^3.3.1"
