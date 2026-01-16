@@ -1,13 +1,10 @@
 import { Add, Clear, Delete, Done, Edit, Save } from '@mui/icons-material'
 import {
-  Alert,
   Autocomplete,
   Button,
   ButtonGroup,
   Grid,
   Paper,
-  Slide,
-  Snackbar,
   Table,
   TableBody,
   TableCell,
@@ -37,9 +34,6 @@ import { PresentableCollectionVoucherItem } from '../../../model/PresentableVouc
 const CollectionEntry: FC = () => {
   const auth = useAuth()
   const [buyers, setBuyers] = useState<String[]>([])
-
-  const [snackbarVisibility, setSnackbarVisibility] = useState<number>(0)
-  const [snackbarMessage, setSnackbarMessage] = useState<string>('')
 
   const [collectionVoucher, setCollectionVoucher] = useState<CollectionVoucher>({
     voucherNo: '0',
@@ -148,10 +142,6 @@ const CollectionEntry: FC = () => {
     )
   }
 
-  function TransitionDown(props: any) {
-    return <Slide {...props} direction="right" />
-  }
-
   const addNewCollectionVoucherItem = async () => {
     setCollectionVoucherItemList([
       ...collectionVoucherItemList,
@@ -200,12 +190,12 @@ const CollectionEntry: FC = () => {
     setCurCollectionVoucherItem({ ...curCollectionVoucherItem, [e.target.name]: e.target.value })
 
     if (e.target.name === 'billNo') {
-      const billResponse: Bill | undefined = await fetchBillFromApi(auth, e.target.value)
+      const billResponse: Bill | null = await fetchBillFromApi(auth, e.target.value)
 
       const newCurCollectionVoucherItem = new PresentableCollectionVoucherItem()
       newCurCollectionVoucherItem.billNo = e.target.value
 
-      if (billResponse !== undefined) {
+      if (billResponse !== null) {
         newCurCollectionVoucherItem.supplierName = billResponse.supplierName
         newCurCollectionVoucherItem.billAmount = billResponse.billAmount
       } else {
@@ -221,46 +211,11 @@ const CollectionEntry: FC = () => {
   }
 
   const submitCollection = async () => {
-    const response = await submitCollectionToApi(auth, collectionVoucher, collectionVoucherItemList)
-    if (response === null || response === undefined) {
-      setSnackbarMessage('Could not save collection. Please try again')
-      setSnackbarVisibility(1)
-      return
-    }
-
-    const responseBodyText = await response?.text()
-    const responseMessage = JSON.parse(responseBodyText)?.message
-
-    if (response.status === 200) {
-      setSnackbarMessage(responseMessage ?? `Successfully saved collection voucher`)
-      setSnackbarVisibility(2)
-    } else {
-      setSnackbarMessage(
-        responseMessage ?? `Could not save collection voucher ${collectionVoucher.voucherNo}`,
-      )
-      setSnackbarVisibility(1)
-    }
+    await submitCollectionToApi(auth, collectionVoucher, collectionVoucherItemList)
   }
 
   const deleteCollection = async () => {
-    const response = await deleteCollectionFromApi(auth, collectionVoucher.voucherNo)
-    if (response === null || response === undefined) {
-      setSnackbarMessage('Could not delete collection. Please try again')
-      setSnackbarVisibility(1)
-      return
-    }
-
-    const responseMessage = (await response.json()).message
-
-    if (response.status === 200) {
-      setSnackbarMessage(responseMessage ?? `Successfully deleted collection voucher`)
-      setSnackbarVisibility(2)
-    } else {
-      setSnackbarMessage(
-        responseMessage ?? `Could not delete collection voucher ${collectionVoucher.voucherNo}`,
-      )
-      setSnackbarVisibility(1)
-    }
+    await deleteCollectionFromApi(auth, collectionVoucher.voucherNo)
   }
 
   const clearCollection = async () => {
@@ -295,7 +250,6 @@ const CollectionEntry: FC = () => {
     <div>
       <form>
         <Grid container spacing={3}>
-          {/* <Grid item lg={2}> */}
           <Grid size={{ lg: 2 }}>
             <TextField
               name="voucherNo"
@@ -306,7 +260,6 @@ const CollectionEntry: FC = () => {
               fullWidth
             ></TextField>
           </Grid>
-          {/* <Grid item lg={3}> */}
           <Grid size={{ lg: 3 }}>
             <TextField
               name="voucherDate"
@@ -319,7 +272,6 @@ const CollectionEntry: FC = () => {
               fullWidth
             ></TextField>
           </Grid>
-          {/* <Grid item lg={7}> */}
           <Grid size={{ lg: 7 }}>
             <Autocomplete
               disablePortal
@@ -333,7 +285,6 @@ const CollectionEntry: FC = () => {
               )}
             />
           </Grid>
-          {/* <Grid item lg={12}> */}
           <Grid size={{ lg: 12 }}>
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -535,27 +486,6 @@ const CollectionEntry: FC = () => {
           </Grid>
         </Grid>
       </form>
-      <Snackbar
-        open={snackbarVisibility === 2}
-        autoHideDuration={6000}
-        onClose={() => setSnackbarVisibility(0)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        TransitionComponent={TransitionDown}
-      >
-        <Alert onClose={() => setSnackbarVisibility(0)} severity="success" sx={{ width: '100%' }}>
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
-      <Snackbar
-        open={snackbarVisibility === 1}
-        autoHideDuration={6000}
-        onClose={() => setSnackbarVisibility(0)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      >
-        <Alert onClose={() => setSnackbarVisibility(0)} severity="error" sx={{ width: '100%' }}>
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
     </div>
   )
 }
