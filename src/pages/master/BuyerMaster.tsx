@@ -25,13 +25,11 @@ const BuyerMaster: React.FC = () => {
   const syncBuyers = useCallback(async () => {
     setIsLoading(true)
     const fetchedBuyers = await fetchAllBuyersFromApi(auth)
-
+    setIsLoading(false)
     if (fetchedBuyers === null) {
       return
     }
-
     setBuyers(fetchedBuyers)
-    setIsLoading(false)
   }, [auth])
 
   const deleteBuyer = async (buyerId: string) => {
@@ -88,7 +86,7 @@ const BuyerMaster: React.FC = () => {
             </TableRow>
           </TableHead>
           {buyers?.map((buyer: Buyer) => (
-            <TableRow>
+            <TableRow key={buyer.buyerId}>
               <TableCell>{buyer.buyerId}</TableCell>
               <TableCell>{buyer.buyerName}</TableCell>
               <TableCell>
