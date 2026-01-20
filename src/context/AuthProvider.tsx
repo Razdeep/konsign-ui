@@ -1,31 +1,46 @@
 import type { FC, ReactNode } from 'react'
 import { createContext, useContext, useState } from 'react'
-import React from 'react'
 
 import type User from '../model/User'
 
-const AuthContext = createContext<any>(null)
+interface AuthContextType {
+  user: User | null
+  login: (_user: User) => void
+  logout: () => void
+}
 
-interface Intf {
+const AuthContext = createContext<AuthContextType | undefined>(undefined)
+
+interface AuthProviderProps {
   children: ReactNode
 }
 
-export const AuthProvider: FC<Intf> = ({ children }) => {
+export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null)
 
-  const login = (user: User) => {
-    setUser(user)
+  const login = (userData: User) => {
+    setUser(userData)
   }
 
   const logout = () => {
     setUser(null)
   }
 
-  return <AuthContext.Provider value={{ user, login, logout }}>{children}</AuthContext.Provider>
+  const value: AuthContextType = {
+    user,
+    login,
+    logout,
+  }
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
-export const useAuth = () => {
-  return useContext(AuthContext)
-}
+export const useAuth = (): AuthContextType => {
+  const context = useContext(AuthContext)
 
-export default AuthProvider
+  if (!context) {
+    throw new Error('useAuth must be used within AuthProvider')
+  }
+
+  return context
+}

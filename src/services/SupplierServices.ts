@@ -20,11 +20,12 @@ export const fetchAllSuppliersFromApi = async (auth: any): Promise<Supplier[] | 
   })
 
   if (response == null || response?.status !== 200) {
-    ToastService.error('Error fetching all suppliers')
+    ToastService.error('Error fetching suppliers')
     return null
   }
 
   const master: KonsignResponse<Supplier[]> = await response.json()
+  ToastService.success('Successfully fetched suppliers')
   return master?.data
 }
 
