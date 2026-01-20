@@ -20,7 +20,7 @@ import { LoginSharp } from '@mui/icons-material'
 import { useTheme } from '@mui/material/styles'
 
 import { KonsignSpinner } from '../../components/KonsignSpinner'
-import { useAuth } from '../../context/AuthProvider'
+import { useAuth } from '../../context/AuthContext'
 import Config from '../../util/config'
 import type KonsignResponse from '../../model/KonsignResponse'
 import type User from '../../model/User'

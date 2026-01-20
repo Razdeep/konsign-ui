@@ -12,7 +12,7 @@ import {
 import React, { useCallback, useEffect, useState } from 'react'
 
 import { KonsignSpinner } from '../../components/KonsignSpinner'
-import { useAuth } from '../../context/AuthProvider'
+import { useAuth } from '../../context/AuthContext'
 import type Supplier from '../../model/Supplier'
 import { deleteSupplierFromApi, fetchAllSuppliersFromApi } from '../../services/SupplierServices'
 import SupplierMasterInput from './SupplierMasterInput'

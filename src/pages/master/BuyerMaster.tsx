@@ -11,7 +11,7 @@ import {
 } from '@mui/material'
 import React, { useCallback, useEffect, useState } from 'react'
 
-import { useAuth } from '../../context/AuthProvider'
+import { useAuth } from '../../context/AuthContext'
 import type Buyer from '../../model/Buyer'
 import { deleteBuyerFromApi, fetchAllBuyersFromApi } from '../../services/BuyerServices'
 import BuyerMasterInput from './BuyerMasterInput'

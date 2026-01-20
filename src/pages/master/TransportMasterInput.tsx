@@ -5,7 +5,7 @@ import { useState } from 'react'
 import React from 'react'
 
 import type Transport from '../../model/Transport'
-import { useAuth } from '../../context/AuthProvider'
+import { useAuth } from '../../context/AuthContext'
 import { addTransport } from '../../services/TransportServices'
 
 interface ParentProps {

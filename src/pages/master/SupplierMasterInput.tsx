@@ -3,7 +3,7 @@ import { Button, ButtonGroup, Stack, TextField } from '@mui/material'
 import type { ChangeEvent } from 'react'
 import React, { useState } from 'react'
 
-import { useAuth } from '../../context/AuthProvider'
+import { useAuth } from '../../context/AuthContext'
 import type Supplier from '../../model/Supplier'
 import { addSupplierToApi } from '../../services/SupplierServices'
 

@@ -11,7 +11,7 @@ import {
 } from '@mui/material'
 import React, { useCallback, useEffect, useState } from 'react'
 
-import { useAuth } from '../../context/AuthProvider'
+import { useAuth } from '../../context/AuthContext'
 import type Transport from '../../model/Transport'
 import { deleteTransportFromApi, fetchAllTransportsFromApi } from '../../services/TransportServices'
 import TransportMasterInput from './TransportMasterInput'

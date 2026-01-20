@@ -24,7 +24,7 @@ import React, { useState, useEffect } from 'react'
 
 import LrPm from '../../../model/LrPm'
 import type Bill from '../../../model/Bill'
-import { useAuth } from '../../../context/AuthProvider'
+import { useAuth } from '../../../context/AuthContext'
 import { fetchAllSuppliersFromApi } from '../../../services/SupplierServices'
 import { fetchAllBuyersFromApi } from '../../../services/BuyerServices'
 import { fetchAllTransportsFromApi } from '../../../services/TransportServices'
