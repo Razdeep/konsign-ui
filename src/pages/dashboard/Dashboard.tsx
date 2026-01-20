@@ -18,7 +18,7 @@ import Container from '@mui/material/Container'
 
 import MainListItems from './listItems'
 import BillEntry from '../../pages/entry/billentry/BillEntry'
-import { useAuth } from '../../context/AuthProvider'
+import { useAuth } from '../../context/AuthContext'
 import SupplierMaster from '../master/SupplierMaster'
 import BuyerMaster from '../master/BuyerMaster'
 import TransportMaster from '../master/TransportMaster'

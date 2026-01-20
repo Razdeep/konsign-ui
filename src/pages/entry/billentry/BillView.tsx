@@ -20,7 +20,7 @@ import {
 } from '@mui/material'
 import { Delete, Edit, Refresh } from '@mui/icons-material'
 
-import { useAuth } from '../../../context/AuthProvider'
+import { useAuth } from '../../../context/AuthContext'
 import type Bill from '../../../model/Bill'
 import { deleteBillFromApi, fetchAllBillsFromApi } from '../../../services/BillServices'
 import { KonsignSpinner } from '../../../components/KonsignSpinner'

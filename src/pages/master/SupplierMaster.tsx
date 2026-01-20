@@ -12,7 +12,7 @@ import {
 import React, { useCallback, useEffect, useState } from 'react'
 
 import { KonsignSpinner } from '../../components/KonsignSpinner'
-import { useAuth } from '../../context/AuthProvider'
+import { useAuth } from '../../context/AuthContext'
 import type Supplier from '../../model/Supplier'
 import { deleteSupplierFromApi, fetchAllSuppliersFromApi } from '../../services/SupplierServices'
 import SupplierMasterInput from './SupplierMasterInput'
@@ -25,13 +25,12 @@ const SupplierMaster: React.FC = () => {
   const syncSuppliers = useCallback(async () => {
     setIsLoading(true)
     const fetchedSuppliers = await fetchAllSuppliersFromApi(auth)
-
+    setIsLoading(false)
     if (fetchedSuppliers === null) {
       return
     }
 
     setSuppliers(fetchedSuppliers)
-    setIsLoading(false)
   }, [auth])
 
   const deleteSupplier = async (supplierId: string) => {
@@ -88,7 +87,7 @@ const SupplierMaster: React.FC = () => {
             </TableRow>
           </TableHead>
           {suppliers?.map((supplier: Supplier) => (
-            <TableRow>
+            <TableRow key={supplier.supplierId}>
               <TableCell>{supplier.supplierId}</TableCell>
               <TableCell>{supplier.supplierName}</TableCell>
               <TableCell>

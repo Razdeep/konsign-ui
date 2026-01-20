@@ -42,9 +42,13 @@ export const deleteBillFromApi = async (auth: any, billNo: string) => {
     json: true,
   }
 
-  const response = await fetch(`${Config.BILLS_ENDPOINT}/${billNo}`, requestOptions).catch((e) => {
+  const response: Response | null = await fetch(
+    `${Config.BILLS_ENDPOINT}/${billNo}`,
+    requestOptions,
+  ).catch((e) => {
     console.error(e)
     ToastService.error(e.message)
+    return null
   })
 
   if (response == null || response?.status !== 200) {
@@ -75,9 +79,10 @@ export const fetchAllBillsFromApi = async (
     pageSize: String(pageSize),
   }).toString()
 
-  const response: Response | void = await fetch(url.toString(), requestOptions).catch((e) => {
+  const response: Response | null = await fetch(url.toString(), requestOptions).catch((e) => {
     console.error(e)
     ToastService.error(e)
+    return null
   })
 
   if (response == null || response?.status !== 200) {
@@ -101,10 +106,11 @@ export const saveBillToApi = async (bill: Bill, auth: any): Promise<void> => {
     body: serializedData,
     json: true,
   }
-  const response: Response | void = await fetch(Config.BILLS_ENDPOINT, requestOptions).catch(
+  const response: Response | null = await fetch(Config.BILLS_ENDPOINT, requestOptions).catch(
     (e) => {
       console.error(e)
       ToastService.error(e.message)
+      return null
     },
   )
 

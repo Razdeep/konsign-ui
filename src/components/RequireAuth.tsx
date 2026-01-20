@@ -1,14 +1,13 @@
 import type { FC, ReactNode } from 'react'
-import React from 'react'
 import { Navigate } from 'react-router-dom'
 
-import { useAuth } from '../context/AuthProvider'
+import { useAuth } from '../context/AuthContext'
 
-interface Intf {
+interface RequireAuthProps {
   children: ReactNode
 }
 
-const RequireAuth: FC<Intf> = ({ children }) => {
+const RequireAuth: FC<RequireAuthProps> = ({ children }) => {
   const auth = useAuth()
 
   if (!auth.user) {

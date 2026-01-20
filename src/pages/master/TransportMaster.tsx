@@ -11,7 +11,7 @@ import {
 } from '@mui/material'
 import React, { useCallback, useEffect, useState } from 'react'
 
-import { useAuth } from '../../context/AuthProvider'
+import { useAuth } from '../../context/AuthContext'
 import type Transport from '../../model/Transport'
 import { deleteTransportFromApi, fetchAllTransportsFromApi } from '../../services/TransportServices'
 import TransportMasterInput from './TransportMasterInput'
@@ -25,13 +25,13 @@ const TransportMaster: React.FC = () => {
   const syncTransports = useCallback(async () => {
     setIsLoading(true)
     const fetchedTransports = await fetchAllTransportsFromApi(auth)
+    setIsLoading(false)
 
     if (fetchedTransports === null) {
       return
     }
 
     setTransports(fetchedTransports)
-    setIsLoading(false)
   }, [auth])
 
   const deleteTransport = async (transportId: string) => {
@@ -88,7 +88,7 @@ const TransportMaster: React.FC = () => {
             </TableRow>
           </TableHead>
           {transports?.map((transport: Transport) => (
-            <TableRow>
+            <TableRow key={transport.transportId}>
               <TableCell>{transport.transportId}</TableCell>
               <TableCell>{transport.transportName}</TableCell>
               <TableCell>

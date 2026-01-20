@@ -3,7 +3,7 @@ import type { FC, SyntheticEvent } from 'react'
 import { useEffect, useState } from 'react'
 
 import { fetchAllBuyersFromApi, generateBuyerLedger } from '../../services/BuyerServices'
-import { useAuth } from '../../context/AuthProvider'
+import { useAuth } from '../../context/AuthContext'
 
 class AutocompleteOption {
   id: string = ''

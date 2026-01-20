@@ -20,8 +20,11 @@ import { LoginSharp } from '@mui/icons-material'
 import { useTheme } from '@mui/material/styles'
 
 import { KonsignSpinner } from '../../components/KonsignSpinner'
-import { useAuth } from '../../context/AuthProvider'
+import { useAuth } from '../../context/AuthContext'
 import Config from '../../util/config'
+import type KonsignResponse from '../../model/KonsignResponse'
+import type User from '../../model/User'
+import { ToastService } from '../../services/toast.service'
 
 const Login: React.FC = () => {
   const auth = useAuth()
@@ -64,24 +67,25 @@ const Login: React.FC = () => {
       headers: myHeaders,
       body: jsonified_credential,
     }
-    const response: Response | void = await fetch(Config.LOGIN_URL, requestOptions).catch(() => {
+    const response: Response | null = await fetch(Config.LOGIN_URL, requestOptions).catch(() => {
       console.log('Error authenticating')
       setIsLoading(false)
-      return
+      return null
     })
     setIsLoading(false)
-    if (response) {
-      console.log('response status is ' + response.status)
-      if (response.status === 200) {
-        const user = await response.json()
-        let response_json = JSON.stringify(user)
-        console.log('response message is ' + response_json)
-        auth.login(user)
-        navigate('/dashboard', { replace: true })
-      } else {
-        setIncorrectCredential(true)
-      }
+    if (response === null || response?.status != 200) {
+      setIncorrectCredential(true)
+      return
     }
+    console.log('response status is ' + response.status)
+    const res: KonsignResponse<User> = await response.json()
+    if (res.data == null) {
+      ToastService.error('error while trying to login')
+      return
+    }
+    ToastService.success('successfully logged in')
+    auth.login(res.data)
+    navigate('/dashboard', { replace: true })
   }
 
   const paperStyle = {
@@ -103,7 +107,7 @@ const Login: React.FC = () => {
         <FormControl fullWidth>
           <Stack spacing={3}>
             <TextField
-              label="user name"
+              label="username"
               name="username"
               onChange={handleCredentialChange}
               variant="standard"

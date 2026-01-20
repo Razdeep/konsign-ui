@@ -17,7 +17,7 @@ import Typography from '@mui/material/Typography'
 import type { ChangeEvent, FC, SyntheticEvent } from 'react'
 import { useEffect, useState } from 'react'
 
-import { useAuth } from '../../../context/AuthProvider'
+import { useAuth } from '../../../context/AuthContext'
 import CollectionVoucher from '../../../model/CollectionVoucher'
 import { fetchAllBuyersFromApi } from '../../../services/BuyerServices'
 import {

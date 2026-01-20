@@ -5,7 +5,7 @@ import { useState } from 'react'
 import React from 'react'
 
 import type Buyer from '../../model/Buyer'
-import { useAuth } from '../../context/AuthProvider'
+import { useAuth } from '../../context/AuthContext'
 import { addBuyer } from '../../services/BuyerServices'
 
 interface ParentProps {

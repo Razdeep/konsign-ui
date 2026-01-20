@@ -1,31 +1,32 @@
 import type { FC, ReactNode } from 'react'
-import { createContext, useContext, useState } from 'react'
-import React from 'react'
+import { useState } from 'react'
 
 import type User from '../model/User'
+import { type AuthContextType } from './AuthContextType'
+import { AuthContext } from './AuthContext'
 
-const AuthContext = createContext<any>(null)
-
-interface Intf {
+interface AuthProviderProps {
   children: ReactNode
 }
 
-export const AuthProvider: FC<Intf> = ({ children }) => {
+export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null)
 
-  const login = (user: User) => {
-    setUser(user)
+  const login = (userData: User) => {
+    setUser(userData)
   }
 
   const logout = () => {
     setUser(null)
   }
 
-  return <AuthContext.Provider value={{ user, login, logout }}>{children}</AuthContext.Provider>
-}
+  const value: AuthContextType = {
+    user,
+    login,
+    logout,
+  }
 
-export const useAuth = () => {
-  return useContext(AuthContext)
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
 export default AuthProvider
