@@ -98,6 +98,7 @@ function DashboardContent() {
   const navigate = useNavigate()
 
   const logout = () => {
+    auth.logout()
     navigate('/login')
   }
 
