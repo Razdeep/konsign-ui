@@ -1,5 +1,5 @@
 import type { ChangeEvent } from 'react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import DialogTitle from '@mui/material/DialogTitle'
 import Dialog from '@mui/material/Dialog'
 import React from 'react'
@@ -62,10 +62,11 @@ const Login: React.FC = () => {
     console.log('sending message = ' + jsonified_credential)
     const myHeaders = new Headers()
     myHeaders.append('Content-Type', 'application/json')
-    const requestOptions = {
+    const requestOptions: RequestInit = {
       method: 'POST',
       headers: myHeaders,
       body: jsonified_credential,
+      credentials: 'include',
     }
     const response: Response | null = await fetch(Config.LOGIN_URL, requestOptions).catch(() => {
       console.log('Error authenticating')
@@ -87,6 +88,12 @@ const Login: React.FC = () => {
     auth.login(res.data)
     navigate('/dashboard', { replace: true })
   }
+
+  useEffect(() => {
+    if (auth.user !== null) {
+      navigate('/dashboard', { replace: true })
+    }
+  })
 
   const paperStyle = {
     height: '40vh',
